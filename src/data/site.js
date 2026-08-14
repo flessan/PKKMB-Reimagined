@@ -16,11 +16,16 @@ export const site = {
   url: "https://pkkmb.poliban.ac.id",
   organiser: "UPT Komputer Politeknik Negeri Banjarmasin",
   contact: {
-    address: "Jl. Brigjen Hasan Basry, Banjarmasin, Kalimantan Selatan 70123",
-    addressShort: "Jl. Brigjen Hasan Basry, Banjarmasin",
-    phone: "0511 3305052",
+    /** Alamat & kontak sesuai footer resmi poliban.ac.id. */
+    address: "Jl. Brigjen H. Hasan Basri, Kayu Tangi, Banjarmasin 70123",
+    addressShort: "Jl. Brigjen H. Hasan Basri, Kayu Tangi, Banjarmasin",
+    phone: "(0511) 330 5052",
     phoneHref: "tel:+625113305052",
-    email: "poliban@poliban.ac.id",
+    email: "info@poliban.ac.id",
+    /** Kanal khusus penerimaan & akademik (portal SPMB resmi). */
+    academicEmail: "akademik@poliban.ac.id",
+    hotline: "0812 5809 6162",
+    hotlineHref: "https://wa.me/6281258096162?text=Saya%20tanya%20terkait%20pendaftaran",
     whatsapp: "+62 882-4625-9077",
     whatsappHref:
       "https://wa.me/6288246259077?text=Selamat%20datang%20maba%20poliban%2C%20ada%20yang%20bisa%20di%20bantu",
@@ -28,6 +33,15 @@ export const site = {
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3869.1170714288305!2d114.57935537483561!3d-3.295693896679204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2de423a80d47ba6b%3A0x8f5abfaddfe5a2d7!2sPoliteknik%20Negeri%20Banjarmasin!5e1!3m2!1sid!2sid!4v1785518707912!5m2!1sid!2sid",
     mapLink: "https://maps.app.goo.gl/8ZQ4zZ7Yy8Z9Y1Zt8",
   },
+  /** Tautan sistem resmi yang benar-benar aktif (footer poliban.ac.id). */
+  systems: [
+    { label: "Situs utama Poliban", href: "https://poliban.ac.id", desc: "Berita dan informasi institusi" },
+    { label: "SPMB Poliban", href: "https://pmb.poliban.ac.id/", desc: "Penerimaan mahasiswa baru" },
+    { label: "SIMPADU", href: "https://simpadu.poliban.ac.id/", desc: "Sistem informasi akademik" },
+    { label: "E-Learning", href: "https://elearning.poliban.ac.id/", desc: "Pembelajaran daring" },
+    { label: "UPT TIK", href: "http://tik.poliban.ac.id/", desc: "Layanan teknologi informasi" },
+    { label: "Repository", href: "http://repository.poliban.ac.id/", desc: "Karya ilmiah dan tugas akhir" },
+  ],
   social: [
     {
       label: "Instagram Poliban",
@@ -38,7 +52,7 @@ export const site = {
     {
       label: "YouTube Poliban",
       short: "YouTube",
-      href: "https://www.youtube.com/c/PolibanOfficial",
+      href: "https://www.youtube.com/channel/UC5CfzvUTqEUPXhwwSLvP53Q",
       icon: "youtube",
     },
     {
@@ -99,7 +113,7 @@ export const nav = [
       {
         label: "Program Studi",
         href: "program-studi.html",
-        desc: "21 prodi D3 & D4 dalam 5 jurusan",
+        desc: "22 prodi D2, D3, & Sarjana Terapan",
       },
       {
         label: "Fasilitas",
@@ -141,8 +155,16 @@ export const footerNav = [
     links: [
       { label: "Portal presensi", href: "login.html" },
       { label: "Kontak panitia", href: "kontak.html" },
+      { label: "Sumber & rujukan", href: "sumber.html" },
       { label: "WhatsApp bantuan", href: site.contact.whatsappHref, external: true },
-      { label: "Situs utama Poliban", href: "https://poliban.ac.id", external: true },
     ],
+  },
+  {
+    title: "Sistem Poliban",
+    links: site.systems.slice(0, 5).map((s) => ({
+      label: s.label,
+      href: s.href,
+      external: true,
+    })),
   },
 ];

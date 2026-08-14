@@ -2,6 +2,7 @@ import { page } from "../components/layout.js";
 import { pageHeader, sectionHeading, statBlock, calloutPortal } from "../components/ui.js";
 import { icon } from "../lib/icons.js";
 import { esc, join } from "../lib/html.js";
+import { assets } from "../data/assets.js";
 import {
   vision,
   missions,
@@ -9,6 +10,7 @@ import {
   history,
   leader,
   governance,
+  leadership,
   stats,
 } from "../data/campus.js";
 
@@ -153,11 +155,13 @@ function historySection() {
     <div class="lg:col-span-7">
       <div class="overflow-hidden rounded-[1rem] border border-ink-200">
         <picture>
-          <source srcset="assets/img/kampus-aerial.webp" type="image/webp">
-          <img src="assets/img/kampus-aerial.jpg" alt="Pandangan udara kompleks kampus Politeknik Negeri Banjarmasin"
-               width="1200" height="800" loading="lazy" decoding="async" class="aspect-[3/2] w-full object-cover">
+          <source srcset="${assets.campusGate.webp}" type="image/webp">
+          <img src="${assets.campusGate.file}" alt="${esc(assets.campusGate.alt)}"
+               width="${assets.campusGate.width}" height="${assets.campusGate.height}"
+               loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover">
         </picture>
       </div>
+      <p class="mt-2 text-xs text-ink-500">${esc(assets.campusGate.attribution)} \u00b7 <a href="${assets.campusGate.origin}" rel="noopener" class="underline underline-offset-2 hover:text-brand-700">lisensi Attribution</a></p>
 
       <ol class="relative mt-8 space-y-4 pl-10">
         <div class="timeline-rail" aria-hidden="true"></div>
@@ -202,7 +206,22 @@ function governanceSection() {
       )}
     </div>
 
-    <div class="mt-10">${statBlock(stats)}</div>
+    <div class="mt-10 overflow-hidden rounded-[1rem] border border-ink-200 bg-white">
+      <h3 class="border-b border-ink-200 px-5 py-3.5 font-display text-sm font-bold uppercase tracking-[0.12em] text-ink-500">Jajaran pimpinan</h3>
+      <ul class="divide-y divide-ink-200">
+        ${join(
+          leadership.map(
+            (l) => `
+        <li class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-5 py-3.5">
+          <span class="font-display text-sm font-semibold text-ink-900">${esc(l.name)}</span>
+          <span class="text-sm text-ink-600">${esc(l.role)} \u2014 ${esc(l.scope)}</span>
+        </li>`,
+          ),
+        )}
+      </ul>
+    </div>
+
+    <div class="mt-6">${statBlock(stats)}</div>
   </div>
 </section>`;
 }

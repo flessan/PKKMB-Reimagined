@@ -115,57 +115,66 @@ function scheduleSection() {
 }
 
 function checklist() {
-  const bring = [
-    "Kartu identitas peserta PKKMB",
-    "Pakaian dan atribut sesuai tata tertib",
-    "Alat tulis dan buku catatan",
-    "Botol minum dan bekal secukupnya",
-    "Obat pribadi bila diperlukan",
-    "Perlengkapan ibadah",
+  /**
+   * Ringkasan norma yang tercantum eksplisit pada pos Tata Tertib resmi.
+   * Rincian atribut ada di lampiran PDF, karena itu bagian ini menautkannya
+   * alih-alih mencantumkan daftar yang tidak dapat diverifikasi.
+   */
+  const principles = [
+    "Memahami dan mematuhi norma serta aturan selama rangkaian kegiatan",
+    "Menjaga lingkungan yang aman, inklusif, dan kondusif",
+    "Melatih kedisiplinan dan rasa saling menghormati",
+    "Membangun sinergi awal di kampus vokasi",
   ];
-  const avoid = [
-    "Datang terlambat tanpa pemberitahuan",
-    "Meninggalkan sesi tanpa izin pendamping",
-    "Perundungan atau perpeloncoan dalam bentuk apa pun",
-    "Membawa benda berbahaya dan barang terlarang",
+  const guarantees = [
+    "Kegiatan berlangsung menyenangkan dan bebas kekerasan",
+    "Tidak ada tindakan diskriminatif maupun perpeloncoan",
+    "Kampus mengusung slogan happy and friendly",
   ];
 
   return `
 <section class="shell py-16 md:py-20" id="persiapan">
   ${sectionHeading({
     eyebrow: "Persiapan",
-    title: "Bawa yang perlu, hindari yang dilarang",
-    lead: "Rincian resmi tercantum pada dokumen tata tertib. Berikut ringkasannya.",
+    title: "Apa yang perlu Anda siapkan",
+    lead: "Ringkasan dari pos Tata Tertib resmi. Dokumen PDF tetap menjadi acuan utama.",
   })}
 
   <div class="mt-9 grid gap-4 lg:grid-cols-2">
     <div class="card p-6">
       <h3 class="inline-flex items-center gap-2 font-display text-base font-bold text-ink-900">
-        ${icon("checkCircle", { class: "h-5 w-5 text-brand-600" })} Perlengkapan wajib
+        ${icon("checkCircle", { class: "h-5 w-5 text-brand-600" })} Yang diharapkan dari peserta
       </h3>
-      <ul class="mt-4 grid gap-2.5 sm:grid-cols-2">
+      <ul class="mt-4 space-y-2.5">
         ${join(
-          bring.map(
+          principles.map(
             (b) =>
               `<li class="flex gap-2 text-sm text-ink-600">${icon("check", { class: "mt-0.5 h-4 w-4 shrink-0 text-brand-600" })}<span>${esc(b)}</span></li>`,
           ),
         )}
       </ul>
+      <p class="mt-4 rounded-lg bg-ink-50 px-4 py-3 text-xs leading-relaxed text-ink-600">
+        Ketentuan atribut, perlengkapan wajib, dan sanksi tercantum lengkap pada dokumen resmi.
+      </p>
+      <a href="berita/tata-tertib-pkkmb-967.html" class="btn btn-secondary btn-sm mt-4">Baca tata tertib lengkap</a>
     </div>
 
     <div class="card p-6">
       <h3 class="inline-flex items-center gap-2 font-display text-base font-bold text-ink-900">
-        ${icon("alert", { class: "h-5 w-5 text-accent-500" })} Hal yang dilarang
+        ${icon("shield", { class: "h-5 w-5 text-brand-600" })} Komitmen panitia
       </h3>
       <ul class="mt-4 space-y-2.5">
         ${join(
-          avoid.map(
+          guarantees.map(
             (b) =>
-              `<li class="flex gap-2 text-sm text-ink-600">${icon("close", { class: "mt-0.5 h-4 w-4 shrink-0 text-accent-500" })}<span>${esc(b)}</span></li>`,
+              `<li class="flex gap-2 text-sm text-ink-600">${icon("check", { class: "mt-0.5 h-4 w-4 shrink-0 text-brand-600" })}<span>${esc(b)}</span></li>`,
           ),
         )}
       </ul>
-      <a href="berita/tata-tertib-pkkmb-967.html" class="btn btn-secondary btn-sm mt-5">Baca tata tertib lengkap</a>
+      <blockquote class="mt-4 border-l-3 border-brand-500 bg-brand-50 py-3 pl-4 pr-3 text-sm italic leading-relaxed text-ink-700">
+        “Kita ingin mereka bangga punya kampus dan bisa kuliah di Poliban.”
+        <span class="mt-1.5 block not-italic text-xs text-ink-500">Joni Riadi, Direktur Poliban</span>
+      </blockquote>
     </div>
   </div>
 </section>`;

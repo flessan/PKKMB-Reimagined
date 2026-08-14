@@ -14,7 +14,8 @@ import { site } from "../data/site.js";
 import { sortedPosts, announcements, news } from "../data/posts.js";
 import { schedule, eventWindow } from "../data/schedule.js";
 import { programs, programStats } from "../data/programs.js";
-import { stats, quickServices, facilities, leader, vision } from "../data/campus.js";
+import { stats, quickServices, facilities, leader } from "../data/campus.js";
+import { assets } from "../data/assets.js";
 
 /* ------------------------------------------------------------------ *
  * Hero — status kegiatan + aksi utama
@@ -24,15 +25,10 @@ function hero() {
   const days = schedule.slice(0, 4);
   return `
 <section class="relative isolate overflow-hidden bg-ink-950 text-white">
-  <picture>
-    <source srcset="assets/img/hero-campus.webp" type="image/webp">
-    <img src="assets/img/hero-campus.jpg" alt="" width="1600" height="1067" fetchpriority="high" decoding="async"
-         class="absolute inset-0 h-full w-full object-cover object-center opacity-30">
-  </picture>
-  <div class="absolute inset-0 bg-[linear-gradient(105deg,#091d34_18%,rgba(16,47,81,0.92)_52%,rgba(9,29,52,0.72)_100%)]"></div>
-  <div class="absolute inset-0 grid-fine opacity-30" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-[linear-gradient(105deg,#091d34_10%,#102f51_55%,#17457a_100%)]"></div>
+  <div class="absolute inset-0 grid-fine opacity-25" aria-hidden="true"></div>
 
-  <div class="shell relative py-16 md:py-24 lg:py-28">
+  <div class="shell relative py-14 md:py-20 lg:py-24">
     <div class="grid gap-12 lg:grid-cols-12 lg:gap-10">
 
       <div class="lg:col-span-7">
@@ -40,19 +36,19 @@ function hero() {
           <span class="inline-flex items-center gap-1.5 rounded-full bg-accent-400 px-2.5 py-1 font-display text-[0.65rem] uppercase tracking-wider text-ink-950">
             <span class="h-1.5 w-1.5 rounded-full bg-ink-950"></span>Resmi
           </span>
-          <span class="text-white/80">Pengenalan Kehidupan Kampus bagi Mahasiswa Baru</span>
+          <span class="text-white/80">Tahun Akademik 2026/2027</span>
         </p>
 
-        <h1 class="mt-6 font-display text-[2.5rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4.25rem]">
+        <h1 class="mt-6 font-display text-[2.5rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4rem]">
           PKKMB <span class="text-accent-300">2026</span><br>Politeknik Negeri Banjarmasin
         </h1>
 
         <p class="mt-5 max-w-xl text-lg leading-relaxed text-white/75">
-          Semua yang perlu diketahui mahasiswa baru dalam satu tempat — jadwal, tata tertib,
-          pengumuman resmi, dan portal presensi kehadiran.
+          Pengenalan Kehidupan Kampus bagi Mahasiswa Baru \u2014 jadwal, tata tertib,
+          pengumuman resmi, dan portal presensi kehadiran dalam satu tempat.
         </p>
 
-        <p class="mt-4 font-display text-base font-semibold text-accent-300">“${esc(site.tagline)}”</p>
+        <p class="mt-4 font-display text-base font-semibold text-accent-300">\u201c${esc(site.tagline)}\u201d</p>
 
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="login.html" class="btn btn-invert btn-lg">
@@ -65,12 +61,12 @@ function hero() {
 
         <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-6 text-sm">
           <div>
-            <dt class="text-white/50">Pra-PKKMB</dt>
-            <dd class="mt-0.5 font-display font-bold text-white">3 Agustus 2026</dd>
+            <dt class="text-white/50">Kegiatan utama</dt>
+            <dd class="mt-0.5 font-display font-bold text-white">4 \u2013 6 Agustus 2026</dd>
           </div>
           <div>
-            <dt class="text-white/50">Kegiatan utama</dt>
-            <dd class="mt-0.5 font-display font-bold text-white">4 – 6 Agustus 2026</dd>
+            <dt class="text-white/50">Peserta</dt>
+            <dd class="mt-0.5 font-display font-bold text-white">1.817 mahasiswa baru</dd>
           </div>
           <div>
             <dt class="text-white/50">Kuliah perdana</dt>
@@ -83,14 +79,14 @@ function hero() {
         <div class="rounded-[1.25rem] border border-white/12 bg-white/[0.06] p-5 backdrop-blur-sm sm:p-6">
           <div class="flex items-center justify-between gap-4">
             <h2 class="font-display text-sm font-bold uppercase tracking-[0.12em] text-white/70">Status kegiatan</h2>
-            <span class="badge badge-invert" data-event-status>Memuat…</span>
+            <span class="badge badge-invert" data-event-status>Memuat\u2026</span>
           </div>
 
           <p class="mt-4 font-display text-2xl font-extrabold leading-tight" data-event-headline>
             Rangkaian PKKMB 2026
           </p>
           <p class="mt-1.5 text-sm leading-relaxed text-white/65" data-event-detail>
-            Pra-PKKMB 3 Agustus, kegiatan utama 4–6 Agustus 2026.
+            Pra-PKKMB 3 Agustus, kegiatan utama 4\u20136 Agustus 2026.
           </p>
 
           <ol class="mt-6 space-y-2.5" data-event-days>
@@ -112,6 +108,15 @@ function hero() {
             Lihat jadwal lengkap ${icon("arrowRight", { class: "h-4 w-4" })}
           </a>
         </div>
+
+        <figure class="mt-4 overflow-hidden rounded-[1rem] border border-white/12 bg-white/[0.04] p-3">
+          <picture>
+            <source srcset="${assets.banner.webp}" type="image/webp">
+            <img src="${assets.banner.file}" alt="${esc(assets.banner.alt)}"
+                 width="${assets.banner.width}" height="${assets.banner.height}"
+                 loading="lazy" decoding="async" class="w-full rounded-md">
+          </picture>
+        </figure>
       </div>
 
     </div>
@@ -313,12 +318,9 @@ function welcome() {
  * ------------------------------------------------------------------ */
 
 function campus() {
-  const highlights = [
-    programs.find((p) => p.slug === "d3-teknik-informatika-475"),
-    programs.find((p) => p.slug === "d4-teknologi-rekayasa-otomasi-113"),
-    programs.find((p) => p.slug === "d4-bisnis-digital-394"),
-    programs.find((p) => p.slug === "d4-teknik-bangunan-rawa-427"),
-  ];
+  const highlights = ["55401", "36304", "63311", "22304"]
+    .map((id) => programs.find((p) => p.pmbId === id))
+    .filter(Boolean);
 
   return `
 <section class="shell py-16 md:py-20">
@@ -341,18 +343,13 @@ function campus() {
         .filter((f) => f.featured)
         .map(
           (f) => `
-    <a href="fasilitas.html#${f.id}" class="group relative overflow-hidden rounded-[1rem] border border-ink-200" data-reveal>
-      <picture>
-        <source srcset="${f.image.replace(".jpg", ".webp")}" type="image/webp">
-        <img src="${f.image}" alt="" width="800" height="533" loading="lazy" decoding="async"
-             class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]">
-      </picture>
-      <div class="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/20 to-transparent"></div>
-      <div class="absolute inset-x-0 bottom-0 p-5 text-white">
-        <span class="badge badge-invert">${esc(f.kind)}</span>
-        <h3 class="mt-2 font-display text-lg font-bold">${esc(f.name)}</h3>
-        <p class="mt-1 clamp-2 text-sm text-white/70">${esc(f.summary)}</p>
-      </div>
+    <a href="fasilitas.html#${f.id}" class="card card-interactive group p-5" data-reveal>
+      <span class="badge badge-brand">${esc(f.kind)}</span>
+      <h3 class="mt-3 font-display text-lg font-bold text-ink-900 transition-colors group-hover:text-brand-700">${esc(f.name)}</h3>
+      <p class="mt-2 clamp-3 text-sm leading-relaxed text-ink-600">${esc(f.summary)}</p>
+      <span class="mt-4 inline-flex items-center gap-1 font-display text-sm font-semibold text-brand-700">
+        Selengkapnya ${icon("arrowRight", { class: "h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" })}
+      </span>
     </a>`,
         ),
     )}

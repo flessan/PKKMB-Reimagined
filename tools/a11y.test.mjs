@@ -227,13 +227,13 @@ describe("berfungsi tanpa JavaScript", () => {
     const berita = pages.find((p) => p.name === "berita.html").html;
     const prodi = pages.find((p) => p.name === "program-studi.html").html;
     assert.equal((berita.match(/data-post(?![\w-])/g) ?? []).length, 5);
-    assert.equal((prodi.match(/data-program(?![\w-])/g) ?? []).length, 21);
+    assert.equal((prodi.match(/data-program(?![\w-])/g) ?? []).length, 22);
   });
 
   test("formulir kontak dan login tetap dapat dikirim tanpa skrip", () => {
     const login = pages.find((p) => p.name === "login.html").html;
     assert.match(login, /<form[^>]+method="POST"[^>]+action="https:\/\//);
     const kontak = pages.find((p) => p.name === "kontak.html").html;
-    assert.match(kontak, /mailto:poliban@poliban\.ac\.id/, "alamat surel cadangan hilang");
+    assert.match(kontak, /mailto:info@poliban\.ac\.id/, "alamat surel cadangan hilang");
   });
 });

@@ -2,7 +2,7 @@ import { page } from "../components/layout.js";
 import { breadcrumb, programCard, calloutPortal } from "../components/ui.js";
 import { icon } from "../lib/icons.js";
 import { esc, join } from "../lib/html.js";
-import { programs, departmentOf, fullName, accreditation } from "../data/programs.js";
+import { programs, departmentOf, fullName, levelInfo } from "../data/programs.js";
 import { site } from "../data/site.js";
 
 /** @param {import('../data/programs.js').programs[number]} program */
@@ -10,16 +10,16 @@ export default function render(program) {
   const depth = 1;
   const dept = departmentOf(program);
   const siblings = programs.filter((p) => p.dept === program.dept && p.slug !== program.slug);
-  const semesters = program.level === "D4" ? 8 : 6;
-  const credits = program.level === "D4" ? "144 – 150 SKS" : "108 – 120 SKS";
-  const degree = program.level === "D4" ? "Sarjana Terapan (S.Tr.)" : "Ahli Madya (A.Md.)";
+  const { semesters, years, degree } = levelInfo(program.level);
 
   return page({
     depth,
     title: fullName(program),
     canonical: `program-studi/${program.slug}.html`,
     active: "program-studi.html",
-    description: `${fullName(program)} Politeknik Negeri Banjarmasin — ${program.tagline}`,
+    description: program.tagline
+      ? `${fullName(program)} Politeknik Negeri Banjarmasin — ${program.tagline}`
+      : `${fullName(program)} pada Jurusan ${dept.name}, Politeknik Negeri Banjarmasin.`,
     body: join([
       `<header class="border-b border-ink-200 bg-ink-50">
   <div class="shell py-10 md:py-14">
@@ -36,11 +36,19 @@ export default function render(program) {
       <div class="lg:col-span-7">
         <div class="flex flex-wrap items-center gap-2">
           <span class="badge ${program.level === "D4" ? "badge-accent" : "badge-brand"}">${program.level}</span>
-          <span class="badge badge-neutral">Akreditasi ${esc(accreditation)}</span>
+          ${
+            program.accreditation
+              ? `<span class="badge badge-neutral">Akreditasi ${esc(program.accreditation)}</span>`
+              : ""
+          }
         </div>
         <h1 class="mt-4 font-display text-3xl font-extrabold leading-[1.12] text-ink-900 md:text-[2.5rem]">${esc(program.name)}</h1>
         <p class="mt-2 font-display text-sm font-semibold text-brand-700">Jurusan ${esc(dept.name)}</p>
-        <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">${esc(program.tagline)}</p>
+        ${
+          program.tagline
+            ? `<p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">${esc(program.tagline)}</p>`
+            : ""
+        }
       </div>
 
       <div class="lg:col-span-5">
@@ -54,8 +62,8 @@ export default function render(program) {
             <dt class="mt-1 text-xs text-ink-500">Jenjang</dt>
           </div>
           <div class="bg-white px-3 py-5 text-center">
-            <dd class="font-display text-xl font-extrabold text-ink-900">${credits.split(" ")[0]}<span class="text-sm">+</span></dd>
-            <dt class="mt-1 text-xs text-ink-500">Beban SKS</dt>
+            <dd class="font-display text-xl font-extrabold text-ink-900">${years}</dd>
+            <dt class="mt-1 text-xs text-ink-500">Tahun</dt>
           </div>
         </dl>
       </div>
@@ -67,6 +75,9 @@ export default function render(program) {
   <div class="grid gap-10 lg:grid-cols-12">
     <div class="space-y-12 lg:col-span-8">
 
+      ${
+        program.focus.length
+          ? `
       <section aria-labelledby="fokus">
         <h2 id="fokus" class="font-display text-xl font-extrabold text-ink-900">Fokus keilmuan</h2>
         <p class="mt-2 max-w-2xl leading-relaxed text-ink-600">
@@ -84,8 +95,13 @@ export default function render(program) {
             ),
           )}
         </ul>
-      </section>
+      </section>`
+          : ""
+      }
 
+      ${
+        program.careers.length
+          ? `
       <section aria-labelledby="karir">
         <h2 id="karir" class="font-display text-xl font-extrabold text-ink-900">Prospek karier lulusan</h2>
         <p class="mt-2 max-w-2xl leading-relaxed text-ink-600">
@@ -103,7 +119,9 @@ export default function render(program) {
             ),
           )}
         </ul>
-      </section>
+      </section>`
+          : ""
+      }
 
       <section aria-labelledby="kurikulum">
         <h2 id="kurikulum" class="font-display text-xl font-extrabold text-ink-900">Kurikulum & masa studi</h2>
@@ -113,23 +131,41 @@ export default function render(program) {
               <dt class="text-ink-500">Gelar lulusan</dt><dd class="font-medium text-ink-900">${esc(degree)}</dd>
             </div>
             <div class="flex flex-wrap justify-between gap-2 px-5 py-3.5">
-              <dt class="text-ink-500">Masa studi normal</dt><dd class="font-medium text-ink-900">${semesters} semester (${semesters / 2} tahun)</dd>
+              <dt class="text-ink-500">Masa studi normal</dt><dd class="font-medium text-ink-900">${semesters} semester (${years} tahun)</dd>
             </div>
             <div class="flex flex-wrap justify-between gap-2 px-5 py-3.5">
-              <dt class="text-ink-500">Beban studi</dt><dd class="font-medium text-ink-900">${esc(credits)}</dd>
+              <dt class="text-ink-500">Jurusan</dt><dd class="font-medium text-ink-900">${esc(dept.name)}</dd>
             </div>
             <div class="flex flex-wrap justify-between gap-2 px-5 py-3.5">
-              <dt class="text-ink-500">Komposisi</dt><dd class="font-medium text-ink-900">Dominan praktik (± 60%)</dd>
-            </div>
-            <div class="flex flex-wrap justify-between gap-2 px-5 py-3.5">
-              <dt class="text-ink-500">Akreditasi</dt><dd class="font-medium text-ink-900">${esc(accreditation)}</dd>
+              <dt class="text-ink-500">Akreditasi</dt>
+              <dd class="font-medium text-ink-900">${program.accreditation ? esc(program.accreditation) : "Belum tercantum pada sumber resmi"}</dd>
             </div>
           </dl>
         </div>
         <p class="mt-4 text-sm leading-relaxed text-ink-600">
-          Mata kuliah mencakup teori dasar, praktikum laboratorium, proyek terapan, magang industri,
-          serta tugas akhir. Informasi kurikulum rinci disampaikan pada sesi jurusan saat PKKMB.
+          Pembelajaran vokasi menekankan praktik laboratorium dan bengkel, proyek terapan, serta
+          magang industri. Rincian kurikulum disampaikan pada sesi jurusan saat PKKMB.
         </p>
+        ${
+          program.accreditationConflict
+            ? `
+        <p class="mt-4 flex gap-2.5 rounded-lg border border-accent-300 bg-accent-100/50 px-4 py-3 text-xs leading-relaxed text-ink-700">
+          ${icon("info", { class: "mt-0.5 h-4 w-4 shrink-0 text-accent-600" })}
+          <span>${esc(program.accreditationConflict)}
+          <a href="${program.accreditationConflictUrl}" rel="noopener" class="font-medium text-brand-700 underline underline-offset-2">Lihat laman prodi</a>.</span>
+        </p>`
+            : ""
+        }
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a href="${program.detailUrl}" rel="noopener" class="btn btn-secondary btn-sm">
+            Profil resmi di portal SPMB${icon("arrowUpRight", { class: "h-4 w-4" })}
+          </a>
+          ${
+            program.website
+              ? `<a href="${program.website}" rel="noopener" class="btn btn-secondary btn-sm">Situs program studi${icon("arrowUpRight", { class: "h-4 w-4" })}</a>`
+              : ""
+          }
+        </div>
       </section>
     </div>
 
@@ -174,10 +210,10 @@ export default function render(program) {
       "@context": "https://schema.org",
       "@type": "EducationalOccupationalProgram",
       name: fullName(program),
-      programType: program.level === "D4" ? "Sarjana Terapan" : "Diploma Tiga",
+      programType: degree,
       educationalCredentialAwarded: degree,
-      timeToComplete: program.level === "D4" ? "P4Y" : "P3Y",
-      description: program.tagline,
+      timeToComplete: `P${years}Y`,
+      description: program.tagline ?? `${fullName(program)} — Jurusan ${dept.name}`,
       provider: { "@type": "CollegeOrUniversity", name: site.institution, url: site.url },
       occupationalCategory: program.careers,
     })}</script>`,

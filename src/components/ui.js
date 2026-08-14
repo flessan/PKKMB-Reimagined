@@ -10,7 +10,7 @@ import {
   monthShort,
 } from "../lib/html.js";
 import { categories } from "../data/posts.js";
-import { fullName, departmentOf, accreditation } from "../data/programs.js";
+import { fullName, departmentOf, levelInfo } from "../data/programs.js";
 
 /* ------------------------------------------------------------------ *
  * Kepala halaman bagian dalam
@@ -169,23 +169,42 @@ export function postRow(post, { depth = 0 } = {}) {
 export function programCard(program, { depth = 0 } = {}) {
   const dept = departmentOf(program);
   const href = rel(`program-studi/${program.slug}.html`, depth);
+  const info = levelInfo(program.level);
+  const search = [
+    program.name,
+    program.level,
+    dept.name,
+    program.tagline ?? "",
+    program.careers.join(" "),
+  ]
+    .join(" ")
+    .toLowerCase();
+
   return `
 <article class="card card-interactive group h-full p-5"
          data-program
          data-level="${program.level}"
          data-dept="${program.dept}"
-         data-search="${esc((program.name + " " + program.level + " " + dept.name + " " + program.tagline + " " + program.careers.join(" ")).toLowerCase())}">
+         data-search="${esc(search)}">
   <div class="flex items-center justify-between gap-3">
-    <span class="badge ${program.level === "D4" ? "badge-accent" : "badge-brand"}">${program.level}</span>
-    <span class="text-[0.7rem] font-medium text-ink-500">Akreditasi ${accreditation}</span>
+    <span class="badge ${program.level === "D4" ? "badge-accent" : program.level === "D2" ? "badge-neutral" : "badge-brand"}">${program.level}</span>
+    ${
+      program.accreditation
+        ? `<span class="text-[0.7rem] font-medium text-ink-500">Akreditasi ${esc(program.accreditation)}</span>`
+        : `<span class="text-[0.7rem] font-medium text-ink-400">Akreditasi belum tercantum</span>`
+    }
   </div>
   <h3 class="mt-3 font-display text-lg font-bold leading-snug text-ink-900">
     <a href="${href}" class="stretch-link transition-colors group-hover:text-brand-700">${esc(program.name)}</a>
   </h3>
   <p class="mt-1 text-xs font-medium text-ink-500">Jurusan ${esc(dept.name)}</p>
-  <p class="mt-3 clamp-3 text-sm leading-relaxed text-ink-600">${esc(program.tagline)}</p>
+  ${
+    program.tagline
+      ? `<p class="mt-3 clamp-3 text-sm leading-relaxed text-ink-600">${esc(program.tagline)}</p>`
+      : ""
+  }
   <div class="mt-auto flex items-center justify-between pt-4 text-xs text-ink-500">
-    <span>${program.level === "D4" ? "8 semester" : "6 semester"}</span>
+    <span>${info.semesters} semester</span>
     <span class="inline-flex items-center gap-1 font-display font-semibold text-brand-700">Detail${icon("arrowRight", { class: "h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" })}</span>
   </div>
 </article>`;

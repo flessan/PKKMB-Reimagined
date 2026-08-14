@@ -1,4 +1,5 @@
 import { site, nav, footerNav } from "../data/site.js";
+import { assets } from "../data/assets.js";
 import { icon } from "../lib/icons.js";
 import { esc, join, rel, cls } from "../lib/html.js";
 
@@ -8,22 +9,15 @@ import { esc, join, rel, cls } from "../lib/html.js";
 
 export function brandMark({ depth = 0, tone = "light", compact = false } = {}) {
   const dark = tone === "dark";
+  const src = rel(assets.logo.file, depth);
   return `
 <a href="${rel("index.html", depth)}" class="group inline-flex items-center gap-3 rounded-lg" aria-label="PKKMB 2026 Politeknik Negeri Banjarmasin — kembali ke beranda">
-  <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white transition-colors ${
-    dark
-      ? "bg-white/10 ring-1 ring-white/20 group-hover:bg-white/20"
-      : "bg-brand-700 group-hover:bg-brand-800"
-  }">
-    <svg class="h-6 w-6" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <path d="M16 3 27 8.6v7.9c0 6.4-4.5 11.4-11 13.5-6.5-2.1-11-7.1-11-13.5V8.6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M11.6 20V12h4a2.6 2.6 0 0 1 0 5.2h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </span>
+  <img src="${src}" alt="" width="44" height="44" decoding="async"
+       class="h-11 w-11 shrink-0 rounded-lg object-contain">
   <span class="leading-tight">
     <span class="block font-display text-[0.95rem] font-extrabold tracking-tight ${
       dark ? "text-white" : "text-ink-900"
-    }">PKKMB <span class="${dark ? "text-accent-300" : "text-brand-600"}">2026</span></span>
+    }">PKKMB <span class="${dark ? "text-accent-300" : "text-brand-700"}">2026</span></span>
     <span class="block text-[0.7rem] font-medium ${
       dark ? "text-white/60" : "text-ink-500"
     } ${compact ? "hidden sm:block" : ""}">Politeknik Negeri Banjarmasin</span>

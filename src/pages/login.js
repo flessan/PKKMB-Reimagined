@@ -2,6 +2,7 @@ import { page, brandMark } from "../components/layout.js";
 import { icon } from "../lib/icons.js";
 import { esc, join } from "../lib/html.js";
 import { site } from "../data/site.js";
+import { assets } from "../data/assets.js";
 
 /**
  * Portal PKKMB.
@@ -44,12 +45,7 @@ function assurances() {
 function panel() {
   return `
 <aside class="relative hidden overflow-hidden bg-ink-950 text-white lg:flex lg:w-[46%] lg:shrink-0 lg:flex-col lg:justify-between">
-  <picture>
-    <source srcset="assets/img/hero-campus.webp" type="image/webp">
-    <img src="assets/img/hero-campus.jpg" alt="" width="1600" height="1067" loading="lazy" decoding="async"
-         class="absolute inset-0 h-full w-full object-cover opacity-20">
-  </picture>
-  <div class="absolute inset-0 bg-[linear-gradient(160deg,#102f51_0%,#091d34_70%)] opacity-95"></div>
+  <div class="absolute inset-0 bg-[linear-gradient(160deg,#17457a_0%,#102f51_45%,#091d34_100%)]"></div>
   <div class="absolute inset-0 grid-fine opacity-30" aria-hidden="true"></div>
 
   <div class="relative p-10 xl:p-14">
@@ -81,7 +77,16 @@ function panel() {
       )}
     </ul>
 
-    <p class="mt-10 text-xs text-white/40">© ${site.year} ${esc(site.organiser)}</p>
+    <figure class="mt-10 overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] p-2.5">
+      <picture>
+        <source srcset="${assets.banner.webp}" type="image/webp">
+        <img src="${assets.banner.file}" alt="${esc(assets.banner.alt)}"
+             width="${assets.banner.width}" height="${assets.banner.height}"
+             loading="lazy" decoding="async" class="w-full rounded">
+      </picture>
+    </figure>
+
+    <p class="mt-6 text-xs text-white/40">© ${site.year} ${esc(site.organiser)}</p>
   </div>
 </aside>`;
 }

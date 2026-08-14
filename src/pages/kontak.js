@@ -23,10 +23,17 @@ const channels = [
   },
   {
     icon: "phone",
-    title: "Telepon / faks",
+    title: "Telepon / faks kampus",
     value: site.contact.phone,
     href: site.contact.phoneHref,
-    note: "Jam kerja Senin–Jumat, 08.00–16.00 WITA.",
+    note: "Nomor resmi yang tercantum pada situs Poliban.",
+  },
+  {
+    icon: "support",
+    title: "Hotline akademik & penerimaan",
+    value: site.contact.hotline,
+    href: site.contact.hotlineHref,
+    note: `Kanal SPMB Poliban. Surel: ${site.contact.academicEmail}`,
   },
   {
     icon: "pin",

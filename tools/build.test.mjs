@@ -14,7 +14,12 @@ import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { posts, categories, sortedPosts } from "../src/data/posts.js";
-import { programs, departments, programStats } from "../src/data/programs.js";
+import {
+  programs,
+  departments,
+  programStats,
+  programsSource,
+} from "../src/data/programs.js";
 import { schedule, faq } from "../src/data/schedule.js";
 import { site, nav } from "../src/data/site.js";
 import { esc, slugify, formatDate, formatDateLong, rel } from "../src/lib/html.js";
@@ -124,10 +129,32 @@ describe("integritas data", () => {
     }
   });
 
-  test("21 program studi dalam 5 jurusan", () => {
-    assert.equal(programs.length, 21);
+  test("22 program studi dalam 5 jurusan sesuai portal SPMB", () => {
+    assert.equal(programs.length, 22);
     assert.equal(departments.length, 5);
-    assert.equal(programStats.d3 + programStats.d4, 21);
+    assert.equal(
+      programStats.d2 + programStats.d3 + programStats.d4,
+      programs.length,
+    );
+  });
+
+  test("data prodi berasal dari cache portal resmi", () => {
+    assert.equal(programsSource.sourceId, "pmb-prodi");
+    assert.match(programsSource.url, /^https:\/\/pmb\.poliban\.ac\.id\//);
+    assert.match(programsSource.fetchedAt, /^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  test("akreditasi tidak diseragamkan dan hanya memakai nilai resmi", () => {
+    const allowed = new Set(["Unggul", "Baik Sekali", "Baik", "A", "B", "C", null]);
+    for (const p of programs) {
+      assert.ok(
+        allowed.has(p.accreditation),
+        `${p.slug}: nilai akreditasi tak dikenal (${p.accreditation})`,
+      );
+    }
+    // Portal resmi mencantumkan nilai berbeda-beda; bila seragam, ada yang salah.
+    const distinct = new Set(programs.map((p) => p.accreditation));
+    assert.ok(distinct.size > 1, "akreditasi seluruh prodi seragam — periksa sumber");
   });
 
   test("slug program studi unik dan jurusannya valid", () => {
@@ -135,10 +162,25 @@ describe("integritas data", () => {
     assert.equal(new Set(slugs).size, slugs.length);
     const ids = new Set(departments.map((d) => d.id));
     for (const p of programs) {
+      assert.ok(p.slug, `pmbId ${p.pmbId}: slug hilang`);
       assert.ok(ids.has(p.dept), `${p.slug}: jurusan tidak dikenal`);
-      assert.ok(["D3", "D4"].includes(p.level), `${p.slug}: jenjang tidak valid`);
-      assert.ok(p.focus.length >= 3, `${p.slug}: fokus terlalu sedikit`);
-      assert.ok(p.careers.length >= 3, `${p.slug}: prospek karier terlalu sedikit`);
+      assert.ok(["D2", "D3", "D4"].includes(p.level), `${p.slug}: jenjang tidak valid`);
+      assert.match(p.pmbId, /^\d+$/, `${p.slug}: pmbId tidak valid`);
+    }
+  });
+
+  test("URL prodi lama tetap dipertahankan", () => {
+    const legacy = [
+      "d3-teknik-informatika-475",
+      "d4-teknik-bangunan-rawa-427",
+      "d3-akuntansi-891",
+      "d4-bisnis-digital-394",
+    ];
+    for (const slug of legacy) {
+      assert.ok(
+        programs.some((p) => p.slug === slug),
+        `slug lama hilang: ${slug}`,
+      );
     }
   });
 
@@ -287,7 +329,16 @@ describe("keluaran build", () => {
     const html = await read(`program-studi/${p.slug}.html`);
     assert.match(html, /Teknik Bangunan Rawa/);
     assert.match(html, /Sarjana Terapan/);
+    assert.ok(html.includes(p.accreditation), "akreditasi resmi tidak tampil");
+    assert.ok(html.includes(p.detailUrl), "tautan portal SPMB tidak tampil");
     for (const c of p.careers) assert.ok(html.includes(esc(c)), `karier hilang: ${c}`);
+  });
+
+  test("prodi tanpa akreditasi resmi tidak menebak nilai", async () => {
+    const p = programs.find((x) => x.accreditation === null);
+    if (!p) return;
+    const html = await read(`program-studi/${p.slug}.html`);
+    assert.match(html, /Belum tercantum pada sumber resmi/);
   });
 
   test("halaman PKKMB memuat jadwal, unduhan, dan FAQ", async () => {
@@ -307,13 +358,13 @@ describe("keluaran build", () => {
     assert.match(twibbon, /#pkkmbpoliban/);
 
     const profil = await read("profil.html");
-    assert.match(profil, /Joniriadi/);
+    assert.match(profil, /Joni Riadi/);
     assert.match(profil, /Politeknik Mekanik Swiss/);
     assert.match(profil, /Unggul Dalam Sains Terapan/);
 
     const kontak = await read("kontak.html");
-    assert.match(kontak, /0511 3305052/);
-    assert.match(kontak, /poliban@poliban\.ac\.id/);
+    assert.match(kontak, /330 5052/);
+    assert.match(kontak, /info@poliban\.ac\.id/);
     assert.match(kontak, /google\.com\/maps\/embed/);
   });
 

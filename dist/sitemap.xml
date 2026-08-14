@@ -41,6 +41,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://pkkmb.poliban.ac.id/sumber.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://pkkmb.poliban.ac.id/berita/pusat-informasi-resmi-pkkmb-342.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -62,6 +67,11 @@
   </url>
   <url>
     <loc>https://pkkmb.poliban.ac.id/berita/frame-video-dan-instagram-pkkmb-187.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pkkmb.poliban.ac.id/program-studi/d2-tata-operasi-pemeliharaan-prediktif-alat-berat.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>

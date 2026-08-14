@@ -11,6 +11,8 @@
     "build": "npm run build:html && npm run build:css",
     "dev": "node tools/dev.mjs",
     "lint": "node tools/lint.mjs",
+    "refresh:prodi": "node tools/fetch-programs.mjs",
+    "refresh:check": "node tools/fetch-programs.mjs --check",
     "test": "node --test tools/*.test.mjs",
     "check": "npm run build && npm run lint && npm test"
   },

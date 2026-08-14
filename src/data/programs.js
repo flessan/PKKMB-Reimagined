@@ -1,58 +1,83 @@
 /**
- * 21 program studi Politeknik Negeri Banjarmasin dalam 5 jurusan.
- * Slug dipertahankan persis seperti struktur URL lama.
+ * Program studi Politeknik Negeri Banjarmasin.
+ *
+ * Data faktual (nama, jenjang, akreditasi, situs prodi, jurusan) BERASAL dari
+ * cache portal SPMB resmi — lihat `cache/pmb-programs.json` dan
+ * `tools/fetch-programs.mjs`. Modul ini hanya menambahkan slug URL lama serta
+ * teks naratif (fokus keilmuan, prospek karier) yang diringkas dari halaman
+ * resmi masing-masing prodi.
+ *
+ * Akreditasi TIDAK seragam: portal resmi mencantumkan nilai berbeda per prodi,
+ * dan beberapa prodi baru belum memiliki nilai. Jangan menyeragamkannya.
  */
+
+import cache from "./cache/pmb-programs.json" with { type: "json" };
+
+export const programsSource = {
+  sourceId: cache.sourceId,
+  url: cache.source,
+  fetchedAt: cache.fetchedAt,
+};
 
 export const departments = [
   {
-    id: "administrasi-bisnis",
-    name: "Administrasi Bisnis",
+    id: "teknik-sipil",
+    name: "Teknik Sipil dan Kebumian",
+    sourceId: "poliban-sipil",
     blurb:
-      "Menyiapkan tenaga profesional bidang administrasi, layanan pelanggan, dan bisnis digital yang cakap berkomunikasi serta melek teknologi.",
-  },
-  {
-    id: "akuntansi",
-    name: "Akuntansi",
-    blurb:
-      "Membekali kemampuan pencatatan, pelaporan, audit, hingga sistem informasi keuangan berbasis aplikasi terkini.",
+      "Penyelenggara pendidikan vokasional dan penelitian yang unggul di bidang keteknikan \u2014 konstruksi, geomatika, dan pertambangan, dengan spesialisasi khas lahan rawa Kalimantan.",
   },
   {
     id: "teknik-mesin",
     name: "Teknik Mesin",
+    sourceId: "poliban-pkkmb-2026",
     blurb:
-      "Berfokus pada manufaktur, otomotif, dan pemeliharaan alat berat — sektor yang menjadi tulang punggung industri Kalimantan Selatan.",
+      "Manufaktur, otomotif, dan pemeliharaan alat berat \u2014 sektor yang menjadi tulang punggung industri pertambangan dan konstruksi Kalimantan Selatan.",
   },
   {
     id: "teknik-elektro",
     name: "Teknik Elektro",
+    sourceId: "poliban-elektro",
     blurb:
-      "Mencakup kelistrikan, elektronika, otomasi, energi, hingga rekayasa perangkat lunak dan sistem informasi.",
+      "Mewujudkan jurusan yang unggul dalam menghasilkan inovasi produk bidang sains terapan \u2014 mencakup kelistrikan, elektronika, informatika, otomasi, dan energi.",
   },
   {
-    id: "teknik-sipil",
-    name: "Teknik Sipil dan Kebumian",
+    id: "akuntansi",
+    name: "Akuntansi",
+    sourceId: "poliban-pkkmb-2026",
     blurb:
-      "Menangani konstruksi, geomatika, dan pertambangan dengan spesialisasi khas lahan rawa Kalimantan.",
+      "Membekali kemampuan pencatatan, pelaporan, audit, hingga sistem informasi keuangan \u2014 termasuk akuntansi lembaga keuangan syariah.",
+  },
+  {
+    id: "administrasi-bisnis",
+    name: "Administrasi Bisnis",
+    sourceId: "poliban-pkkmb-2026",
+    blurb:
+      "Menyiapkan tenaga profesional bidang administrasi perkantoran, layanan pelanggan, sistem informasi, dan bisnis digital.",
   },
 ];
 
 /**
- * @typedef {Object} Program
- * @property {string} slug     Nama berkas tanpa ekstensi (URL lama dipertahankan).
- * @property {string} name     Nama prodi tanpa jenjang.
- * @property {"D3"|"D4"} level Jenjang.
- * @property {string} dept     Id jurusan.
- * @property {string} tagline  Satu kalimat pembeda.
- * @property {string[]} focus  Fokus keilmuan.
- * @property {string[]} careers Prospek karier.
+ * Teks naratif per prodi (ringkasan dari halaman resmi prodi & portal SPMB).
+ * Fakta terukur TIDAK disimpan di sini — lihat cache/pmb-programs.json.
  */
-export const programs = [
-  // ---------------------------------------------------------------- Administrasi Bisnis
-  {
-    slug: "d3-administrasi-bisnis-141",
-    name: "Administrasi Bisnis",
-    level: "D3",
-    dept: "administrasi-bisnis",
+const EDITORIAL = {
+  "21513": {
+    tagline:
+      "Melatih tenaga terampil perawatan alat berat dengan dasar keteknikan yang kuat.",
+    focus: [
+      "Komponen alat berat: mesin, hidrolik, listrik, power train, undercarriage",
+      "Pemeliharaan, perawatan, dan perbaikan sesuai SOP",
+      "Penggunaan measuring tools dan working tools",
+      "Praktik jacking, blocking, dan lifting yang aman",
+    ],
+    careers: [
+      "Teknisi perawatan alat berat",
+      "Operator alat berat",
+      "Tenaga terampil bidang alat berat",
+    ],
+  },
+  "63411": {
     tagline:
       "Mengelola operasional kantor modern, korespondensi bisnis, dan layanan pelanggan secara profesional.",
     focus: [
@@ -68,11 +93,7 @@ export const programs = [
       "Event & office coordinator",
     ],
   },
-  {
-    slug: "d4-bisnis-digital-394",
-    name: "Bisnis Digital",
-    level: "D4",
-    dept: "administrasi-bisnis",
+  "63311": {
     tagline:
       "Merancang strategi bisnis berbasis data, kanal digital, dan perdagangan elektronik.",
     focus: [
@@ -88,13 +109,7 @@ export const programs = [
       "Technopreneur",
     ],
   },
-
-  // ---------------------------------------------------------------- Akuntansi
-  {
-    slug: "d3-akuntansi-891",
-    name: "Akuntansi",
-    level: "D3",
-    dept: "akuntansi",
+  "62401": {
     tagline:
       "Menguasai siklus akuntansi, perpajakan, dan pelaporan keuangan sesuai standar yang berlaku.",
     focus: [
@@ -110,11 +125,7 @@ export const programs = [
       "Staf keuangan instansi pemerintah",
     ],
   },
-  {
-    slug: "d3-sistem-informasi-850",
-    name: "Sistem Informasi",
-    level: "D3",
-    dept: "akuntansi",
+  "57403": {
     tagline:
       "Menjembatani proses bisnis dan teknologi melalui perancangan serta pengelolaan sistem informasi.",
     focus: [
@@ -130,11 +141,7 @@ export const programs = [
       "IT support & implementator ERP",
     ],
   },
-  {
-    slug: "d3-sistem-informasi-akuntansi-387",
-    name: "Sistem Informasi Akuntansi",
-    level: "D3",
-    dept: "akuntansi",
+  "57406": {
     tagline:
       "Memadukan kompetensi akuntansi dengan pengembangan sistem informasi keuangan.",
     focus: [
@@ -150,11 +157,7 @@ export const programs = [
       "Auditor sistem informasi junior",
     ],
   },
-  {
-    slug: "d4-akuntansi-lembaga-keuangan-syariah-594",
-    name: "Akuntansi Lembaga Keuangan Syariah",
-    level: "D4",
-    dept: "akuntansi",
+  "62301": {
     tagline:
       "Menyiapkan akuntan yang memahami prinsip syariah dan praktik industri keuangan syariah.",
     focus: [
@@ -170,13 +173,7 @@ export const programs = [
       "Pengelola baitul maal wa tamwil",
     ],
   },
-
-  // ---------------------------------------------------------------- Teknik Mesin
-  {
-    slug: "d3-alat-berat-455",
-    name: "Alat Berat",
-    level: "D3",
-    dept: "teknik-mesin",
+  "21413": {
     tagline:
       "Spesialisasi pengoperasian, perawatan, dan perbaikan alat berat untuk industri tambang dan konstruksi.",
     focus: [
@@ -192,11 +189,7 @@ export const programs = [
       "Instruktur teknik alat berat",
     ],
   },
-  {
-    slug: "d3-teknik-mesin-332",
-    name: "Teknik Mesin",
-    level: "D3",
-    dept: "teknik-mesin",
+  "21401": {
     tagline:
       "Menguasai proses manufaktur, perancangan komponen, dan pemeliharaan mesin industri.",
     focus: [
@@ -212,11 +205,7 @@ export const programs = [
       "Teknisi pemeliharaan industri",
     ],
   },
-  {
-    slug: "d4-teknologi-rekayasa-otomotif-923",
-    name: "Teknologi Rekayasa Otomotif",
-    level: "D4",
-    dept: "teknik-mesin",
+  "21304": {
     tagline:
       "Rekayasa kendaraan modern, dari sistem konvensional hingga elektrifikasi.",
     focus: [
@@ -232,11 +221,7 @@ export const programs = [
       "Wirausaha bengkel spesialis",
     ],
   },
-  {
-    slug: "d4-teknologi-rekayasa-pemeliharaan-alat-berat-916",
-    name: "Teknologi Rekayasa Pemeliharaan Alat Berat",
-    level: "D4",
-    dept: "teknik-mesin",
+  "21318": {
     tagline:
       "Manajemen pemeliharaan armada alat berat berbasis keandalan dan analisis data.",
     focus: [
@@ -252,13 +237,7 @@ export const programs = [
       "Konsultan produktivitas alat berat",
     ],
   },
-
-  // ---------------------------------------------------------------- Teknik Elektro
-  {
-    slug: "d3-elektronika-789",
-    name: "Elektronika",
-    level: "D3",
-    dept: "teknik-elektro",
+  "20401": {
     tagline:
       "Merancang dan merawat perangkat elektronika, instrumentasi, serta sistem kendali.",
     focus: [
@@ -274,11 +253,7 @@ export const programs = [
       "Wirausaha perangkat elektronik",
     ],
   },
-  {
-    slug: "d3-teknik-informatika-475",
-    name: "Teknik Informatika",
-    level: "D3",
-    dept: "teknik-elektro",
+  "55401": {
     tagline:
       "Membangun perangkat lunak, jaringan, dan layanan digital yang siap pakai di industri.",
     focus: [
@@ -294,11 +269,7 @@ export const programs = [
       "IT support specialist",
     ],
   },
-  {
-    slug: "d3-teknik-listrik-757",
-    name: "Teknik Listrik",
-    level: "D3",
-    dept: "teknik-elektro",
+  "20403": {
     tagline:
       "Instalasi, distribusi, dan pemeliharaan sistem tenaga listrik yang aman dan efisien.",
     focus: [
@@ -314,11 +285,7 @@ export const programs = [
       "Kontraktor listrik bersertifikat",
     ],
   },
-  {
-    slug: "d4-sistem-informasi-kota-cerdas-132",
-    name: "Sistem Informasi Kota Cerdas",
-    level: "D4",
-    dept: "teknik-elektro",
+  "57302": {
     tagline:
       "Mengembangkan solusi kota cerdas berbasis data, sensor, dan layanan publik digital.",
     focus: [
@@ -334,11 +301,7 @@ export const programs = [
       "Konsultan transformasi digital daerah",
     ],
   },
-  {
-    slug: "d4-teknologi-rekayasa-otomasi-113",
-    name: "Teknologi Rekayasa Otomasi",
-    level: "D4",
-    dept: "teknik-elektro",
+  "36304": {
     tagline:
       "Merancang sistem otomasi industri, robotika, dan kendali proses.",
     focus: [
@@ -354,11 +317,7 @@ export const programs = [
       "Process control specialist",
     ],
   },
-  {
-    slug: "d4-teknologi-rekayasa-pembangkit-energi-728",
-    name: "Teknologi Rekayasa Pembangkit Energi",
-    level: "D4",
-    dept: "teknik-elektro",
+  "21309": {
     tagline:
       "Mengelola pembangkit listrik konvensional dan energi terbarukan.",
     focus: [
@@ -374,13 +333,7 @@ export const programs = [
       "Operator dan supervisor pembangkit",
     ],
   },
-
-  // ---------------------------------------------------------------- Teknik Sipil dan Kebumian
-  {
-    slug: "d3-teknik-pertambangan-813",
-    name: "Teknik Pertambangan",
-    level: "D3",
-    dept: "teknik-sipil",
+  "31401": {
     tagline:
       "Kompetensi eksplorasi, penambangan, dan pengelolaan lingkungan tambang.",
     focus: [
@@ -396,11 +349,7 @@ export const programs = [
       "Surveyor tambang",
     ],
   },
-  {
-    slug: "d3-teknik-sipil-582",
-    name: "Teknik Sipil",
-    level: "D3",
-    dept: "teknik-sipil",
+  "22401": {
     tagline:
       "Perencanaan, pelaksanaan, dan pengawasan pekerjaan konstruksi bangunan dan infrastruktur.",
     focus: [
@@ -416,11 +365,7 @@ export const programs = [
       "Pengawas mutu pekerjaan",
     ],
   },
-  {
-    slug: "d4-teknik-bangunan-rawa-427",
-    name: "Teknik Bangunan Rawa",
-    level: "D4",
-    dept: "teknik-sipil",
+  "22304": {
     tagline:
       "Keahlian khas Kalimantan: membangun di atas lahan rawa dan tanah lunak.",
     focus: [
@@ -436,11 +381,7 @@ export const programs = [
       "Site engineer proyek infrastruktur",
     ],
   },
-  {
-    slug: "d4-teknologi-rekayasa-geomatika-dan-survei-996",
-    name: "Teknologi Rekayasa Geomatika dan Survei",
-    level: "D4",
-    dept: "teknik-sipil",
+  "35303": {
     tagline:
       "Pemetaan presisi dengan teknologi geospasial, drone, dan sistem informasi geografis.",
     focus: [
@@ -456,11 +397,7 @@ export const programs = [
       "Staf teknis pertanahan",
     ],
   },
-  {
-    slug: "d4-teknologi-rekayasa-konstruksi-jalan-dan-jembatan-477",
-    name: "Teknologi Rekayasa Konstruksi Jalan dan Jembatan",
-    level: "D4",
-    dept: "teknik-sipil",
+  "22301": {
     tagline:
       "Fokus pada perancangan dan pelaksanaan infrastruktur jalan serta jembatan.",
     focus: [
@@ -476,16 +413,74 @@ export const programs = [
       "Pengawas pemeliharaan jalan",
     ],
   },
-];
+};
 
-export const accreditation = "Baik Sekali";
+/**
+ * Peta slug URL (dipertahankan dari struktur lama) → pmbId pada cache resmi.
+ * Prodi D2 belum pernah punya halaman di situs lama sehingga memakai slug baru.
+ */
+const SLUGS = {
+  "63411": "d3-administrasi-bisnis-141",
+  "63311": "d4-bisnis-digital-394",
+  "62401": "d3-akuntansi-891",
+  "57403": "d3-sistem-informasi-850",
+  "57406": "d3-sistem-informasi-akuntansi-387",
+  "62301": "d4-akuntansi-lembaga-keuangan-syariah-594",
+  "21413": "d3-alat-berat-455",
+  "21401": "d3-teknik-mesin-332",
+  "21304": "d4-teknologi-rekayasa-otomotif-923",
+  "21318": "d4-teknologi-rekayasa-pemeliharaan-alat-berat-916",
+  "20401": "d3-elektronika-789",
+  "55401": "d3-teknik-informatika-475",
+  "20403": "d3-teknik-listrik-757",
+  "57302": "d4-sistem-informasi-kota-cerdas-132",
+  "36304": "d4-teknologi-rekayasa-otomasi-113",
+  "21309": "d4-teknologi-rekayasa-pembangkit-energi-728",
+  "31401": "d3-teknik-pertambangan-813",
+  "22401": "d3-teknik-sipil-582",
+  "22304": "d4-teknik-bangunan-rawa-427",
+  "35303": "d4-teknologi-rekayasa-geomatika-dan-survei-996",
+  "22301": "d4-teknologi-rekayasa-konstruksi-jalan-dan-jembatan-477",
+  "21513": "d2-tata-operasi-pemeliharaan-prediktif-alat-berat",
+};
+
+/**
+ * Gabungkan fakta resmi (cache) dengan teks naratif editorial.
+ * Prodi yang ada di cache namun belum punya naskah tetap tampil dengan
+ * informasi faktualnya saja — lebih baik ringkas daripada mengarang.
+ */
+export const programs = cache.programs.map((p) => {
+  const editorial = EDITORIAL[p.pmbId] ?? {};
+  return {
+    slug: SLUGS[p.pmbId],
+    pmbId: p.pmbId,
+    name: p.name,
+    level: p.level,
+    dept: p.dept,
+    accreditation: p.accreditation,
+    accreditationConflict: p.conflict ?? null,
+    accreditationConflictUrl: p.conflictUrl ?? null,
+    website: p.website,
+    detailUrl: `https://pmb.poliban.ac.id/program-studi-detail/detail/${p.pmbId}`,
+    tagline: editorial.tagline ?? null,
+    focus: editorial.focus ?? [],
+    careers: editorial.careers ?? [],
+    sourceId: "pmb-prodi",
+  };
+});
 
 export const programStats = {
   total: programs.length,
+  d2: programs.filter((p) => p.level === "D2").length,
   d3: programs.filter((p) => p.level === "D3").length,
   d4: programs.filter((p) => p.level === "D4").length,
   departments: departments.length,
 };
+
+/** Nilai akreditasi unik yang benar-benar muncul, untuk kebutuhan filter. */
+export const accreditationValues = [
+  ...new Set(programs.map((p) => p.accreditation).filter(Boolean)),
+];
 
 export function programsByDept(deptId) {
   return programs.filter((p) => p.dept === deptId);
@@ -497,4 +492,16 @@ export function departmentOf(program) {
 
 export function fullName(program) {
   return `${program.level} ${program.name}`;
+}
+
+/** Lama studi & gelar menurut jenjang. */
+export function levelInfo(level) {
+  switch (level) {
+    case "D2":
+      return { semesters: 4, years: 2, degree: "Ahli Muda (A.Ma.)" };
+    case "D4":
+      return { semesters: 8, years: 4, degree: "Sarjana Terapan (S.Tr.)" };
+    default:
+      return { semesters: 6, years: 3, degree: "Ahli Madya (A.Md.)" };
+  }
 }

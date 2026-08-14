@@ -27,6 +27,7 @@ import renderProfil from "./src/pages/profil.js";
 import renderFasilitas from "./src/pages/fasilitas.js";
 import renderKontak from "./src/pages/kontak.js";
 import renderLogin from "./src/pages/login.js";
+import renderSumber from "./src/pages/sumber.js";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const dist = join(root, "dist");
@@ -80,6 +81,7 @@ async function buildPages() {
   written.push(await write("fasilitas.html", renderFasilitas()));
   written.push(await write("kontak.html", renderKontak()));
   written.push(await write("login.html", renderLogin()));
+  written.push(await write("sumber.html", renderSumber()));
 
   for (const post of posts) {
     written.push(await write(`berita/${post.slug}.html`, renderPost(post)));

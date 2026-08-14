@@ -1,0 +1,189 @@
+{
+  "_comment": "Cache hasil pengambilan data program studi dari portal SPMB resmi Poliban. Diperbarui dengan `npm run refresh:prodi` (lihat tools/fetch-programs.mjs). JANGAN disunting manual. Field `conflict` mencatat perbedaan antara portal SPMB dan laman prodi; nilai portal tetap dipakai sebagai kanonik dan perbedaan ditampilkan kepada pembaca.",
+  "source": "https://pmb.poliban.ac.id/program-studi",
+  "sourceId": "pmb-prodi",
+  "fetchedAt": "2026-08-14",
+  "programs": [
+    {
+      "pmbId": "21513",
+      "name": "Tata Operasi Dan Pemeliharaan Prediktif Alat Berat",
+      "level": "D2",
+      "accreditation": "Baik",
+      "website": "https://poliban.ac.id/mesin/d2-tata-operasi-dan-pemeliharaan-prediktif-alat-berat/",
+      "dept": "teknik-mesin",
+      "careers": "Bidang Alat Berat, Teknisi perawatan Alat Berat dan Operator Alat Berat"
+    },
+    {
+      "pmbId": "63411",
+      "name": "Administrasi Bisnis",
+      "level": "D3",
+      "accreditation": "B",
+      "website": "https://poliban.ac.id/administrasi-bisnis/d3-administrasi-bisnis/",
+      "dept": "administrasi-bisnis"
+    },
+    {
+      "pmbId": "63311",
+      "name": "Bisnis Digital",
+      "level": "D4",
+      "accreditation": "Baik",
+      "website": "https://poliban.ac.id/administrasi-bisnis/d4-bisnis-digital/",
+      "dept": "administrasi-bisnis"
+    },
+    {
+      "pmbId": "62401",
+      "name": "Akuntansi",
+      "level": "D3",
+      "accreditation": "Baik Sekali",
+      "website": null,
+      "dept": "akuntansi"
+    },
+    {
+      "pmbId": "57403",
+      "name": "Sistem Informasi",
+      "level": "D3",
+      "accreditation": "Baik Sekali",
+      "website": null,
+      "dept": "administrasi-bisnis"
+    },
+    {
+      "pmbId": "57406",
+      "name": "Sistem Informasi Akuntansi",
+      "level": "D3",
+      "accreditation": "Baik Sekali",
+      "website": null,
+      "dept": "akuntansi"
+    },
+    {
+      "pmbId": "62301",
+      "name": "Akuntansi Lembaga Keuangan Syariah",
+      "level": "D4",
+      "accreditation": "Baik Sekali",
+      "website": "https://poliban.ac.id/akuntansi/d4-alks/",
+      "dept": "akuntansi"
+    },
+    {
+      "pmbId": "21413",
+      "name": "Alat Berat",
+      "level": "D3",
+      "accreditation": "B",
+      "website": "https://poliban.ac.id/mesin/mesin-d3-teknik-alat-berat/",
+      "dept": "teknik-mesin",
+      "conflict": "Laman prodi resmi menyebut “Baik” (SK 9980/SK/BAN-PT/Ak.PEPS/D3/XI/2022); portal SPMB mencantumkan “B”. Kedua istilah setara.",
+      "conflictUrl": "https://poliban.ac.id/mesin/mesin-d3-teknik-alat-berat/"
+    },
+    {
+      "pmbId": "21401",
+      "name": "Teknik Mesin",
+      "level": "D3",
+      "accreditation": "Baik Sekali",
+      "website": "https://poliban.ac.id/mesin/d3-teknik-mesin/",
+      "dept": "teknik-mesin"
+    },
+    {
+      "pmbId": "21304",
+      "name": "Teknologi Rekayasa Otomotif",
+      "level": "D4",
+      "accreditation": "B",
+      "website": "https://poliban.ac.id/mesin/d4-teknologi-rekayasa-otomotif/",
+      "dept": "teknik-mesin"
+    },
+    {
+      "pmbId": "21318",
+      "name": "Teknologi Rekayasa Pemeliharaan Alat Berat",
+      "level": "D4",
+      "accreditation": null,
+      "website": null,
+      "dept": "teknik-mesin"
+    },
+    {
+      "pmbId": "20401",
+      "name": "Elektronika",
+      "level": "D3",
+      "accreditation": "Baik Sekali",
+      "website": "https://poliban.ac.id/elektro/d3-elektronika/",
+      "dept": "teknik-elektro"
+    },
+    {
+      "pmbId": "55401",
+      "name": "Teknik Informatika",
+      "level": "D3",
+      "accreditation": "Baik Sekali",
+      "website": "https://poliban.ac.id/elektro/d3-teknik-informatika/",
+      "dept": "teknik-elektro"
+    },
+    {
+      "pmbId": "20403",
+      "name": "Teknik Listrik",
+      "level": "D3",
+      "accreditation": "Baik Sekali",
+      "website": "https://poliban.ac.id/elektro/d3-teknik-listrik/",
+      "dept": "teknik-elektro"
+    },
+    {
+      "pmbId": "57302",
+      "name": "Sistem Informasi Kota Cerdas",
+      "level": "D4",
+      "accreditation": "Baik",
+      "website": "https://poliban.ac.id/elektro/d4-sistem-informasi-kota-cerdas/",
+      "dept": "teknik-elektro"
+    },
+    {
+      "pmbId": "36304",
+      "name": "Teknologi Rekayasa Otomasi",
+      "level": "D4",
+      "accreditation": "Baik",
+      "website": "https://poliban.ac.id/elektro/d4-teknologi-rekayasa-otomasi/",
+      "dept": "teknik-elektro"
+    },
+    {
+      "pmbId": "21309",
+      "name": "Teknologi Rekayasa Pembangkit Energi",
+      "level": "D4",
+      "accreditation": "Baik",
+      "website": "https://poliban.ac.id/elektro/d4-teknologi-rekayasa-pembangkit-energi/",
+      "dept": "teknik-elektro"
+    },
+    {
+      "pmbId": "31401",
+      "name": "Teknik Pertambangan",
+      "level": "D3",
+      "accreditation": "Baik",
+      "website": "https://poliban.ac.id/d3-teknik-pertambangan/",
+      "dept": "teknik-sipil",
+      "conflict": "Laman prodi resmi (poliban.ac.id/d3-teknik-pertambangan/) menyebut peringkat “Baik Sekali” berdasarkan SK LAM Teknik No. 0472/SK/LAM Teknik/VD3/VIII/2024, lebih baru daripada nilai “Baik” (SK 2023) pada portal SPMB.",
+      "conflictUrl": "https://poliban.ac.id/d3-teknik-pertambangan/"
+    },
+    {
+      "pmbId": "22401",
+      "name": "Teknik Sipil",
+      "level": "D3",
+      "accreditation": "Baik Sekali",
+      "website": "https://poliban.ac.id/sipil/d3-teknik-sipil/",
+      "dept": "teknik-sipil"
+    },
+    {
+      "pmbId": "22304",
+      "name": "Teknik Bangunan Rawa",
+      "level": "D4",
+      "accreditation": "Baik Sekali",
+      "website": "https://poliban.ac.id/sipil/d4-teknik-bangunan-rawa/",
+      "dept": "teknik-sipil"
+    },
+    {
+      "pmbId": "35303",
+      "name": "Teknologi Rekayasa Geomatika dan Survei",
+      "level": "D4",
+      "accreditation": null,
+      "website": null,
+      "dept": "teknik-sipil"
+    },
+    {
+      "pmbId": "22301",
+      "name": "Teknologi Rekayasa Konstruksi Jalan dan Jembatan",
+      "level": "D4",
+      "accreditation": null,
+      "website": null,
+      "dept": "teknik-sipil"
+    }
+  ]
+}

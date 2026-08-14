@@ -2,7 +2,13 @@ import { page } from "../components/layout.js";
 import { pageHeader, programCard, emptyState, calloutPortal } from "../components/ui.js";
 import { icon } from "../lib/icons.js";
 import { esc, join } from "../lib/html.js";
-import { programs, departments, programStats, accreditation } from "../data/programs.js";
+import {
+  programs,
+  departments,
+  programStats,
+  programsSource,
+} from "../data/programs.js";
+import { source } from "../data/sources.js";
 
 function heroAside() {
   return `
@@ -13,7 +19,7 @@ function heroAside() {
   </div>
   <div class="bg-white px-4 py-5 text-center">
     <dd class="font-display text-2xl font-extrabold text-ink-900">${programStats.d3}<span class="text-base text-ink-400">/</span>${programStats.d4}</dd>
-    <dt class="mt-1 text-xs text-ink-500">D3 / D4</dt>
+    <dt class="mt-1 text-xs text-ink-500">D3 / D4 (+${programStats.d2} D2)</dt>
   </div>
   <div class="bg-white px-4 py-5 text-center">
     <dd class="font-display text-2xl font-extrabold text-ink-900">${programStats.departments}</dd>
@@ -52,6 +58,7 @@ function explorer() {
           <span class="field-label" id="label-jenjang">Jenjang</span>
           <div class="flex gap-2" role="group" aria-labelledby="label-jenjang">
             <button type="button" class="chip flex-1 justify-center" aria-pressed="true" data-program-level value="">Semua</button>
+            <button type="button" class="chip flex-1 justify-center" aria-pressed="false" data-program-level value="D2">D2</button>
             <button type="button" class="chip flex-1 justify-center" aria-pressed="false" data-program-level value="D3">D3</button>
             <button type="button" class="chip flex-1 justify-center" aria-pressed="false" data-program-level value="D4">D4</button>
           </div>
@@ -105,17 +112,24 @@ export default function render() {
     canonical: "program-studi.html",
     active: "program-studi.html",
     description:
-      "Telusuri 21 program studi D3 dan Sarjana Terapan Politeknik Negeri Banjarmasin dalam lima jurusan, lengkap dengan fokus keilmuan dan prospek karier.",
+      "Telusuri 22 program studi D2, D3, dan Sarjana Terapan Politeknik Negeri Banjarmasin dalam lima jurusan, lengkap dengan akreditasi resmi dan prospek karier.",
     body: join([
       pageHeader({
         eyebrow: "Akademik",
         title: "Telusuri program studi Poliban",
-        lead: `Seluruh program studi berakreditasi <strong>${accreditation}</strong>. Gunakan pencarian dan filter untuk menemukan prodi berdasarkan bidang minat maupun profesi yang dituju.`,
+        lead: `Data ${programStats.total} program studi bersumber dari <a href="${programsSource.url}" rel="noopener">portal SPMB resmi Poliban</a>, diperiksa ${programsSource.fetchedAt}. Gunakan pencarian dan filter untuk menemukan prodi sesuai minat maupun profesi yang dituju.`,
         crumbs: [{ label: "Beranda", href: "index.html" }, { label: "Program Studi" }],
         aside: heroAside(),
       }),
       explorer(),
-      `<div class="shell pb-20">${calloutPortal()}</div>`,
+      `<div class="shell pb-20 space-y-6">
+        <p class="rounded-lg border border-ink-200 bg-ink-50 px-4 py-3 text-sm text-ink-600">
+          Nama, jenjang, dan peringkat akreditasi mengikuti
+          <a href="${programsSource.url}" rel="noopener" class="font-medium text-brand-700 underline underline-offset-2">${esc(source(programsSource.sourceId).label)}</a>
+          (diperiksa ${programsSource.fetchedAt}). Beberapa program studi baru belum mencantumkan peringkat akreditasi pada sumber resmi.
+        </p>
+        ${calloutPortal()}
+      </div>`,
     ]),
   });
 }

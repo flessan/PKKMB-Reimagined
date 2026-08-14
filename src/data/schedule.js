@@ -1,7 +1,17 @@
 /**
  * Rangkaian PKKMB 2026.
- * Tanggal diambil dari pengumuman resmi: Pra-PKKMB 3 Agustus,
- * PKKMB 4–6 Agustus, perkuliahan perdana 24 Agustus 2026.
+ *
+ * TANGGAL bersifat terverifikasi:
+ *  - Pra-PKKMB 3 Agustus 2026 (pkkmb.poliban.ac.id, pos twibbon)
+ *  - PKKMB 4–6 Agustus 2026 (poliban.ac.id & ANTARA Kalsel)
+ *  - Perkuliahan perdana 24 Agustus 2026 (situs PKKMB)
+ *
+ * MATERI harian diringkas dari pernyataan resmi Direktur bahwa pembekalan
+ * mencakup "pengenalan lingkungan akademik, wawasan kebangsaan sebagai bekal
+ * memasuki dunia pendidikan tinggi, serta penanaman nilai-nilai kedisiplinan".
+ * Susunan jam per sesi TIDAK dipublikasikan di web — hanya tersedia pada
+ * lampiran PDF rundown, sehingga halaman jadwal menautkan dokumen aslinya
+ * alih-alih menampilkan jam yang tidak dapat diverifikasi.
  */
 
 export const eventWindow = {
@@ -18,15 +28,14 @@ export const schedule = [
     dateLabel: "Senin, 3 Agustus 2026",
     phase: "Pra-PKKMB",
     title: "Pra-PKKMB & Verifikasi Peserta",
-    time: "07.00 – 15.00 WITA",
-    venue: "Aula Utama & Gedung Jurusan",
+    time: "Lihat rundown resmi",
+    venue: "Kampus Poliban",
     summary:
-      "Registrasi ulang, pembagian gugus, pengecekan kelengkapan atribut, serta simulasi presensi digital melalui Portal PKKMB.",
+      "Kegiatan pendahuluan sebelum rangkaian utama. Ketentuan lengkap tercantum pada dokumen Pengumuman Pra-PKKMB 2026.",
     items: [
-      "Registrasi ulang dan verifikasi berkas mahasiswa baru",
-      "Pembagian kelompok/gugus dan pengenalan pendamping",
-      "Uji coba login serta presensi pada Portal PKKMB",
-      "Pengarahan tata tertib dan perlengkapan wajib",
+      "Persiapan peserta sesuai pengumuman resmi Pra-PKKMB",
+      "Pastikan akun Portal PKKMB dapat diakses",
+      "Pelajari tata tertib dan perlengkapan wajib",
     ],
   },
   {
@@ -35,15 +44,14 @@ export const schedule = [
     dateLabel: "Selasa, 4 Agustus 2026",
     phase: "Hari ke-1",
     title: "Pembukaan & Wawasan Kebangsaan",
-    time: "06.30 – 16.00 WITA",
-    venue: "Lapangan Upacara & Aula Utama",
+    time: "Lihat rundown resmi",
+    venue: "Kampus Poliban",
     summary:
-      "Upacara pembukaan bersama Direktur, materi wawasan kebangsaan, bela negara, serta pengenalan sistem pendidikan tinggi vokasi.",
+      "Pembukaan rangkaian PKKMB dan pembekalan wawasan kebangsaan sebagai bekal memasuki dunia pendidikan tinggi.",
     items: [
-      "Apel pagi dan presensi masuk",
-      "Upacara pembukaan PKKMB oleh Direktur Poliban",
-      "Materi wawasan kebangsaan dan bela negara",
-      "Pengenalan sistem pendidikan tinggi vokasi",
+      "Presensi kehadiran melalui Portal PKKMB",
+      "Pembukaan PKKMB bersama pimpinan Poliban",
+      "Wawasan kebangsaan dan penanaman nilai kedisiplinan",
     ],
   },
   {
@@ -52,15 +60,14 @@ export const schedule = [
     dateLabel: "Rabu, 5 Agustus 2026",
     phase: "Hari ke-2",
     title: "Akademik, Kemahasiswaan & Literasi Digital",
-    time: "06.30 – 16.00 WITA",
-    venue: "Aula Utama & Ruang Jurusan",
+    time: "Lihat rundown resmi",
+    venue: "Kampus Poliban",
     summary:
-      "Pengenalan layanan akademik, organisasi kemahasiswaan, kesehatan mental, serta materi Kecerdasan Buatan & Etika Teknologi Informasi.",
+      "Pengenalan lingkungan akademik Poliban serta materi literasi digital, termasuk Kecerdasan Buatan & Etika Teknologi Informasi.",
     items: [
-      "Layanan akademik, SIAKAD, dan kurikulum vokasi",
-      "Pengenalan organisasi kemahasiswaan dan UKM",
+      "Pengenalan lingkungan dan layanan akademik",
       "Materi Kecerdasan Buatan & Etika TI",
-      "Layanan bimbingan konseling dan kesehatan mental",
+      "Pengenalan kegiatan kemahasiswaan",
     ],
   },
   {
@@ -69,15 +76,14 @@ export const schedule = [
     dateLabel: "Kamis, 6 Agustus 2026",
     phase: "Hari ke-3",
     title: "Pengenalan Jurusan & Penutupan",
-    time: "06.30 – 15.00 WITA",
-    venue: "Gedung Jurusan & Aula Utama",
+    time: "Lihat rundown resmi",
+    venue: "Kampus Poliban",
     summary:
-      "Sesi jurusan dan program studi masing-masing, pentas kreativitas mahasiswa baru, lalu upacara penutupan dan penyerahan sertifikat.",
+      "Pengenalan jurusan dan program studi masing-masing, dilanjutkan penutupan rangkaian PKKMB 2026.",
     items: [
-      "Sesi jurusan dan program studi masing-masing",
-      "Kunjungan laboratorium dan bengkel",
-      "Pentas kreativitas mahasiswa baru",
-      "Upacara penutupan dan informasi sertifikat PKKMB",
+      "Sesi jurusan dan program studi",
+      "Pengenalan sarana praktik dan laboratorium",
+      "Penutupan rangkaian PKKMB",
     ],
   },
   {
@@ -87,14 +93,10 @@ export const schedule = [
     phase: "Pascakegiatan",
     title: "Perkuliahan Semester Ganjil Dimulai",
     time: "Sesuai jadwal prodi",
-    venue: "Seluruh gedung perkuliahan",
+    venue: "Sesuai jadwal program studi",
     summary:
-      "Perkuliahan perdana tahun akademik 2026/2027 dimulai. Pastikan sertifikat PKKMB dan akun akademik telah aktif.",
-    items: [
-      "Perkuliahan perdana tahun akademik 2026/2027",
-      "Aktivasi akun akademik dan kartu mahasiswa",
-      "Pengambilan sertifikat PKKMB",
-    ],
+      "Perkuliahan tahun akademik 2026/2027 dimulai sesuai jadwal masing-masing program studi.",
+    items: ["Perkuliahan perdana tahun akademik 2026/2027"],
   },
 ];
 
@@ -118,7 +120,7 @@ export const participantSteps = [
     step: 3,
     title: "Siapkan atribut & perlengkapan",
     body:
-      "Kenakan pakaian sesuai ketentuan, bawa kartu identitas peserta, alat tulis, obat pribadi, serta bekal air minum untuk kegiatan lapangan.",
+      "Ketentuan atribut, perlengkapan wajib, dan norma perilaku selama kegiatan tercantum lengkap pada dokumen Tata Tertib PKKMB 2026.",
     action: { label: "Lihat tata tertib", href: "berita/tata-tertib-pkkmb-967.html" },
   },
   {
@@ -158,12 +160,20 @@ export const faq = [
     a: "Hubungi panitia melalui WhatsApp bantuan atau surel resmi dengan menyertakan nama lengkap, program studi, dan alamat email yang didaftarkan. Jangan membuat akun baru sendiri.",
   },
   {
-    q: "Bagaimana jika saya berhalangan hadir karena sakit?",
-    a: "Ketidakhadiran hanya dapat dipertimbangkan dengan surat keterangan resmi (misalnya surat dokter) yang disampaikan kepada panitia melalui pendamping gugus pada hari yang sama.",
+    q: "Bagaimana jika saya berhalangan hadir?",
+    a: "Ketentuan izin dan ketidakhadiran diatur pada dokumen Tata Tertib PKKMB 2026. Segera hubungi panitia melalui kanal resmi agar kehadiran Anda dapat ditindaklanjuti.",
   },
   {
     q: "Apa saja yang wajib dibawa selama kegiatan?",
-    a: "Kartu identitas peserta, alat tulis, perlengkapan ibadah, obat pribadi bila diperlukan, botol minum, serta atribut sesuai ketentuan pada dokumen tata tertib.",
+    a: "Ketentuan atribut dan perlengkapan wajib tercantum pada dokumen Tata Tertib PKKMB 2026 yang dapat diunduh pada halaman pengumuman. Ikuti dokumen tersebut sebagai acuan utama.",
+  },
+  {
+    q: "Berapa jumlah peserta PKKMB 2026?",
+    a: "Sebanyak 1.817 mahasiswa baru mengikuti PKKMB tahun akademik 2026/2027 — meningkat dibandingkan sekitar 1.400 peserta pada tahun 2025.",
+  },
+  {
+    q: "Apakah ada perpeloncoan selama PKKMB?",
+    a: "Tidak. Direktur Poliban menegaskan pelaksanaan PKKMB berlangsung menyenangkan dan bebas dari segala bentuk tindakan kekerasan maupun diskriminatif, sejalan dengan slogan kampus happy and friendly.",
   },
   {
     q: "Kapan perkuliahan reguler dimulai?",
