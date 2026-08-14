@@ -8,8 +8,15 @@ Politeknik Negeri Banjarmasin.
 
 Repositori ini sebelumnya berisi *mirror* HTTrack dari situs Laravel yang sudah berjalan.
 Kini isinya adalah **proyek sumber**: seluruh halaman dihasilkan dari data dan komponen
-di `src/`, tanpa framework runtime. Ringkasan kondisi lama dan alasan setiap keputusan
-tercatat pada [`AUDIT.md`](AUDIT.md).
+di `src/`, tanpa framework runtime.
+
+Seluruh isi faktual ditelusuri ke sumber resmi Poliban dan PKKMB. Dokumen pendamping:
+
+- **[`RESEARCH.md`](RESEARCH.md)** — laporan riset: sumber resmi yang dikonsultasikan,
+  fakta yang terverifikasi, aset beserta lisensinya, hal yang tidak dapat diverifikasi,
+  dan informasi yang harus datang langsung dari tim PKKMB/Poliban.
+- **[`AUDIT.md`](AUDIT.md)** — kondisi repositori lama dan alasan setiap keputusan.
+- **`sumber.html`** — versi laporan riset yang tayang untuk pengunjung situs.
 
 ---
 
@@ -27,8 +34,15 @@ npm run check      # build + lint + test
 | `npm run build` | Merender HTML lalu mengompilasi CSS (Tailwind v4) ke `dist/` |
 | `npm run dev` | Server statis + pembangunan ulang saat berkas `src/` berubah |
 | `npm run lint` | Memeriksa tautan mati, jangkar, gambar, label form, heading, ukuran aset |
-| `npm test` | 67 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas |
+| `npm test` | 85 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset |
 | `npm run clean` | Menghapus `dist/` |
+| `npm run refresh:prodi` | Mengambil ulang data 22 prodi dari portal SPMB resmi ke `src/data/cache/` |
+| `npm run refresh:check` | Keluar dengan kode 1 bila data prodi resmi sudah berubah dari cache |
+
+Data faktual bersumber dari laman resmi Poliban dan tercatat lengkap di
+`src/data/sources.js`. Pengambilan data prodi terjadi **saat pembaruan manual**, tidak
+saat build maupun runtime — cache `src/data/cache/pmb-programs.json` yang dipakai.
+Untuk memverifikasi tautan eksternal (butuh jaringan): `node tools/check-links.mjs`.
 
 ### Penerapan
 
