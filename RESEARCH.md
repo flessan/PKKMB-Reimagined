@@ -182,7 +182,8 @@ Uji `tools/sources.test.mjs` kini juga menegakkan hal-hal berikut:
 - Entri cache berita wajib unik, bertanggal ISO, berdomain `poliban.ac.id`,
   bebas HTML mentah dan entitas yang belum diterjemahkan, serta terurut menurun.
 
-Hasil terakhir: **41 halaman, 2.509 tautan, 0 galat lint, 99/99 uji lulus.**
+Hasil terakhir: **41 halaman, 2.520 tautan, 0 galat lint, 105/105 uji lulus.**
+1.990 tautan internal (termasuk fragmen antarhalaman) diverifikasi tanpa satu pun rusak.
 
 ---
 
@@ -287,6 +288,27 @@ pembaca** pada halaman prodi terkait, lengkap dengan tautan ke laman prodi.
   isinya kosong di API, sehingga bagan struktur organisasi tidak dapat dikutip.
 
 ---
+
+## 5b. Catatan kualitas produk (pass akhir)
+
+Pass terakhir tidak menambah fakta baru; fokusnya mengubah data yang sudah
+terverifikasi menjadi pengalaman yang benar-benar terpakai.
+
+- **Status kegiatan kini dihitung saat build.** Sebelumnya lencana status
+  dikirim sebagai teks `Memuat…` dan baru benar setelah JavaScript berjalan.
+  Sekarang HTML statis sudah memuat fase yang tepat; skrip hanya menghitung
+  ulang bila halaman dibuka pada tanggal berbeda dari tanggal build.
+- **Kepadatan kartu diturunkan drastis** dengan mengganti grid seragam menjadi
+  komposisi editorial: beranda 23 → 12, program studi 23 → 1, sumber 37 → 10,
+  berita 18 → 6. Tidak ada satu pun bidang data yang dihilangkan.
+- **Tombol Portal PKKMB tidak lagi hilang di ponsel kecil** — sebelumnya
+  disembunyikan di bawah 640px, justru pada layar yang paling banyak dipakai.
+- **Halaman PKKMB memisahkan secara eksplisit** mana yang terverifikasi
+  (tanggal) dan mana yang belum dipublikasikan (jam sesi, ruangan, pemateri),
+  serta menautkan dokumen rundown resmi sebagai acuan.
+- **`tools/check-links.mjs` kini jujur soal keterbatasan jaringan**: bila semua
+  permintaan gagal di lapisan koneksi, ia melaporkan bahwa verifikasi tidak
+  dapat dilakukan alih-alih mengklaim ratusan tautan rusak.
 
 ## 6. Yang perlu datang langsung dari tim PKKMB / Poliban
 

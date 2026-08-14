@@ -34,7 +34,7 @@ npm run check      # build + lint + test
 | `npm run build` | Merender HTML lalu mengompilasi CSS (Tailwind v4) ke `dist/` |
 | `npm run dev` | Server statis + pembangunan ulang saat berkas `src/` berubah |
 | `npm run lint` | Memeriksa tautan mati, jangkar, gambar, label form, heading, ukuran aset |
-| `npm test` | 99 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset |
+| `npm test` | 105 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset, ketahanan tanpa JS |
 | `npm run clean` | Menghapus `dist/` |
 | `npm run refresh:prodi` | Mengambil ulang data 22 prodi dari portal SPMB resmi |
 | `npm run refresh:news` | Mengambil ulang berita dari WP REST API resmi Poliban |

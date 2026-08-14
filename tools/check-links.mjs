@@ -76,6 +76,26 @@ for (const [url, pages] of targets) {
 }
 
 console.log(`\n${ok} berhasil, ${failures.length} gagal.`);
+
+/*
+ * Bila SEMUA permintaan gagal dengan galat jaringan (bukan status HTTP),
+ * yang bermasalah hampir pasti koneksi mesin ini — bukan tautannya. Laporkan
+ * apa adanya dan keluar netral, supaya hasilnya tidak disalahartikan sebagai
+ * 129 tautan rusak.
+ */
+const allNetworkErrors =
+  failures.length === targets.size &&
+  failures.every((f) => typeof f.status === "string");
+
+if (allNetworkErrors) {
+  console.log(
+    "\nSeluruh permintaan gagal di lapisan jaringan, jadi tautan tidak dapat " +
+      "diverifikasi dari mesin ini.\nJalankan ulang dari jaringan yang memiliki " +
+      "akses keluar untuk mendapatkan hasil yang berarti.",
+  );
+  process.exit(0);
+}
+
 if (failures.length) {
   console.log("\nTautan bermasalah:");
   for (const f of failures) {
