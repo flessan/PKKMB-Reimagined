@@ -34,12 +34,19 @@ npm run check      # build + lint + test
 | `npm run build` | Merender HTML lalu mengompilasi CSS (Tailwind v4) ke `dist/` |
 | `npm run dev` | Server statis + pembangunan ulang saat berkas `src/` berubah |
 | `npm run lint` | Memeriksa tautan mati, jangkar, gambar, label form, heading, ukuran aset |
-| `npm test` | 105 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset, ketahanan tanpa JS |
+| `npm test` | 119 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset, ketahanan tanpa JS |
 | `npm run clean` | Menghapus `dist/` |
 | `npm run refresh:prodi` | Mengambil ulang data 22 prodi dari portal SPMB resmi |
 | `npm run refresh:news` | Mengambil ulang berita dari WP REST API resmi Poliban |
 | `npm run refresh` | Menyegarkan keduanya sekaligus |
 | `npm run refresh:check` | Keluar dengan kode 1 bila data resmi sudah berubah dari cache |
+
+Kedua skrip penyegar **gagal dengan aman**: bila jaringan tidak tersedia atau respons
+tidak wajar, cache lama dipertahankan byte-per-byte dan build tetap berhasil. Skrip
+berita juga menolak entri yang tautannya di luar `poliban.ac.id`, tanggalnya tidak
+valid, atau isinya masih memuat HTML mentah, dan tidak akan menimpa cache sehat dengan
+respons yang jumlahnya menyusut drastis. `src/data/news.js` memvalidasi ulang saat build
+sehingga cache yang disunting tangan menggagalkan build, bukan diam-diam terbit.
 
 Data faktual bersumber dari laman resmi Poliban dan tercatat lengkap di
 `src/data/sources.js`. Pengambilan data terjadi **saat pembaruan manual**, tidak saat
@@ -163,5 +170,16 @@ Yang ditambahkan hanya penyempurnaan sisi klien: tombol tampilkan kata sandi, va
 ringan sebelum kirim, dan penampilan pesan galat dari parameter `?error=`.
 
 > **Catatan penerapan:** nilai `_token` di `src/pages/login.js` berasal dari mirror dan
-> merupakan token statis. Saat halaman ini dilayani kembali oleh Laravel, ganti nilai
-> tersebut dengan `{{ csrf_token() }}` agar perlindungan CSRF berfungsi penuh.
+> merupakan token statis — ia **tidak** memberi perlindungan CSRF. Saat halaman ini
+> dilayani kembali oleh Laravel, ganti nilai tersebut dengan `{{ csrf_token() }}`.
+>
+> Kontrak yang tidak boleh berubah (juga tercatat sebagai komentar di dalam
+> `dist/login.html` agar terlihat tanpa membaca sumber):
+>
+> | Bagian | Nilai |
+> | --- | --- |
+> | `action` | `POST https://pkkmb.poliban.ac.id/login` |
+> | Field | `_token`, `email`, `password`, `remember` |
+> | OAuth | `/login/google/callback` |
+> | Galat | `?error=invalid` \| `unregistered` \| `throttled` |
+> | Id elemen | `email`, `password`, `remember_me` |

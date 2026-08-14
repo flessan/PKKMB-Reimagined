@@ -182,7 +182,7 @@ Uji `tools/sources.test.mjs` kini juga menegakkan hal-hal berikut:
 - Entri cache berita wajib unik, bertanggal ISO, berdomain `poliban.ac.id`,
   bebas HTML mentah dan entitas yang belum diterjemahkan, serta terurut menurun.
 
-Hasil terakhir: **41 halaman, 2.520 tautan, 0 galat lint, 105/105 uji lulus.**
+Hasil terakhir: **41 halaman, 2.520 tautan, 0 galat lint, 119/119 uji lulus.**
 1.990 tautan internal (termasuk fragmen antarhalaman) diverifikasi tanpa satu pun rusak.
 
 ---
@@ -309,6 +309,55 @@ terverifikasi menjadi pengalaman yang benar-benar terpakai.
 - **`tools/check-links.mjs` kini jujur soal keterbatasan jaringan**: bila semua
   permintaan gagal di lapisan koneksi, ia melaporkan bahwa verifikasi tidak
   dapat dilakukan alih-alih mengklaim ratusan tautan rusak.
+
+## 5c. Pengerasan produksi (pass rilis)
+
+Pass terakhir memeriksa kesiapan rilis dan memperbaiki temuan berikut.
+
+**Akurasi faktual**
+
+- Situs menyatakan "satu program studi" belum berakreditasi, padahal **tiga**
+  yang kosong: D4 Teknologi Rekayasa Pemeliharaan Alat Berat, D4 Teknologi
+  Rekayasa Geomatika dan Survei, dan D4 Teknologi Rekayasa Konstruksi Jalan dan
+  Jembatan. Angka itu ditulis tangan lalu menyimpang dari cache. Kini
+  diturunkan dari data (`programStats.withoutAccreditation`) dan ketiganya
+  disebut namanya, dijaga uji otomatis.
+- Cache prodi dan data lambang diverifikasi ulang terhadap sumber langsung:
+  22 kode dan jenjang identik, teks lambang sama persis. Tidak ada penyimpangan.
+
+**Keamanan pipeline berita**
+
+- Nilai dari umpan sempat masuk ke atribut `href` dan `datetime` tanpa di-escape.
+  Tanda kutip pada `link` hulu dapat keluar dari atribut dan menyisipkan atribut
+  sembarang. Semua interpolasi kini melewati `esc()`.
+- Pengambilan memvalidasi di hulu: URL wajib https pada `poliban.ac.id`, tanggal
+  wajib ISO valid, id wajib bilangan bulat. Entri yang ditolak dilaporkan.
+- Ditambahkan pelindung penyusutan: cache sehat tidak akan ditimpa respons yang
+  jumlahnya kurang dari separuh, sehingga respons parsial tidak menghapus berita
+  yang masih valid.
+- `src/data/news.js` memvalidasi ulang saat build dan **melempar galat**, karena
+  cache berupa JSON yang bisa disunting tangan. Sudah diuji: menyuntik domain
+  asing membuat build gagal, bukan diam-diam terbit.
+
+**Metadata & penerbitan**
+
+- `canonical: ""` berarti akar situs, tetapi dianggap falsy sehingga **beranda
+  terbit tanpa kanonik**. Diganti opsi `noindex` eksplisit; `login.html`
+  memakainya dan benar-benar tanpa kanonik maupun `og:url`.
+- Tidak ada halaman yang memuat `og:url`, sehingga pratinjau tautan tidak dapat
+  dideduplikasi. Kini selalu ada dan selalu sama dengan kanonik.
+- Ditambahkan `og:image:width/height/alt`.
+- Sitemap diverifikasi memuat tepat 36 halaman terindeks — tanpa `login.html`
+  dan tanpa empat pengalihan `profil/*`.
+
+**Aksesibilitas & aset**
+
+- Sasaran sentuh utama di ponsel dinaikkan ke 44px: tombol menu, tombol Portal
+  di header, dan penyaring jenjang pada penjelajah prodi.
+- `direktur.jpg` tercatat 459×667 padahal berkasnya 600×872. Rasionya sama
+  sehingga tidak gepeng, tetapi ukuran intrinsik yang salah memicu pergeseran
+  tata letak. Diperbaiki, dan ditambahkan uji yang membaca header PNG/JPEG/WebP
+  langsung untuk mencegah penyimpangan serupa.
 
 ## 6. Yang perlu datang langsung dari tim PKKMB / Poliban
 
