@@ -1,6 +1,6 @@
 # Laporan Riset Konten — PKKMB Poliban 2026
 
-Tanggal riset: **14 Agustus 2026** · Cakupan: fase 2 (verifikasi fakta & aset nyata)
+Tanggal riset: **14 Agustus 2026** · Cakupan: fase 2 (verifikasi fakta) dan fase 3 (aset autentik & pipeline data)
 
 Fase 1 menghasilkan redesain yang secara visual matang tetapi isinya sebagian fiktif —
 angka statistik, foto kampus hasil AI, daftar fasilitas, dan akreditasi seragam yang
@@ -35,6 +35,12 @@ verifikasi. Ringkasannya:
 | UPA Perpustakaan | `poliban.ac.id/upa-perpustakaan-poliban-dorong-.../` | Nama unit, Kepala UPA, langganan Cambridge & ScienceDirect |
 | Portal PKKMB | `pkkmb.poliban.ac.id` + pos `/berita/{slug}-{id}` | Tema, tata tertib, rundown, materi AI & Etika TI, pusat informasi |
 | Pedoman Akademik 2024 (PDF) | `poliban.ac.id/.../PEDOMAN-AKADEMIK-2024-ukuran-A5.pdf` | Pemetaan jurusan→prodi (cuplikan; PDF tidak dapat diambil utuh) |
+| **WP REST API situs resmi** | `poliban.ac.id/wp-json/wp/v2/` | **Berita, laman, dan metadata media** — dasar pembaruan otomatis (lihat §3) |
+| **Lambang Poliban** | `poliban.ac.id/logo-poliban/` | **Nama lambang, warna, perancang, dan makna kedelapan unsurnya** |
+| Penerimaan Mahasiswa Baru 2026 | `poliban.ac.id/penerimaan2026/` | Empat jalur seleksi; daftar prodi per jurusan (menyebut 21 prodi) |
+| Penutupan PKKMB 2024 | `poliban.ac.id/hadiri-upacara-penutupan-pkkmb-2024-.../` | Dokumentasi foto kegiatan PKKMB |
+| Arsip berita | `poliban.ac.id/our-blog/` | Dokumentasi foto papan nama kampus |
+| Video Profile Poliban 2024 | `poliban.ac.id/video-profile-poliban-2024/` | Berkas logo horizontal resmi |
 
 ### Sumber sekunder — hanya untuk uji silang, tidak pernah primer
 
@@ -85,6 +91,22 @@ Situs lama menuliskan direktur sebagai "Joniriadi" tanpa spasi — sudah diperba
 - Direktur menegaskan kegiatan bebas perpeloncoan dan kekerasan, sejalan dengan
   slogan kampus *happy and friendly*.
 
+### Lambang institusi
+
+Laman resmi lambang mendokumentasikan identitas visual Poliban secara lengkap,
+dan seluruhnya kini tersaji di halaman profil:
+
+- Nama lambang **“Enggang Bakilau”**; warna putih, biru, kuning kemerah-merahan,
+  dan hitam kebiru-biruan.
+- Dasar filosofis dan desain grafis oleh **Ir. Yurnadi Vahlevi**; gambar grafis
+  oleh **Buyung Bachteransyah**.
+- Delapan unsur bermakna, di antaranya: dasar persegi lima (Pancasila), batu
+  mulia intan (hasil tambang khas Kalimantan Selatan), dan burung enggang
+  mencengkeram rantai (keterpaduan dunia pendidikan dan industri).
+- **Jumlah bulu enggang mengkodekan tanggal berdiri**: sayap 23 helai, ekor
+  9 helai, dada 87 helai → **23 September 1987**, saat masih bernama Politeknik
+  Unlam. Angka ini diuji otomatis agar tetap konsisten.
+
 ### Program studi
 
 **22 program studi** — bukan 21 seperti pada versi sebelumnya — terdiri atas
@@ -111,17 +133,33 @@ dan enam kali Juara Umum K3TAB.
 Alih-alih menempelkan teks ke template, fase ini menambahkan tiga lapis data:
 
 ```
-src/data/sources.js            13 sumber: penerbit, URL, lisensi, tanggal, status
-src/data/assets.js             registri aset: pemilik, lisensi, origin, atribusi
-src/data/cache/pmb-programs.json   snapshot 22 prodi dari portal SPMB
+src/data/sources.js                 20 sumber: penerbit, URL, lisensi, tanggal, status
+src/data/assets.js                  registri aset: pemilik, lisensi, origin, atribusi
+src/data/emblem.js                  lambang institusi beserta makna tiap unsurnya
+src/data/cache/pmb-programs.json    snapshot 22 prodi dari portal SPMB
+src/data/cache/poliban-news.json    12 berita terbaru dari WP REST API resmi
 ```
+
+### Endpoint resmi yang dapat disegarkan
+
+Situs `poliban.ac.id` berjalan di atas WordPress dan **membuka WP REST API
+bawaannya tanpa autentikasi** (`/wp-json/wp/v2/posts`, `/pages`, `/media`).
+`robots.txt` juga tidak melarang pengambilan terprogram. Ini memungkinkan
+pembaruan yang reprodusibel tanpa scraping HTML yang rapuh.
+
+Yang disimpan hanya **metadata faktual** — judul, tanggal, ringkasan, tautan,
+kategori. Isi artikel tidak disalin; setiap kartu menautkan kembali ke laman
+aslinya. Kegagalan jaringan **tidak merusak apa pun**: cache lama tetap dipakai
+dan build tetap berhasil.
 
 `programs.js` menurunkan seluruh isinya dari cache tersebut, digabung dengan naskah
 editorial yang ditulis tangan dan dikunci pada kode PDDikti. Pembaruan dilakukan
 lewat perintah eksplisit, **bukan scraping saat runtime**:
 
 ```bash
-npm run refresh:prodi    # ambil ulang dari portal SPMB, tulis cache
+npm run refresh:prodi    # ambil ulang 22 prodi dari portal SPMB
+npm run refresh:news     # ambil ulang berita dari WP REST API resmi
+npm run refresh          # keduanya sekaligus
 npm run refresh:check    # keluar dengan kode 1 bila data resmi sudah berubah
 ```
 
@@ -133,32 +171,57 @@ Pemeriksaan otomatis yang menjaga integritas:
 | `tools/sources.test.mjs` | kelengkapan sumber, atribusi aset, larangan hotlink, larangan sisa aset AI, larangan angka yang sudah dipensiunkan |
 | `tools/check-links.mjs` | verifikasi seluruh tautan eksternal (butuh jaringan, dijalankan manual) |
 
-Hasil terakhir: **41 halaman, 2.433 tautan, 0 galat lint, 85/85 uji lulus.**
+Uji `tools/sources.test.mjs` kini juga menegakkan hal-hal berikut:
+
+- **Setiap `<img>` dan `<source>` pada keluaran harus terdaftar di `assets.js`** —
+  gambar eksternal tidak bisa menyelinap melewati sistem metadata.
+- Teks alternatif harus deskriptif atau sengaja dikosongkan; `width`/`height`
+  wajib ada; **lambang resmi tidak boleh diregangkan** lebih dari 6% dari rasio
+  aslinya. Aturan terakhir ini menangkap satu bug nyata: `sumber.html` sempat
+  memampatkan logo horizontal ke dalam kotak 72×72.
+- Entri cache berita wajib unik, bertanggal ISO, berdomain `poliban.ac.id`,
+  bebas HTML mentah dan entitas yang belum diterjemahkan, serta terurut menurun.
+
+Hasil terakhir: **41 halaman, 2.509 tautan, 0 galat lint, 99/99 uji lulus.**
 
 ---
 
 ## 4. Aset visual
 
-Seluruh foto hasil AI dari fase 1 **dihapus**. Yang tersisa hanya empat berkas, dan
-setiap satunya punya asal-usul yang tercatat:
+Seluruh foto hasil AI dari fase 1 **dihapus**. Pustaka aset kini berisi tujuh
+berkas, semuanya berasal dari sumber pertama Poliban kecuali satu foto Commons
+yang berlisensi jelas. Setiap berkas tercatat lengkap di `src/data/assets.js`.
 
-| Aset | Asal | Lisensi / status | Catatan |
+| Aset | Asal | Lisensi / status | Dipakai di |
 | --- | --- | --- | --- |
-| `logo-poliban.png` | Lambang resmi Poliban dari mirror portal PKKMB | Milik institusi | Dipakai apa adanya; tidak digambar ulang atau distilisasi |
-| `pkkmb-banner.png` / `.webp` | Banner resmi PKKMB 2026 dari portal PKKMB | Milik institusi | Tampil di beranda dan halaman masuk |
-| `direktur.jpg` | Foto Direktur dari portal PKKMB | Milik institusi | Menyertai sambutan |
-| `kampus-gerbang.jpg` / `.webp` | Wikimedia Commons, karya Arief Rahman Saan (Ezagren), 2011 | **Attribution** — kredit wajib | Kredit tampil di `profil.html` dan `sumber.html` |
-| `og-pkkmb.jpg` | Turunan banner resmi, dipotong 1200×630 | Milik institusi | Kartu pratinjau media sosial |
+| `logo-poliban-lambang.png` | `poliban.ac.id/.../logo-poliban_kecil_dg_padding.jpg` (laman penerimaan) | Milik institusi | Header setiap halaman, bagian Lambang |
+| `logo-poliban-wordmark.png` | `poliban.ac.id/.../poliban2.png` (kop situs resmi) | Milik institusi | Footer setiap halaman |
+| `pkkmb-banner.png` / `.webp` | Spanduk resmi PKKMB 2026 dari portal PKKMB | Milik institusi | Beranda, halaman masuk |
+| `pkkmb-2024-direktur.jpg` / `.webp` | `poliban.ac.id/.../WhatsApp-Image-2024-08-16-....jpeg` (liputan penutupan PKKMB 2024) | Milik institusi | Hero beranda, panduan PKKMB |
+| `kampus-signage.jpg` / `.webp` | `poliban.ac.id/.../WhatsApp-Image-2024-09-24-...-1170x780.jpg` (arsip berita) | Milik institusi | Beranda, halaman profil |
+| `direktur.jpg` | Portal PKKMB resmi | Milik institusi | Sambutan Direktur |
+| `kampus-gerbang.jpg` / `.webp` | Wikimedia Commons, Arief Rahman Saan (Ezagren), 2011 | **Attribution** — kredit wajib | Halaman profil (berkredit) |
 
-Semua gambar diunduh dan disajikan secara lokal — uji otomatis menggagalkan build
-jika ada `<img>` yang menunjuk ke domain luar. Aset berlisensi wajib memuat teks
-atribusinya di setiap halaman yang memakainya, juga ditegakkan oleh uji.
+### Prinsip yang dipegang
 
-Pencarian gambar untuk logo resmi hanya mengembalikan gambar ulang buatan pihak
-ketiga (blogspot) dan logo institusi lain. Semuanya **ditolak** — logo yang dipakai
-diambil dari berkas institusional yang sudah ada di riwayat repositori.
+- **Lambang dipakai sebagaimana diterbitkan.** Hanya margin kosong yang dipangkas;
+  bentuk, warna, dan proporsi tidak diubah, dan uji otomatis menolak peregangan.
+  Pencarian gambar untuk logo hanya mengembalikan gambar ulang pihak ketiga
+  (blogspot) serta logo institusi lain — semuanya **ditolak**.
+- **Foto dokumentasi selalu diberi keterangan tahun.** Foto PKKMB yang tersedia
+  berasal dari 2024, sehingga setiap penempatannya menyertakan keterangan
+  “Dokumentasi PKKMB Poliban 2024” agar tidak disalahartikan sebagai 2026.
+- **Tidak ada hotlink.** Semua berkas disalin ke repositori; uji menggagalkan
+  build bila ada `<img>` yang menunjuk domain luar.
+- **Tidak ada foto pengganti.** Halaman yang tidak punya foto resmi — fasilitas,
+  program studi, pengumuman — tetap bertumpu pada tipografi, lambang asli,
+  tabel, dan tata letak editorial, bukan stok atau citra buatan.
 
----
+### Kinerja
+
+Total muatan gambar **turun dari 1,22 MB menjadi 898 KB** meskipun jumlah aset
+bertambah, melalui penyandian ulang spanduk (199→24 KB) dan logo horizontal
+(96→15 KB) ke PNG 8-bit serta pengecilan foto gerbang ke lebar 1200 px.
 
 ## 5. Hal yang tidak dapat diverifikasi
 
@@ -177,12 +240,25 @@ Semuanya terdokumentasi terbuka di `sumber.html`, bukan disembunyikan.
 - Daftar atribut dan perlengkapan wajib yang dulu dirinci per butir — sekarang
   merujuk ke dokumen tata tertib resmi.
 
+**Ditambahkan pada pass ini:**
+
+- Daftar atribut wajib yang dulu dirinci per butir kini merujuk dokumen tata
+  tertib resmi.
+- **Lokasi ruang PKKMB** ("Aula Utama, lapangan upacara, gedung jurusan") dihapus
+  dari halaman panduan — tidak ada sumber resmi yang menyebut ruangannya.
+  Ringkasan kini hanya menyebut alamat kampus.
+
 **Konflik antar sumber resmi yang ditampilkan apa adanya:**
 
 - **D3 Teknik Pertambangan** — laman prodi menyebut "Baik Sekali" (SK LAM Teknik
   0472/2024), portal SPMB menyebut "Baik" (SK 2023).
 - **D3 Teknik Alat Berat** — laman prodi menyebut "Baik" (SK BAN-PT 9980/2022),
   portal SPMB menyebut "B".
+- **Jumlah program studi** — laman Penerimaan 2026 menyebut **21**, siaran pers
+  PKKMB menyebut **20**, portal SPMB merinci **22**. Situs memakai angka portal
+  SPMB karena portal itu satu-satunya yang mencantumkan setiap prodi beserta
+  akreditasinya; perbedaan ini ditampilkan pada `program-studi.html` dan
+  `sumber.html`.
 
 Nilai portal SPMB dipakai sebagai kanonik karena satu portal itu mencakup seluruh
 prodi secara konsisten, tetapi perbedaannya dicatat di cache dan **ditampilkan kepada
@@ -200,6 +276,15 @@ pembaca** pada halaman prodi terkait, lengkap dengan tautan ke laman prodi.
 - `poliban.ac.id/fasilitas/` ditautkan dari footer situs resmi tetapi mengembalikan
   404. Enam fasilitas yang ditampilkan disusun dari berita dan laman unit yang
   masing-masing punya sumber, bukan dari satu halaman fasilitas.
+- **Dokumentasi foto PKKMB 2026.** Situs resmi baru menerbitkan satu foto
+  kegiatan 2026 (`PNB00396.jpg`) dan berkas aslinya tidak dapat diambil dari
+  lingkungan kerja ini. Suasana PKKMB karena itu diwakili dokumentasi 2024.
+- **Laman jurusan tidak memuat profil.** Laman Mesin, Akuntansi, dan
+  Administrasi Bisnis hanya menampilkan umpan berita — tidak ada visi–misi
+  maupun daftar prodi yang bisa diekstrak. Hanya Elektro dan Sipil yang
+  menerbitkan visi–misi jurusan.
+- `poliban.ac.id/struktur-organisasi-poliban/` mengembalikan **HTTP 500** dan
+  isinya kosong di API, sehingga bagan struktur organisasi tidak dapat dikutip.
 
 ---
 
@@ -219,20 +304,45 @@ Daftar ini tidak bisa diselesaikan lewat riset publik:
    situs sengaja tampil teks-dominan karena tidak ada stok foto resmi yang jelas
    status penggunaannya.
 9. **Berkas lambang resmi** dalam format vektor (SVG/AI/EPS) beserta pedoman
-   penggunaannya, agar lambang tajam pada semua ukuran.
+   penggunaannya. Lambang yang dipakai saat ini adalah raster dari laman resmi;
+   versi vektor akan membuatnya tajam pada semua ukuran dan layar.
 10. **Alur autentikasi Portal PKKMB** — halaman masuk masih mengirim ke endpoint
     Laravel yang ada, dan token CSRF perlu dirender server, bukan disematkan statis.
+11. **Kepastian jumlah program studi**, karena tiga laman resmi menyebut angka
+    berbeda (20, 21, dan 22).
+12. **Bagan struktur organisasi**, karena lamannya galat dan isinya kosong di API.
 
 ---
 
 ## 7. Perubahan yang menyertai
 
+**Fase 2 — konten faktual**
+
 - `sumber.html` — halaman transparansi baru, tertaut dari footer.
-- `program-studi.html` — penyaring D2 ditambahkan; catatan sumber dan tanggal ambil
-  ditampilkan.
-- Halaman detail prodi — akreditasi, kurikulum, dan prospek karier hanya tampil bila
-  datanya ada; tersedia tautan ke laman resmi SPMB dan situs prodi.
+- `program-studi.html` — penyaring D2; catatan sumber, tanggal ambil, dan
+  perbedaan jumlah prodi antar laman resmi.
+- Halaman detail prodi — akreditasi, kurikulum, dan prospek karier hanya tampil
+  bila datanya ada; tersedia tautan ke laman SPMB dan situs prodi; konflik
+  akreditasi ditampilkan terbuka.
 - `fasilitas.html` — tata letak editorial berbasis teks, enam entri bersumber.
-- `profil.html` — foto kampus berkredit dan tabel jajaran pimpinan.
 - `kontak.html` — kanal hotline akademik ditambahkan.
-- `login.html` — latar AI diganti gradien; banner resmi PKKMB ditampilkan.
+
+**Fase 3 — aset autentik dan pipeline**
+
+- **Header dan footer** memakai dua lambang resmi Poliban yang sesungguhnya,
+  menggantikan logo yang sebelumnya dipotong dari spanduk.
+- **Beranda** — hero menampilkan foto dokumentasi PKKMB dan mengutip siaran
+  resmi untuk angka pesertanya; bagian baru “Kabar terbaru kampus” menarik
+  berita dari situs institusi; foto papan nama kampus melengkapi bagian kampus.
+- **`pkkmb.html`** — foto dokumentasi kegiatan dan kutipan Direktur yang
+  bertaut ke siaran resminya; daftar ruangan yang tidak bersumber dihapus.
+- **`profil.html`** — bagian **Lambang** baru yang menguraikan makna kedelapan
+  unsur beserta kedua perancangnya; foto papan nama kampus ditambahkan.
+- **`berita.html`** — bagian “Kabar kampus Poliban” memuat dua belas berita
+  resmi terbaru, masing-masing menautkan artikel aslinya.
+- **`sumber.html`** — blok “Cara data disegarkan” yang menjelaskan kedua
+  endpoint, perintah pembaruannya, dan perilaku saat jaringan gagal.
+- **Desain** — `backdrop-blur` pada hero dihapus (tidak berefek di atas gradien
+  datar) dan radius sudut yang berlebihan dinormalkan. Palet sudah selaras
+  dengan lambang: emas `#eab134` pada situs berdampingan dengan `#E2B911` pada
+  lambang asli.

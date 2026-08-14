@@ -34,14 +34,17 @@ npm run check      # build + lint + test
 | `npm run build` | Merender HTML lalu mengompilasi CSS (Tailwind v4) ke `dist/` |
 | `npm run dev` | Server statis + pembangunan ulang saat berkas `src/` berubah |
 | `npm run lint` | Memeriksa tautan mati, jangkar, gambar, label form, heading, ukuran aset |
-| `npm test` | 85 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset |
+| `npm test` | 99 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset |
 | `npm run clean` | Menghapus `dist/` |
-| `npm run refresh:prodi` | Mengambil ulang data 22 prodi dari portal SPMB resmi ke `src/data/cache/` |
-| `npm run refresh:check` | Keluar dengan kode 1 bila data prodi resmi sudah berubah dari cache |
+| `npm run refresh:prodi` | Mengambil ulang data 22 prodi dari portal SPMB resmi |
+| `npm run refresh:news` | Mengambil ulang berita dari WP REST API resmi Poliban |
+| `npm run refresh` | Menyegarkan keduanya sekaligus |
+| `npm run refresh:check` | Keluar dengan kode 1 bila data resmi sudah berubah dari cache |
 
 Data faktual bersumber dari laman resmi Poliban dan tercatat lengkap di
-`src/data/sources.js`. Pengambilan data prodi terjadi **saat pembaruan manual**, tidak
-saat build maupun runtime — cache `src/data/cache/pmb-programs.json` yang dipakai.
+`src/data/sources.js`. Pengambilan data terjadi **saat pembaruan manual**, tidak saat
+build maupun runtime — yang dipakai selalu berkas di `src/data/cache/`. Bila jaringan
+gagal, cache lama dipertahankan dan build tetap berhasil.
 Untuk memverifikasi tautan eksternal (butuh jaringan): `node tools/check-links.mjs`.
 
 ### Penerapan
