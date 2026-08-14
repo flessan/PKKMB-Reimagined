@@ -237,3 +237,68 @@ describe("berfungsi tanpa JavaScript", () => {
     assert.match(kontak, /mailto:info@poliban\.ac\.id/, "alamat surel cadangan hilang");
   });
 });
+
+describe("ketahanan tanpa JavaScript (lanjutan)", () => {
+  const read = (f) => readFile(join(dist, f), "utf8");
+
+  test("status kegiatan sudah terisi di HTML statis", async () => {
+    const html = await read("index.html");
+    const m = html.match(/data-event-status[^>]*>([^<]*)</);
+    assert.ok(m, "penanda status kegiatan tidak ditemukan");
+    const text = m[1].trim();
+    assert.ok(
+      ["Segera", "Berlangsung", "Selesai", "Arsip"].includes(text),
+      `status harus sudah final di HTML, bukan "${text}"`,
+    );
+    // Hanya cari placeholder sesungguhnya ("Memuat…" sebagai isi elemen),
+    // bukan kata "memuat" yang sah di dalam teks alternatif gambar.
+    assert.ok(
+      !/>\s*Memuat[.\u2026]/.test(html),
+      "masih ada teks placeholder 'Memuat…' yang menunggu JavaScript",
+    );
+  });
+
+  test("judul dan keterangan status juga dirender server", async () => {
+    const html = await read("index.html");
+    const headline = html.match(/data-event-headline[^>]*>([^<]*)</);
+    const detail = html.match(/data-event-detail[^>]*>([^<]*)</);
+    assert.ok(headline && headline[1].trim().length > 8, "judul status kosong");
+    assert.ok(detail && detail[1].trim().length > 20, "keterangan status kosong");
+  });
+
+  test("tanggal build dicatat agar skrip tahu kapan perlu menghitung ulang", async () => {
+    const html = await read("index.html");
+    assert.match(html, /data-built="\d{4}-\d{2}-\d{2}"/, "data-built tidak ada");
+  });
+
+  test("penjelajah prodi tetap menampilkan seluruh prodi tanpa JS", async () => {
+    const html = await read("program-studi.html");
+    const rows = html.match(/<li[^>]*data-program(?![\w-])/g) ?? [];
+    assert.equal(rows.length, 22, "jumlah baris prodi statis tidak sesuai");
+    for (const attr of ["data-level=", "data-dept=", "data-search="]) {
+      const n = (html.match(new RegExp(attr, "g")) ?? []).length;
+      assert.ok(n >= 22, `${attr} kurang dari jumlah prodi`);
+    }
+  });
+
+  test("navigasi dalam halaman PKKMB memakai jangkar biasa", async () => {
+    const html = await read("pkkmb.html");
+    for (const id of ["alur", "jadwal", "unduhan", "persiapan", "faq"]) {
+      assert.ok(html.includes(`href="#${id}"`), `tautan #${id} tidak ada`);
+      assert.ok(html.includes(`id="${id}"`), `target #${id} tidak ada`);
+    }
+  });
+
+  test("tombol portal tetap ada pada lebar ponsel", async () => {
+    for (const file of ["index.html", "pkkmb.html", "berita.html"]) {
+      const html = await read(file);
+      const btn = html.match(/<a[^>]+href="[^"]*login\.html"[^>]*class="[^"]*btn-primary[^"]*"[^>]*>/);
+      assert.ok(btn, `${file}: tombol portal di header tidak ditemukan`);
+      assert.ok(
+        !/\bhidden\b(?![^"]*inline)/.test(btn[0]),
+        `${file}: tombol portal tersembunyi di layar kecil`,
+      );
+      assert.match(btn[0], /aria-label="[^"]+"/, `${file}: tombol portal tanpa aria-label`);
+    }
+  });
+});
