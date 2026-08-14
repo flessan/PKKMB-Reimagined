@@ -4,7 +4,6 @@ import {
   postCard,
   featuredPostCard,
   postRow,
-  programCard,
   calloutPortal,
   statBlock,
 } from "../components/ui.js";
@@ -13,7 +12,7 @@ import { esc, join, formatDate } from "../lib/html.js";
 import { site } from "../data/site.js";
 import { sortedPosts, announcements, news } from "../data/posts.js";
 import { schedule, eventWindow, eventStatus } from "../data/schedule.js";
-import { programs, programStats } from "../data/programs.js";
+import { programs, programStats, departments } from "../data/programs.js";
 import { stats, quickServices, facilities, leader } from "../data/campus.js";
 import { assets } from "../data/assets.js";
 import { latestNews, pkkmbNews, newsSource } from "../data/news.js";
@@ -427,56 +426,90 @@ function welcome() {
  * Kampus: prodi + fasilitas + angka
  * ------------------------------------------------------------------ */
 
+/**
+ * Mengenal kampus.
+ *
+ * Sebelumnya bagian ini menumpuk empat kartu prodi dan tiga kartu fasilitas
+ * yang semuanya menuntut perhatian setara. Sekarang: satu foto kampus sebagai
+ * jangkar, rincian jurusan sebagai tabel ringkas yang benar-benar informatif,
+ * dan fasilitas sebagai daftar tenang. Penjelajahan mendalam ada di halaman
+ * program studi, bukan di beranda.
+ */
 function campus() {
-  const highlights = ["55401", "36304", "63311", "22304"]
-    .map((id) => programs.find((p) => p.pmbId === id))
-    .filter(Boolean);
+  const byDept = departments.map((d) => ({
+    ...d,
+    count: programs.filter((p) => p.dept === d.id).length,
+  }));
+  const featured = facilities.filter((f) => f.featured);
 
   return `
 <section class="shell py-16 md:py-20">
   ${sectionHeading({
     eyebrow: "Mengenal kampus",
     title: `${programStats.total} program studi dalam ${programStats.departments} jurusan`,
-    lead: "Kenali kembali pilihan program studi Anda — fokus keilmuan, lama studi, dan prospek kariernya.",
+    lead: "Poliban menyelenggarakan pendidikan vokasi jenjang D2, D3, dan Sarjana Terapan. Berikut sebarannya menurut jurusan.",
     action: { label: "Telusuri program studi", href: "program-studi.html" },
   })}
 
-  <div class="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-    ${join(highlights.map((p) => programCard(p)))}
-  </div>
+  <div class="mt-9 grid gap-10 lg:grid-cols-12 lg:gap-12">
 
-  <figure class="mt-12 overflow-hidden rounded-xl border border-ink-200">
-    <picture>
-      <source srcset="${assets.campusSignage.webp}" type="image/webp">
-      <img src="${assets.campusSignage.file}" alt="${esc(assets.campusSignage.alt)}"
-           width="${assets.campusSignage.width}" height="${assets.campusSignage.height}"
-           loading="lazy" decoding="async"
-           class="aspect-[21/9] w-full object-cover object-[50%_38%] sm:aspect-[3/1]">
-    </picture>
-    <figcaption class="border-t border-ink-200 bg-ink-50 px-5 py-3 text-xs leading-relaxed text-ink-500">
-      Kampus Poliban, Jl. Brigjen H. Hasan Basri, Kayu Tangi, Banjarmasin — dokumentasi resmi Poliban.
-    </figcaption>
-  </figure>
+    <figure class="lg:col-span-5">
+      <div class="overflow-hidden rounded-xl border border-ink-200">
+        <picture>
+          <source srcset="${assets.campusSignage.webp}" type="image/webp">
+          <img src="${assets.campusSignage.file}" alt="${esc(assets.campusSignage.alt)}"
+               width="${assets.campusSignage.width}" height="${assets.campusSignage.height}"
+               loading="lazy" decoding="async"
+               class="aspect-[4/3] w-full object-cover object-[50%_40%]">
+        </picture>
+      </div>
+      <figcaption class="mt-2.5 text-xs leading-relaxed text-ink-500">
+        Kampus Poliban, Jl. Brigjen H. Hasan Basri, Kayu Tangi, Banjarmasin — dokumentasi resmi Poliban.
+      </figcaption>
+    </figure>
+
+    <div class="lg:col-span-7">
+      <ul class="divide-y divide-ink-200 border-y border-ink-200">
+        ${join(
+          byDept.map(
+            (d) => `
+        <li class="group">
+          <a href="program-studi.html#jurusan-${d.id}" class="flex items-center gap-4 py-4 transition-colors hover:bg-ink-50/70">
+            <span class="min-w-0 flex-1">
+              <span class="block font-display text-[0.95rem] font-bold text-ink-900 transition-colors group-hover:text-brand-700">Jurusan ${esc(d.name)}</span>
+              <span class="mt-1 line-clamp-1 block text-xs leading-relaxed text-ink-500">${esc(d.blurb)}</span>
+            </span>
+            <span class="shrink-0 font-display text-sm font-semibold tabular-nums text-ink-600">${d.count} prodi</span>
+            <span class="shrink-0 text-ink-300 transition-transform group-hover:translate-x-0.5" aria-hidden="true">${icon("arrowRight", { class: "h-4 w-4" })}</span>
+          </a>
+        </li>`,
+          ),
+        )}
+      </ul>
+
+      <div class="mt-8">
+        <h3 class="font-display text-sm font-bold uppercase tracking-[0.12em] text-ink-500">Sarana utama</h3>
+        <ul class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+          ${join(
+            featured.map(
+              (f) => `
+          <li>
+            <a href="fasilitas.html#${f.id}" class="group inline-flex items-baseline gap-2 py-1 text-sm">
+              <span class="font-display font-semibold text-ink-800 transition-colors group-hover:text-brand-700">${esc(f.name)}</span>
+              <span class="text-xs text-ink-500">${esc(f.kind)}</span>
+            </a>
+          </li>`,
+            ),
+          )}
+        </ul>
+        <a href="fasilitas.html" class="mt-3 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Semua fasilitas ${icon("arrowRight", { class: "h-4 w-4" })}
+        </a>
+      </div>
+    </div>
+  </div>
 
   <div class="mt-14">${statBlock(stats)}</div>
-
-  <div class="mt-14 grid gap-4 lg:grid-cols-3">
-    ${join(
-      facilities
-        .filter((f) => f.featured)
-        .map(
-          (f) => `
-    <a href="fasilitas.html#${f.id}" class="card card-interactive group p-5" data-reveal>
-      <span class="badge badge-brand">${esc(f.kind)}</span>
-      <h3 class="mt-3 font-display text-lg font-bold text-ink-900 transition-colors group-hover:text-brand-700">${esc(f.name)}</h3>
-      <p class="mt-2 clamp-3 text-sm leading-relaxed text-ink-600">${esc(f.summary)}</p>
-      <span class="mt-4 inline-flex items-center gap-1 font-display text-sm font-semibold text-brand-700">
-        Selengkapnya ${icon("arrowRight", { class: "h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" })}
-      </span>
-    </a>`,
-        ),
-    )}
-  </div>
 </section>`;
 }
 
