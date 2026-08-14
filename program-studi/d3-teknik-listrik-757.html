@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<!-- Mirrored from pkkmb.poliban.ac.id/program-studi/d3-teknik-listrik-757 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 Aug 2026 09:44:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="5Du7cJaeR7nXIbsWFHM9sV7jU9V7U1c6VEYpYz5e">
+
+    <title>D3 - Teknik Listrik - Politeknik Negeri Banjarmasin</title>
+    <meta name="description" content="Website Profil Resmi Politeknik Negeri Banjarmasin. Unggul, Berkarakter, dan Siap Bersaing Global.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <!-- Scripts & Styles -->
+    <link rel="preload" as="style" href="../build/assets/app-BWRPwjad.css" /><link rel="modulepreload" as="script" href="../build/assets/app-B9qO1Jfl.js" /><link rel="stylesheet" href="../build/assets/app-BWRPwjad.css" /><script type="module" src="../build/assets/app-B9qO1Jfl.js"></script>
+    <!-- Alpine.js (Vite includes Alpine, but adding custom style/behaviors) -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen scroll-smooth">
+
+    
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm" x-data="{ mobileMenuOpen: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                
+                <a href="../index.html" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                        U
+                    </div>
+                    <div>
+                        <span class="block font-bold text-lg text-slate-800 tracking-tight leading-tight group-hover:text-blue-600 transition-colors">
+                            Politeknik Negeri Banjarmasn
+                        </span>
+                        <span class="block text-xs font-medium text-slate-400 uppercase tracking-widest leading-none">INDONESIA</span>
+                    </div>
+                </a>
+
+                
+                <nav class="hidden lg:flex items-center gap-8">
+                    <a href="../index.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Beranda</a>
+                    
+                    
+                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button class="flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">
+                            <span>Profil</span>
+                            <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="absolute top-full left-0 w-52 bg-white rounded-xl shadow-xl border border-slate-100 py-2 mt-1 transition-all duration-200"
+                             x-show="open" x-transition:enter="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
+                            <a href="../profil/sejarah.html" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Sejarah</a>
+                            <a href="../profil/visi-misi.html" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Visi & Misi</a>
+                            <a href="../profil/struktur.html" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Struktur Organisasi</a>
+                            <a href="../profil/rektor.html" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Pimpinan Rektor</a>
+                        </div>
+                    </div>
+
+                    <a href="../program-studi.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Program Studi</a>
+                    <a href="../berita.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Berita</a>
+                    <a href="../pengumuman.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Pengumuman</a>
+                    <a href="../fasilitas.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Fasilitas</a>
+                    <a href="../login.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Alur Proses</a>
+                    <a href="../kontak.html" class="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Kontak</a>
+                </nav>
+
+                
+                <div class="hidden lg:flex items-center gap-4">
+                    
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition">
+                            <span>Sistem Informasi</span>
+                            <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="absolute top-full right-0 w-60 bg-white rounded-xl shadow-xl border border-slate-100 py-2 mt-2"
+                             x-show="open" @click.away="open = false" x-transition:enter="opacity-0 translate-y-1">
+                            <a href="../login.html" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">PKKMB Presensi</a>
+                            <a href="../login.html" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Alur Proses Bisnis</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">SIAKAD (Akademik)</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">E-Learning / LMS</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Perpustakaan Digital</a>
+                        </div>
+                    </div>
+
+                    <a href="../login.html" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md shadow-blue-500/10 hover:shadow-lg transition">
+                        Login PKKMB
+                    </a>
+                </div>
+
+                
+                <div class="flex lg:hidden items-center">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-slate-600 hover:text-slate-900 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" x-show="!mobileMenuOpen"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" x-show="mobileMenuOpen" style="display: none;"/>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        
+        <div class="lg:hidden border-t border-slate-100 bg-white" x-show="mobileMenuOpen" x-transition>
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="../index.html" class="block px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-lg">Beranda</a>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-lg">
+                        <span>Profil</span>
+                        <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="pl-6 space-y-1 mt-1" x-show="open" x-transition>
+                        <a href="../profil/sejarah.html" class="block py-2 text-sm text-slate-500 hover:text-blue-600">Sejarah</a>
+                        <a href="../profil/visi-misi.html" class="block py-2 text-sm text-slate-500 hover:text-blue-600">Visi & Misi</a>
+                        <a href="../profil/struktur.html" class="block py-2 text-sm text-slate-500 hover:text-blue-600">Struktur Organisasi</a>
+                        <a href="../profil/rektor.html" class="block py-2 text-sm text-slate-500 hover:text-blue-600">Pimpinan Rektor</a>
+                    </div>
+                </div>
+                <a href="../program-studi.html" class="block px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-lg">Program Studi</a>
+                <a href="../berita.html" class="block px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-lg">Berita</a>
+                <a href="../pengumuman.html" class="block px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-lg">Pengumuman</a>
+                <a href="../fasilitas.html" class="block px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-lg">Fasilitas</a>
+                <a href="../login.html" class="block px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-lg">Alur Proses Bisnis</a>
+                <a href="../kontak.html" class="block px-3 py-2 text-base font-medium text-slate-600 hover:bg-slate-50 rounded-lg">Kontak</a>
+                
+                <div class="border-t border-slate-100 pt-4 space-y-2">
+                    <a href="../login.html" class="block text-center w-full px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition">
+                        Portal PKKMB
+                    </a>
+                    <a href="../login.html" class="block text-center w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition">
+                        Login PKKMB
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    
+    <main class="flex-grow">
+        
+<section class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        
+        <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6">
+            <a href="../index.html" class="hover:text-blue-600">Beranda</a>
+            <span>/</span>
+            <a href="../program-studi.html" class="hover:text-blue-600">Program Studi</a>
+            <span>/</span>
+            <span class="text-slate-600">D3 - Teknik Listrik</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            
+            <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-100 p-6 md:p-8 shadow-sm space-y-8">
+                
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                            D3
+                        </span>
+                        <span class="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                            Akreditasi Baik Sekali
+                        </span>
+                    </div>
+                    <h1 class="text-2xl md:text-4xl font-extrabold text-slate-800 tracking-tight">
+                        D3 - Teknik Listrik
+                    </h1>
+                    <p class="text-sm font-semibold text-slate-400 uppercase tracking-widest leading-none">
+                        Fakultas Teknik Elektro
+                    </p>
+                </div>
+
+                
+                
+                
+                <div x-data="{ tab: 'deskripsi' }" class="space-y-6">
+                    
+                    
+                    <div class="flex border-b border-slate-100 text-sm font-bold">
+                        <button @click="tab = 'deskripsi'" 
+                                class="px-5 py-3 border-b-2 transition"
+                                :class="tab === 'deskripsi' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-400 hover:text-slate-600'">
+                            Deskripsi
+                        </button>
+                        <button @click="tab = 'karir'" 
+                                class="px-5 py-3 border-b-2 transition"
+                                :class="tab === 'karir' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-400 hover:text-slate-600'">
+                            Prospek Karir
+                        </button>
+                        <button @click="tab = 'kurikulum'" 
+                                class="px-5 py-3 border-b-2 transition"
+                                :class="tab === 'kurikulum' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-400 hover:text-slate-600'">
+                            Kurikulum
+                        </button>
+                    </div>
+
+                    
+                    <div x-show="tab === 'deskripsi'" class="space-y-4 text-slate-600 leading-relaxed text-sm md:text-base">
+                        <h3 class="font-extrabold text-slate-800 text-lg">Tentang Program Studi</h3>
+                        <p>Program studi</p>
+                        <p>Lulusan dibekali dengan hard-skill & soft-skill yang kuat untuk siap bersaing di pasar kerja maupun berwirausaha secara mandiri.</p>
+                    </div>
+
+                    
+                    <div x-show="tab === 'karir'" style="display: none;" class="space-y-4 text-slate-600 leading-relaxed text-sm md:text-base">
+                        <h3 class="font-extrabold text-slate-800 text-lg">Prospek Karir Lulusan</h3>
+                        <p>Lulusan program studi ini memiliki peluang berkarir yang sangat luas di berbagai sektor industri, seperti:</p>
+                        <ul class="list-disc list-inside space-y-2 pl-2">
+                            <li>Profesional Korporasi / Spesialis Bidang Kerja</li>
+                            <li>Konsultan Independen / Penasihat Strategis</li>
+                            <li>Wirausahawan Mandiri / Technopreneur</li>
+                            <li>Peneliti / Akademisi di Lembaga Pendidikan & Riset</li>
+                        </ul>
+                    </div>
+
+                    
+                    <div x-show="tab === 'kurikulum'" style="display: none;" class="space-y-4 text-slate-600 leading-relaxed text-sm md:text-base">
+                        <h3 class="font-extrabold text-slate-800 text-lg">Kurikulum & Masa Studi</h3>
+                        <p>Kurikulum didesain dengan total beban studi berkisar antara 110 - 144 SKS yang dapat diselesaikan dalam masa studi normal 6 - 8 semester.</p>
+                        <p>Mata kuliah mencakup teori dasar, riset metodologi, perkuliahan praktikum lab, magang industri, dan tugas akhir/skripsi.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            
+            <aside class="lg:col-span-4 space-y-8">
+                
+                
+                <div class="p-6 bg-gradient-to-br from-blue-700 to-indigo-900 rounded-2xl text-white space-y-4 shadow-md shadow-blue-500/10">
+                    <h3 class="font-extrabold text-lg tracking-tight">Presensi PKKMB</h3>
+                    <p class="text-xs text-blue-100 leading-relaxed">
+                        Silakan login ke portal resmi untuk melakukan presensi kehadiran kegiatan PKKMB Anda.
+                    </p>
+                    <a href="../login.html" class="block w-full text-center py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs transition shadow">
+                        Login PKKMB
+                    </a>
+                </div>
+
+                
+                                <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-5">
+                    <h3 class="font-bold text-slate-800 text-sm uppercase tracking-wider border-b border-slate-100 pb-3">
+                        Prodi Terkait Lainnya
+                    </h3>
+                    <div class="space-y-4">
+                                                <div class="flex items-center gap-3 group">
+                                                        <div class="space-y-0.5">
+                                <h4 class="font-bold text-xs text-slate-800 group-hover:text-blue-600 transition-colors leading-snug">
+                                    <a href="d3-elektronika-789.html">D3 - Elektronika</a>
+                                </h4>
+                                <span class="text-[10px] text-slate-400 uppercase font-bold">D3</span>
+                            </div>
+                        </div>
+                                                <div class="flex items-center gap-3 group">
+                                                        <div class="space-y-0.5">
+                                <h4 class="font-bold text-xs text-slate-800 group-hover:text-blue-600 transition-colors leading-snug">
+                                    <a href="d3-teknik-informatika-475.html">D3 - Teknik Informatika</a>
+                                </h4>
+                                <span class="text-[10px] text-slate-400 uppercase font-bold">D3</span>
+                            </div>
+                        </div>
+                                                <div class="flex items-center gap-3 group">
+                                                        <div class="space-y-0.5">
+                                <h4 class="font-bold text-xs text-slate-800 group-hover:text-blue-600 transition-colors leading-snug">
+                                    <a href="d4-sistem-informasi-kota-cerdas-132.html">D4 - Sistem Informasi Kota Cerdas</a>
+                                </h4>
+                                <span class="text-[10px] text-slate-400 uppercase font-bold">D4</span>
+                            </div>
+                        </div>
+                                                <div class="flex items-center gap-3 group">
+                                                        <div class="space-y-0.5">
+                                <h4 class="font-bold text-xs text-slate-800 group-hover:text-blue-600 transition-colors leading-snug">
+                                    <a href="d4-teknologi-rekayasa-otomasi-113.html">D4 - Teknologi Rekayasa Otomasi</a>
+                                </h4>
+                                <span class="text-[10px] text-slate-400 uppercase font-bold">D4</span>
+                            </div>
+                        </div>
+                                            </div>
+                </div>
+                
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+    </main>
+
+    
+    <footer class="bg-slate-900 text-slate-300 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl">
+                            U
+                        </div>
+                        <span class="font-bold text-lg text-white tracking-tight leading-tight">
+                            Politeknik Negeri Banjarmasn
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Membangun generasi emas bangsa dengan dasar integritas, inovasi, dan prestasi global.
+                    </p>
+                    <div class="text-sm text-slate-400 space-y-1">
+                        <p>📍 Jl Brigjen Hasan Baseri</p>
+                        <p>📞 0511 3305052</p>
+                        <p>✉️ poliban@poliban.ac.id</p>
+                    </div>
+                </div>
+
+                
+                <div>
+                    <h3 class="font-bold text-white text-sm uppercase tracking-wider mb-5">Tautan Cepat</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="../profil/sejarah.html" class="hover:text-white transition-colors">Sejarah Kampus</a></li>
+                        <li><a href="../profil/visi-misi.html" class="hover:text-white transition-colors">Visi & Misi</a></li>
+                        <li><a href="../program-studi.html" class="hover:text-white transition-colors">Program Studi</a></li>
+                        <li><a href="../berita.html" class="hover:text-white transition-colors">Berita Terkini</a></li>
+                        <li><a href="../kontak.html" class="hover:text-white transition-colors">Kontak Kami</a></li>
+                    </ul>
+                </div>
+
+                
+                <div>
+                    <h3 class="font-bold text-white text-sm uppercase tracking-wider mb-5">Sistem Informasi</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="../login.html" class="hover:text-white transition-colors">Presensi PKKMB</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">SIAKAD Online</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">LMS / E-Learning</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">E-Journal & Library</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Sistem PMB</a></li>
+                    </ul>
+                </div>
+
+                
+                <div class="space-y-5">
+                    <div>
+                        <h3 class="font-bold text-white text-sm uppercase tracking-wider mb-4">Media Sosial</h3>
+                        <div class="flex items-center gap-3">
+                            <a href="https://www.facebook.com/poliban.ac.id/" target="_blank" class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+                            </a>
+                            <a href="https://www.instagram.com/poliban_official/?hl=en" target="_blank" class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            </a>
+                            <a href="https://www.youtube.com/c/PolibanOfficial" target="_blank" class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.163gM23.498 6.163c-.272-1.022-1.074-1.826-2.099-2.098C19.544 3.5 12 3.5 12 3.5s-7.544 0-9.4.565C1.576 4.337.774 5.14.502 6.163.007 8.01.007 12 .007 12s0 3.99.495 5.837c.272 1.022 1.074 1.826 2.099 2.098 1.856.565 9.4.565 9.4.565s7.544 0 9.4-.565c1.025-.272 1.827-1.076 2.1-2.098.495-1.847.495-5.837.495-5.837s0-3.99-.495-5.837zm-14.733 9.477V8.36L15.4 12l-6.635 3.64z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="h-28 w-full border border-slate-800 rounded-xl overflow-hidden shadow-inner">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3869.1170714288305!2d114.57935537483561!3d-3.295693896679204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2de423a80d47ba6b%3A0x8f5abfaddfe5a2d7!2sPoliteknik%20Negeri%20Banjarmasin!5e1!3m2!1sid!2sid!4v1785518707912!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; 2026 Politeknik Negeri Banjarmasin. Hak Cipta Dilindungi Undang-Undang.</p>
+                <div class="flex items-center gap-1">
+                    <span>👁️ Total Kunjungan:</span>
+                    <span class="font-bold text-slate-400">32,436</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <a href="https://wa.me/6288246259077?text=Selamat%20datang%20maba%20poliban%2C%20ada%20yang%20bisa%20di%20bantu"
+       target="_blank" 
+       class="fixed bottom-6 right-6 z-50 transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-green-500/30 rounded-full"
+       title="Hubungi WA Center">
+        <div class="w-14 h-14 bg-emerald-500 rounded-full flex items-center justify-center hover:bg-emerald-600 transition-colors shadow-lg">
+            <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+        </div>
+    </a>
+   
+
+</body>
+
+<!-- Mirrored from pkkmb.poliban.ac.id/program-studi/d3-teknik-listrik-757 by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 14 Aug 2026 09:44:30 GMT -->
+</html>
