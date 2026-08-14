@@ -4,7 +4,11 @@ import { icon } from "../lib/icons.js";
 import { esc, join, formatDate } from "../lib/html.js";
 import { sources } from "../data/sources.js";
 import { assets } from "../data/assets.js";
-import { programsSource } from "../data/programs.js";
+import {
+  programsSource,
+  programStats,
+  programsWithoutAccreditation,
+} from "../data/programs.js";
 import { newsSource, officialNews } from "../data/news.js";
 
 const STATUS = {
@@ -93,9 +97,11 @@ const unverified = [
     reason: "Belum dipublikasikan pada kanal resmi mana pun.",
   },
   {
-    item: "Peringkat akreditasi satu program studi",
+    item: `Peringkat akreditasi ${programStats.withoutAccreditation} program studi`,
     reason:
-      "Portal SPMB mengosongkan kolom akreditasi untuk kode 21318. Halaman prodi menampilkan keterangan “belum tercantum pada sumber resmi”, bukan menebak nilai.",
+      `Portal SPMB mengosongkan kolom akreditasi untuk ${programsWithoutAccreditation
+        .map((p) => `${p.level} ${p.name}`)
+        .join(", ")}. Halaman prodi menampilkan keterangan “belum tercantum pada sumber resmi”, bukan menebak nilai.`,
   },
   {
     item: "Dokumentasi foto PKKMB 2026",

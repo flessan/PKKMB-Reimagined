@@ -131,6 +131,19 @@
       </div>
 
       <form method="POST" action="https://pkkmb.poliban.ac.id/login" class="mt-7 space-y-5" data-login-form>
+        <!--
+          PENERAPAN LARAVEL — JANGAN UBAH KONTRAK DI BAWAH INI.
+
+          Saat halaman ini kembali dirender Laravel, ganti value berikut dengan
+          {{ csrf_token() }}. Nilai statis pada keluaran ini hanya penampung
+          agar struktur form tetap utuh; ia TIDAK memberi perlindungan CSRF.
+
+          Kontrak yang harus dipertahankan:
+            action  : POST https://pkkmb.poliban.ac.id/login
+            field   : _token, email, password, remember
+            OAuth   : /login/google/callback
+            galat   : ?error=invalid | unregistered | throttled
+        -->
         <input type="hidden" name="_token" value="5Du7cJaeR7nXIbsWFHM9sV7jU9V7U1c6VEYpYz5e" autocomplete="off" data-csrf-field>
 
         <div>

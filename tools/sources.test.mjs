@@ -15,7 +15,12 @@ import { fileURLToPath } from "node:url";
 
 import { sources, source } from "../src/data/sources.js";
 import { assets, attributedAssets } from "../src/data/assets.js";
-import { programs, programsSource } from "../src/data/programs.js";
+import {
+  programs,
+  programsSource,
+  programStats,
+  programsWithoutAccreditation,
+} from "../src/data/programs.js";
 import { stats, leader, leadership, facilities, history } from "../src/data/campus.js";
 import { site } from "../src/data/site.js";
 import { officialNews, newsSource } from "../src/data/news.js";
@@ -579,3 +584,47 @@ function readSize(buf, name) {
   }
   return null;
 }
+
+/* ------------------------------------------------------------------ */
+
+describe("konsistensi klaim akreditasi", () => {
+  test("jumlah prodi tanpa akreditasi diturunkan dari data, bukan ditulis tangan", () => {
+    const actual = programs.filter((p) => !p.accreditation).length;
+    assert.equal(programStats.withoutAccreditation, actual);
+    assert.equal(programsWithoutAccreditation.length, actual);
+    assert.ok(actual > 0, "uji ini kehilangan maknanya bila tidak ada yang kosong");
+  });
+
+  test("halaman menyebut jumlah yang benar, bukan angka usang", () => {
+    const n = programStats.withoutAccreditation;
+    const explorer = pages.find((p) => p.name === "program-studi.html").html;
+    const sumber = pages.find((p) => p.name === "sumber.html").html;
+
+    assert.ok(
+      explorer.includes(`${n} program studi belum mencantumkan`),
+      `program-studi.html tidak menyebut ${n} prodi tanpa akreditasi`,
+    );
+    assert.ok(
+      sumber.includes(`Peringkat akreditasi ${n} program studi`),
+      `sumber.html tidak menyebut ${n} prodi tanpa akreditasi`,
+    );
+
+    // Setiap prodi yang kosong harus benar-benar disebut namanya.
+    for (const p of programsWithoutAccreditation) {
+      assert.ok(
+        sumber.includes(escapeHtml(p.name)),
+        `sumber.html tidak menyebut ${p.name}`,
+      );
+    }
+
+    // Tidak boleh ada sisa kalimat "Satu program studi".
+    assert.ok(!explorer.includes("Satu program studi belum"), "kalimat usang tersisa");
+  });
+
+  test("konflik jumlah prodi antar laman resmi tetap ditampilkan", () => {
+    const sumber = pages.find((p) => p.name === "sumber.html").html;
+    assert.ok(sumber.includes("menyebut 21"), "konflik 21 prodi tidak dijelaskan");
+    assert.ok(sumber.includes("menyebut 20"), "konflik 20 prodi tidak dijelaskan");
+    assert.ok(sumber.includes("22"), "angka kanonik 22 tidak disebut");
+  });
+});

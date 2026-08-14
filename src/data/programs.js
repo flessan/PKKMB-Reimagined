@@ -475,7 +475,17 @@ export const programStats = {
   d3: programs.filter((p) => p.level === "D3").length,
   d4: programs.filter((p) => p.level === "D4").length,
   departments: departments.length,
+  /**
+   * Prodi yang kolom akreditasinya kosong di portal SPMB. Diturunkan dari data
+   * agar salinan di halaman tidak pernah menyimpang dari kenyataan.
+   */
+  withoutAccreditation: programs.filter((p) => !p.accreditation).length,
 };
+
+/** Prodi tanpa akreditasi, untuk ditampilkan apa adanya pada catatan sumber. */
+export const programsWithoutAccreditation = programs
+  .filter((p) => !p.accreditation)
+  .map((p) => ({ pmbId: p.pmbId, name: p.name, level: p.level }));
 
 /** Nilai akreditasi unik yang benar-benar muncul, untuk kebutuhan filter. */
 export const accreditationValues = [
