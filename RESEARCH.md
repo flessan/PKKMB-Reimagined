@@ -182,7 +182,7 @@ Uji `tools/sources.test.mjs` kini juga menegakkan hal-hal berikut:
 - Entri cache berita wajib unik, bertanggal ISO, berdomain `poliban.ac.id`,
   bebas HTML mentah dan entitas yang belum diterjemahkan, serta terurut menurun.
 
-Hasil terakhir: **41 halaman, 2.520 tautan, 0 galat lint, 119/119 uji lulus.**
+Hasil terakhir: **41 halaman, 2.520 tautan, 0 galat lint, 130/130 uji lulus.**
 1.990 tautan internal (termasuk fragmen antarhalaman) diverifikasi tanpa satu pun rusak.
 
 ---
@@ -358,6 +358,29 @@ Pass terakhir memeriksa kesiapan rilis dan memperbaiki temuan berikut.
   sehingga tidak gepeng, tetapi ukuran intrinsik yang salah memicu pergeseran
   tata letak. Diperbaiki, dan ditambahkan uji yang membaca header PNG/JPEG/WebP
   langsung untuk mencegah penyimpangan serupa.
+
+## 5d. Audit rilis
+
+Audit akhir tidak menemukan masalah faktual, aksesibilitas, atau tautan. Dua
+regresi operasional ditemukan dan diperbaiki:
+
+- **`npm run refresh:check` gagal tanpa jaringan.** `fetch-news.mjs` sudah
+  membedakan galat jaringan dari perubahan data, tetapi `fetch-programs.mjs`
+  keluar dengan kode 1 untuk galat apa pun. Karena `refresh:check` menjalankan
+  keduanya, runner CI tanpa akses keluar menggagalkan pekerjaan padahal tidak
+  ada data yang berubah. Kini galat lapisan jaringan keluar netral pada mode
+  `--check`; pergeseran data sungguhan tetap keluar 1.
+- **CSS tak terminifikasi dapat masuk ke `dist/`.** `npm run build:html` melewati
+  langkah Tailwind. Ditambahkan uji yang memastikan CSS terkirim dalam keadaan
+  terminifikasi, seluruh aset runtime ada, dan keempat PDF resmi tersalin.
+
+Diverifikasi bersih pada audit ini: pohon kerja, build deterministik (3× dari
+kondisi bersih, byte-identik), 2.154 rujukan berkas dan 357 fragmen tanpa satu
+pun rusak, kanonik/`og:url`/sitemap tepat untuk 36 halaman terindeks, empat
+pengalihan lama beserta tujuh slug lama tetap berfungsi, provenans tujuh aset
+lengkap tanpa hotlink, nol konten fabrikasi atau placeholder, dan cache berita
+menolak URL luar domain, non-https, tanggal cacat, serta HTML mentah dengan
+menggagalkan build.
 
 ## 6. Yang perlu datang langsung dari tim PKKMB / Poliban
 

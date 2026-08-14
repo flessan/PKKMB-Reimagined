@@ -34,12 +34,16 @@ npm run check      # build + lint + test
 | `npm run build` | Merender HTML lalu mengompilasi CSS (Tailwind v4) ke `dist/` |
 | `npm run dev` | Server statis + pembangunan ulang saat berkas `src/` berubah |
 | `npm run lint` | Memeriksa tautan mati, jangkar, gambar, label form, heading, ukuran aset |
-| `npm test` | 119 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset, ketahanan tanpa JS |
+| `npm test` | 130 pengujian: integritas data, keluaran build, cakupan CSS, aksesibilitas, provenans sumber & aset, ketahanan tanpa JS |
 | `npm run clean` | Menghapus `dist/` |
 | `npm run refresh:prodi` | Mengambil ulang data 22 prodi dari portal SPMB resmi |
 | `npm run refresh:news` | Mengambil ulang berita dari WP REST API resmi Poliban |
 | `npm run refresh` | Menyegarkan keduanya sekaligus |
-| `npm run refresh:check` | Keluar dengan kode 1 bila data resmi sudah berubah dari cache |
+| `npm run refresh:check` | Keluar dengan kode 1 bila data resmi sudah berubah dari cache; keluar 0 bila hanya jaringan yang tidak tersedia |
+
+> **Penting:** selalu jalankan `npm run build`, bukan `npm run build:html` saja.
+> Yang terakhir melewati langkah Tailwind sehingga `dist/assets/app.css` bisa
+> tertinggal usang atau tanpa minifikasi. Ada uji yang menjaga hal ini.
 
 Kedua skrip penyegar **gagal dengan aman**: bila jaringan tidak tersedia atau respons
 tidak wajar, cache lama dipertahankan byte-per-byte dan build tetap berhasil. Skrip
