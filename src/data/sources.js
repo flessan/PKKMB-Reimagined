@@ -140,6 +140,22 @@ export const sources = {
     status: "official",
     checked: "2026-08-14",
   },
+  "poliban-lambang": {
+    label: "Lambang Poliban — Enggang Bakilau",
+    url: "https://poliban.ac.id/logo-poliban/",
+    publisher: "Politeknik Negeri Banjarmasin",
+    status: "official",
+    checked: "2026-08-14",
+    note:
+      "Laman resmi yang menguraikan nama, warna, perancang, dan makna setiap unsur lambang institusi.",
+  },
+  "poliban-penerimaan-2026": {
+    label: "PMB — Penerimaan Mahasiswa Baru Poliban 2026",
+    url: "https://poliban.ac.id/penerimaan2026/",
+    publisher: "Politeknik Negeri Banjarmasin",
+    status: "official",
+    checked: "2026-08-14",
+  },
   "commons-poliban": {
     label: "File:Politeknik Negeri Banjarmasin.jpg",
     url: "https://commons.wikimedia.org/wiki/File:Politeknik_Negeri_Banjarmasin.jpg",

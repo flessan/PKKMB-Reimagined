@@ -126,7 +126,10 @@ export default function render() {
         <p class="rounded-lg border border-ink-200 bg-ink-50 px-4 py-3 text-sm text-ink-600">
           Nama, jenjang, dan peringkat akreditasi mengikuti
           <a href="${programsSource.url}" rel="noopener" class="font-medium text-brand-700 underline underline-offset-2">${esc(source(programsSource.sourceId).label)}</a>
-          (diperiksa ${programsSource.fetchedAt}). Beberapa program studi baru belum mencantumkan peringkat akreditasi pada sumber resmi.
+          (diperiksa ${programsSource.fetchedAt}). Satu program studi belum mencantumkan peringkat akreditasi pada sumber resmi
+          dan ditandai apa adanya. Laman resmi Poliban lain menyebut jumlah prodi yang berbeda (20 dan 21);
+          portal SPMB dipakai karena merinci setiap prodi beserta akreditasinya —
+          <a href="sumber.html#catatan" class="font-medium text-brand-700 underline underline-offset-2">lihat catatan perbedaan</a>.
         </p>
         ${calloutPortal()}
       </div>`,

@@ -103,6 +103,11 @@ const unverified = [
       "Situs resmi baru menerbitkan satu foto kegiatan 2026 dan berkas aslinya tidak dapat diambil secara terprogram. Suasana PKKMB diwakili dokumentasi resmi tahun 2024 yang selalu diberi keterangan tahun.",
   },
   {
+    item: "Jumlah program studi berbeda antar laman resmi",
+    reason:
+      "Laman Penerimaan 2026 menyebut 21 program studi, sedangkan portal SPMB mencantumkan 22 (termasuk D2 Tata Operasi dan Pemeliharaan Prediktif Alat Berat) dan siaran pers PKKMB menyebut 20. Situs ini memakai angka portal SPMB karena portal itu merinci setiap prodi satu per satu beserta akreditasinya.",
+  },
+  {
     item: "Visi dan misi tingkat institusi",
     reason:
       "Setiap jurusan menerbitkan visi–misinya sendiri, tetapi tidak ditemukan laman visi–misi institusi pada domain resmi.",
@@ -296,7 +301,7 @@ function pipeline() {
 
 function gaps() {
   return `
-<section class="border-t border-ink-200 bg-ink-50 py-14 md:py-20" id="belum-terverifikasi">
+<section class="border-t border-ink-200 bg-ink-50 py-14 md:py-20" id="catatan">
   <div class="shell">
     ${sectionHeading({
       eyebrow: "Keterbukaan",

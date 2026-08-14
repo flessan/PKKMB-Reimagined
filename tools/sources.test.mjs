@@ -19,6 +19,7 @@ import { programs, programsSource } from "../src/data/programs.js";
 import { stats, leader, leadership, facilities, history } from "../src/data/campus.js";
 import { site } from "../src/data/site.js";
 import { officialNews, newsSource } from "../src/data/news.js";
+import { emblem } from "../src/data/emblem.js";
 
 /** Meniru esc() milik situs agar teks feed dapat dicocokkan pada HTML. */
 const escapeHtml = (s) =>
@@ -411,5 +412,45 @@ describe("cache berita resmi", () => {
     assert.ok(page.includes("refresh:news"), "perintah refresh:news tidak dijelaskan");
     assert.ok(page.includes("refresh:prodi"), "perintah refresh:prodi tidak dijelaskan");
     assert.ok(page.includes(newsSource.url), "endpoint berita tidak dicantumkan");
+  });
+});
+
+/* ------------------------------------------------------------------ */
+
+describe("lambang institusi", () => {
+  test("data lambang lengkap dan bersumber resmi", () => {
+    assert.equal(emblem.name, "Enggang Bakilau");
+    assert.doesNotThrow(() => source(emblem.sourceId));
+    assert.equal(source(emblem.sourceId).status, "official");
+    assert.ok(emblem.philosophyBy, "perancang filosofi tidak dicatat");
+    assert.ok(emblem.graphicsBy, "perancang grafis tidak dicatat");
+    assert.equal(emblem.elements.length, 8, "jumlah unsur lambang berubah");
+    for (const e of emblem.elements) {
+      assert.ok(e.title?.length > 3, `judul unsur kosong: ${e.title}`);
+      assert.ok(e.meaning?.length > 30, `makna unsur terlalu pendek: ${e.title}`);
+    }
+  });
+
+  test("halaman profil menampilkan lambang beserta atribusi perancangnya", () => {
+    const page = pages.find((p) => p.name === "profil.html").html;
+    assert.ok(page.includes(emblem.name), "nama lambang tidak tampil");
+    assert.ok(page.includes(emblem.philosophyBy), "perancang filosofi tidak tampil");
+    assert.ok(page.includes(emblem.graphicsBy), "perancang grafis tidak tampil");
+    assert.ok(
+      page.includes(source(emblem.sourceId).url),
+      "tautan sumber lambang tidak tampil",
+    );
+    for (const e of emblem.elements) {
+      assert.ok(page.includes(escapeHtml(e.title)), `unsur tidak tampil: ${e.title}`);
+    }
+  });
+
+  test("tanggal berdiri pada lambang konsisten dengan halaman sejarah", () => {
+    // 23 helai + 9 helai + 87 helai = 23 September 1987.
+    const el = emblem.elements.find((e) => e.title.includes("bulu"));
+    assert.match(el.meaning, /23 September 1987/);
+    assert.match(el.meaning, /23 helai/);
+    assert.match(el.meaning, /9 helai/);
+    assert.match(el.meaning, /87 helai/);
   });
 });

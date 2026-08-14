@@ -3,6 +3,7 @@ import { pageHeader, sectionHeading, statBlock, calloutPortal } from "../compone
 import { icon } from "../lib/icons.js";
 import { esc, join } from "../lib/html.js";
 import { assets } from "../data/assets.js";
+import { emblem } from "../data/emblem.js";
 import {
   vision,
   missions,
@@ -20,6 +21,7 @@ function jumpNav() {
     { href: "#visi-misi", label: "Visi & Misi" },
     { href: "#sejarah", label: "Sejarah" },
     { href: "#struktur", label: "Tata Kelola" },
+    { href: "#lambang", label: "Lambang" },
   ];
   return `
 <nav class="rounded-[1rem] border border-ink-200 bg-white p-5" aria-label="Bagian halaman profil">
@@ -238,6 +240,72 @@ function governanceSection() {
 </section>`;
 }
 
+/**
+ * Lambang institusi beserta maknanya.
+ *
+ * Seluruh teks dikutip dari laman resmi lambang Poliban. Bagian ini sengaja
+ * bertumpu pada tipografi dan lambang asli, bukan foto tambahan.
+ */
+function emblemSection() {
+  return `
+<section id="lambang" class="scroll-mt-24 border-t border-ink-200 bg-ink-50 py-14 md:py-20">
+  <div class="shell">
+    ${sectionHeading({
+      eyebrow: "Identitas visual",
+      title: `Lambang “${emblem.name}”`,
+      lead: "Setiap unsur pada lambang Poliban memiliki makna yang ditetapkan resmi oleh institusi.",
+    })}
+
+    <div class="mt-9 grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <div class="rounded-xl border border-ink-200 bg-white p-8">
+          <img src="${assets.crest.file}" alt="${esc(assets.crest.alt)}"
+               width="${assets.crest.width}" height="${assets.crest.height}"
+               loading="lazy" decoding="async" class="mx-auto h-auto w-full max-w-[13rem]">
+        </div>
+        <dl class="mt-5 space-y-3 text-sm">
+          <div>
+            <dt class="font-display text-xs font-semibold uppercase tracking-wider text-ink-500">Warna</dt>
+            <dd class="mt-1 leading-relaxed text-ink-700">${esc(emblem.colours)}</dd>
+          </div>
+          <div>
+            <dt class="font-display text-xs font-semibold uppercase tracking-wider text-ink-500">Dasar filosofis &amp; desain</dt>
+            <dd class="mt-1 text-ink-700">${esc(emblem.philosophyBy)}</dd>
+          </div>
+          <div>
+            <dt class="font-display text-xs font-semibold uppercase tracking-wider text-ink-500">Gambar grafis</dt>
+            <dd class="mt-1 text-ink-700">${esc(emblem.graphicsBy)}</dd>
+          </div>
+        </dl>
+        <p class="mt-5 text-xs leading-relaxed text-ink-500">
+          Sumber:
+          <a href="https://poliban.ac.id/logo-poliban/" rel="noopener" class="text-brand-700 underline underline-offset-2">laman lambang resmi Poliban</a>.
+        </p>
+      </div>
+
+      <div class="lg:col-span-8">
+        <p class="text-base leading-relaxed text-ink-700">${esc(emblem.shape)}</p>
+
+        <dl class="mt-7 grid gap-x-8 gap-y-6 sm:grid-cols-2">
+          ${join(
+            emblem.elements.map(
+              (e, n) => `
+          <div>
+            <dt class="flex gap-2.5 font-display text-sm font-bold text-ink-900">
+              <span class="text-brand-500">${String(n + 1).padStart(2, "0")}</span>
+              <span>${esc(e.title)}</span>
+            </dt>
+            <dd class="mt-1.5 pl-8 text-sm leading-relaxed text-ink-600">${esc(e.meaning)}</dd>
+          </div>`,
+            ),
+          )}
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
 export default function render() {
   return page({
     title: "Profil Poliban",
@@ -257,6 +325,7 @@ export default function render() {
       visionMission(),
       historySection(),
       governanceSection(),
+      emblemSection(),
       `<div class="shell py-20">${calloutPortal()}</div>`,
     ]),
   });
