@@ -238,6 +238,34 @@
   </div>
 </section>
 
+<nav class="sticky top-[3.75rem] z-30 border-b border-ink-200 bg-white/95 backdrop-blur-sm no-print"
+     aria-label="Bagian halaman PKKMB">
+  <div class="shell">
+    <ul class="-mx-1 flex gap-1 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      
+      <li class="shrink-0">
+        <a href="#alur" class="inline-flex rounded-lg px-3 py-1.5 font-display text-sm font-semibold text-ink-600 transition-colors hover:bg-ink-100 hover:text-brand-700">Alur peserta</a>
+      </li>
+
+      <li class="shrink-0">
+        <a href="#jadwal" class="inline-flex rounded-lg px-3 py-1.5 font-display text-sm font-semibold text-ink-600 transition-colors hover:bg-ink-100 hover:text-brand-700">Jadwal</a>
+      </li>
+
+      <li class="shrink-0">
+        <a href="#unduhan" class="inline-flex rounded-lg px-3 py-1.5 font-display text-sm font-semibold text-ink-600 transition-colors hover:bg-ink-100 hover:text-brand-700">Dokumen resmi</a>
+      </li>
+
+      <li class="shrink-0">
+        <a href="#persiapan" class="inline-flex rounded-lg px-3 py-1.5 font-display text-sm font-semibold text-ink-600 transition-colors hover:bg-ink-100 hover:text-brand-700">Persiapan</a>
+      </li>
+
+      <li class="shrink-0">
+        <a href="#faq" class="inline-flex rounded-lg px-3 py-1.5 font-display text-sm font-semibold text-ink-600 transition-colors hover:bg-ink-100 hover:text-brand-700">Tanya jawab</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <section class="shell py-16 md:py-20" id="alur">
   
 <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
@@ -310,7 +338,23 @@
   <a href="berita/run-down-acara-pkkmb-poliban-341.html" class="btn btn-secondary btn-sm shrink-0">Unduh rundown<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
 </div>
 
-    <div class="relative mt-10 pl-10">
+    <!--
+      Membedakan secara terbuka mana yang terverifikasi dan mana yang tidak.
+      Tanggal dikonfirmasi dua sumber resmi; jam per sesi hanya ada di lampiran
+      PDF, jadi tidak dikarang di sini.
+    -->
+    <div class="mt-8 grid gap-3 sm:grid-cols-2">
+      <p class="flex gap-2.5 rounded-lg border border-brand-200 bg-brand-50 px-4 py-3 text-sm leading-relaxed text-ink-700">
+        <svg class="mt-0.5 h-4 w-4 shrink-0 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8.2 12.2 2.6 2.6 5-5.2"/></svg>
+        <span><strong class="font-semibold">Terverifikasi:</strong> tanggal 3–6 Agustus 2026 dan kuliah perdana 24 Agustus 2026, dikonfirmasi laman resmi Poliban.</span>
+      </p>
+      <p class="flex gap-2.5 rounded-lg border border-accent-300 bg-accent-100/60 px-4 py-3 text-sm leading-relaxed text-ink-700">
+        <svg class="mt-0.5 h-4 w-4 shrink-0 text-accent-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8.5v.01"/></svg>
+        <span><strong class="font-semibold">Belum dipublikasikan:</strong> jam per sesi, ruangan, dan nama pemateri. Acuan resminya adalah dokumen rundown di bawah.</span>
+      </p>
+    </div>
+
+    <div class="relative mt-8 pl-10">
       <div class="timeline-rail" aria-hidden="true"></div>
       <ol class="space-y-4">
         

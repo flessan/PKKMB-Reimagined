@@ -1,5 +1,5 @@
 import { page } from "../components/layout.js";
-import { pageHeader, programCard, emptyState, calloutPortal } from "../components/ui.js";
+import { pageHeader, programRow, emptyState, calloutPortal } from "../components/ui.js";
 import { icon } from "../lib/icons.js";
 import { esc, join } from "../lib/html.js";
 import {
@@ -89,9 +89,9 @@ function explorer() {
         </div>
         <span class="shrink-0 text-sm text-ink-500" data-dept-count="${dept.id}">${list.length} prodi</span>
       </div>
-      <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        ${join(list.map((p) => programCard(p)))}
-      </div>
+      <ul class="mt-2">
+        ${join(list.map((p) => programRow(p)))}
+      </ul>
     </section>`;
       }),
     )}

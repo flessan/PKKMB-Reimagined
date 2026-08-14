@@ -114,38 +114,52 @@ const unverified = [
   },
 ];
 
+/**
+ * Daftar sumber sebagai tabel, bukan tumpukan kartu.
+ *
+ * Delapan belas kartu berbingkai membuat halaman terasa berat padahal isinya
+ * data referensi yang paling berguna bila bisa dibandingkan baris per baris.
+ * Pada layar sempit tabel meluruh menjadi daftar blok agar tidak ada gulir
+ * horizontal.
+ */
 function sourceList() {
   const entries = Object.entries(sources);
   return `
 <section class="shell py-14 md:py-20" id="daftar-sumber">
   ${sectionHeading({
     eyebrow: "Rujukan",
-    title: "Sumber yang dikonsultasikan",
+    title: `${entries.length} sumber yang dikonsultasikan`,
     lead: "Seluruh informasi faktual pada situs ini berasal dari kanal berikut. Tanggal periksa menunjukkan kapan halaman terakhir diverifikasi.",
   })}
 
-  <ul class="mt-9 space-y-3">
+  <ul class="mt-9 divide-y divide-ink-200 border-y border-ink-200">
     ${join(
       entries.map(
         ([id, s]) => `
-    <li class="card p-5" id="sumber-${id}">
-      <div class="flex flex-wrap items-start justify-between gap-3">
-        <div class="min-w-0">
-          <span class="badge ${STATUS[s.status].tone}">${STATUS[s.status].label}</span>
-          <h3 class="mt-2 font-display text-base font-bold text-ink-900">${esc(s.label)}</h3>
-          <p class="mt-1 text-sm text-ink-600">${esc(s.publisher)}</p>
-          <a href="${s.url}" rel="noopener" class="mt-2 inline-flex items-center gap-1.5 break-all text-sm text-brand-700 underline underline-offset-2 hover:text-brand-800">
-            ${esc(s.url)}${icon("arrowUpRight", { class: "h-3.5 w-3.5 shrink-0" })}
-          </a>
-          ${s.license ? `<p class="mt-2 text-xs text-ink-500">Lisensi: ${esc(s.license)}</p>` : ""}
-          ${s.author ? `<p class="mt-1 text-xs text-ink-500">Pembuat: ${esc(s.author)}</p>` : ""}
-          ${s.note ? `<p class="mt-2 text-xs italic text-ink-500">${esc(s.note)}</p>` : ""}
-        </div>
-        <dl class="shrink-0 text-right text-xs text-ink-500">
-          ${s.published ? `<dt class="sr-only">Terbit</dt><dd>Terbit ${formatDate(s.published)}</dd>` : ""}
-          <dt class="sr-only">Diperiksa</dt><dd>Diperiksa ${formatDate(s.checked)}</dd>
-        </dl>
+    <li class="grid gap-x-6 gap-y-2 py-5 md:grid-cols-12" id="sumber-${id}">
+      <div class="md:col-span-2">
+        <span class="badge ${STATUS[s.status].tone}">${STATUS[s.status].label}</span>
       </div>
+
+      <div class="min-w-0 md:col-span-7">
+        <h3 class="font-display text-[0.95rem] font-bold leading-snug text-ink-900">${esc(s.label)}</h3>
+        <p class="mt-1 text-sm text-ink-600">${esc(s.publisher)}</p>
+        <a href="${s.url}" rel="noopener" class="mt-1.5 inline-flex items-baseline gap-1 break-all text-xs text-brand-700 underline underline-offset-2 hover:text-brand-800">
+          ${esc(s.url)}
+        </a>
+        ${s.license ? `<p class="mt-1.5 text-xs text-ink-500">Lisensi: ${esc(s.license)}</p>` : ""}
+        ${s.author ? `<p class="mt-1 text-xs text-ink-500">Pembuat: ${esc(s.author)}</p>` : ""}
+        ${s.note ? `<p class="mt-1.5 text-xs italic leading-relaxed text-ink-500">${esc(s.note)}</p>` : ""}
+      </div>
+
+      <dl class="text-xs text-ink-500 md:col-span-3 md:text-right">
+        ${
+          s.published
+            ? `<div class="md:mb-0.5"><dt class="inline md:sr-only">Terbit </dt><dd class="inline md:block">${formatDate(s.published)}</dd></div>`
+            : ""
+        }
+        <div><dt class="inline md:sr-only">Diperiksa </dt><dd class="inline md:block">Diperiksa ${formatDate(s.checked)}</dd></div>
+      </dl>
     </li>`,
       ),
     )}
@@ -183,53 +197,67 @@ function factList() {
 </section>`;
 }
 
+/**
+ * Pustaka aset sebagai daftar bergambar.
+ *
+ * Setiap entri menampilkan berkasnya sendiri di samping metadatanya, sehingga
+ * pembaca bisa mencocokkan gambar dengan asal-usulnya tanpa membuka tab lain.
+ */
 function assetList() {
+  const entries = Object.entries(assets);
   return `
-<section class="shell py-14 md:py-20" id="aset">
-  ${sectionHeading({
-    eyebrow: "Aset visual",
-    title: "Gambar yang digunakan",
-    lead: "Semua berkas disimpan lokal — tidak ada hotlink ke server pihak ketiga. Tidak ada citra hasil pembuatan AI pada situs ini.",
-  })}
+<section class="border-t border-ink-200 bg-ink-50 py-14 md:py-20" id="aset">
+  <div class="shell">
+    ${sectionHeading({
+      eyebrow: "Aset visual",
+      title: `${entries.length} gambar yang digunakan`,
+      lead: "Semua berkas disimpan lokal — tidak ada hotlink ke server pihak ketiga. Tidak ada citra hasil pembuatan AI pada situs ini.",
+    })}
 
-  <div class="mt-9 grid gap-4 sm:grid-cols-2">
-    ${join(
-      Object.entries(assets).map(
-        ([id, a]) => `
-    <article class="card p-5">
-      <div class="flex items-start gap-4">
-        <img src="${a.file}" alt=""
-             width="${Math.round((a.width / a.height) * 64)}" height="64"
-             loading="lazy" decoding="async"
-             class="h-16 w-auto max-w-[7rem] shrink-0 rounded-lg border border-ink-200 bg-white object-contain p-1">
-        <div class="min-w-0">
-          <h3 class="font-display text-sm font-bold text-ink-900">${esc(id)}</h3>
-          <p class="mt-1 text-xs leading-relaxed text-ink-600">${esc(a.note)}</p>
+    <ul class="mt-9 divide-y divide-ink-200 border-y border-ink-200">
+      ${join(
+        entries.map(
+          ([id, a]) => `
+      <li class="grid gap-x-6 gap-y-3 py-5 sm:grid-cols-12">
+        <div class="sm:col-span-3">
+          <img src="${a.file}" alt=""
+               width="${Math.round((a.width / a.height) * 72)}" height="72"
+               loading="lazy" decoding="async"
+               class="h-[4.5rem] w-auto max-w-full rounded-lg border border-ink-200 bg-white object-contain p-1.5">
+          <p class="mt-2 font-mono text-[0.7rem] text-ink-500">${esc(id)}</p>
         </div>
-      </div>
-      <dl class="mt-4 space-y-1.5 border-t border-ink-200 pt-3 text-xs">
-        <div class="flex gap-2">
-          <dt class="shrink-0 text-ink-500">Pemilik</dt>
-          <dd class="text-ink-800">${esc(a.owner)}</dd>
+
+        <div class="min-w-0 sm:col-span-9">
+          <p class="text-sm leading-relaxed text-ink-700">${esc(a.note)}</p>
+          <dl class="mt-3 grid gap-x-5 gap-y-1.5 text-xs sm:grid-cols-2">
+            <div class="flex gap-2">
+              <dt class="shrink-0 text-ink-500">Pemilik</dt>
+              <dd class="text-ink-800">${esc(a.owner)}</dd>
+            </div>
+            <div class="flex gap-2">
+              <dt class="shrink-0 text-ink-500">Ukuran</dt>
+              <dd class="text-ink-800 tabular-nums">${a.width}&times;${a.height}</dd>
+            </div>
+            ${
+              a.license
+                ? `<div class="flex gap-2"><dt class="shrink-0 text-ink-500">Lisensi</dt><dd class="text-ink-800">${esc(a.license)}</dd></div>`
+                : ""
+            }
+            ${
+              a.attribution
+                ? `<div class="flex gap-2"><dt class="shrink-0 text-ink-500">Atribusi</dt><dd class="text-ink-800">${esc(a.attribution)}</dd></div>`
+                : ""
+            }
+            <div class="flex gap-2 sm:col-span-2">
+              <dt class="shrink-0 text-ink-500">Asal</dt>
+              <dd class="min-w-0"><a href="${a.origin}" rel="noopener" class="break-all text-brand-700 underline underline-offset-2">${esc(a.origin)}</a></dd>
+            </div>
+          </dl>
         </div>
-        ${
-          a.license
-            ? `<div class="flex gap-2"><dt class="shrink-0 text-ink-500">Lisensi</dt><dd class="text-ink-800">${esc(a.license)}</dd></div>`
-            : ""
-        }
-        ${
-          a.attribution
-            ? `<div class="flex gap-2"><dt class="shrink-0 text-ink-500">Atribusi</dt><dd class="text-ink-800">${esc(a.attribution)}</dd></div>`
-            : ""
-        }
-        <div class="flex gap-2">
-          <dt class="shrink-0 text-ink-500">Asal</dt>
-          <dd class="min-w-0"><a href="${a.origin}" rel="noopener" class="break-all text-brand-700 underline underline-offset-2">${esc(a.origin)}</a></dd>
-        </div>
-      </dl>
-    </article>`,
-      ),
-    )}
+      </li>`,
+        ),
+      )}
+    </ul>
   </div>
 </section>`;
 }

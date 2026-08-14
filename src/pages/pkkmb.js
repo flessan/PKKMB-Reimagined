@@ -57,6 +57,40 @@ function heroAside() {
 </blockquote>`;
 }
 
+/**
+ * Navigasi lompat di dalam halaman.
+ *
+ * Halaman ini panjang dan memuat lima blok berbeda. Tanpa peta, dokumen resmi
+ * — hal yang paling sering dicari peserta — terkubur di posisi kelima. Bilah
+ * ini menempel di bawah header agar peserta bisa langsung menuju bagian yang
+ * dibutuhkan, dan tetap berupa tautan jangkar biasa tanpa JavaScript.
+ */
+function pageNav() {
+  const items = [
+    { href: "#alur", label: "Alur peserta" },
+    { href: "#jadwal", label: "Jadwal" },
+    { href: "#unduhan", label: "Dokumen resmi" },
+    { href: "#persiapan", label: "Persiapan" },
+    { href: "#faq", label: "Tanya jawab" },
+  ];
+  return `
+<nav class="sticky top-[3.75rem] z-30 border-b border-ink-200 bg-white/95 backdrop-blur-sm no-print"
+     aria-label="Bagian halaman PKKMB">
+  <div class="shell">
+    <ul class="-mx-1 flex gap-1 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      ${join(
+        items.map(
+          (i) => `
+      <li class="shrink-0">
+        <a href="${i.href}" class="inline-flex rounded-lg px-3 py-1.5 font-display text-sm font-semibold text-ink-600 transition-colors hover:bg-ink-100 hover:text-brand-700">${esc(i.label)}</a>
+      </li>`,
+        ),
+      )}
+    </ul>
+  </div>
+</nav>`;
+}
+
 function steps() {
   return `
 <section class="shell py-16 md:py-20" id="alur">
@@ -95,7 +129,23 @@ function scheduleSection() {
       action: { label: "Unduh rundown", href: "berita/run-down-acara-pkkmb-poliban-341.html" },
     })}
 
-    <div class="relative mt-10 pl-10">
+    <!--
+      Membedakan secara terbuka mana yang terverifikasi dan mana yang tidak.
+      Tanggal dikonfirmasi dua sumber resmi; jam per sesi hanya ada di lampiran
+      PDF, jadi tidak dikarang di sini.
+    -->
+    <div class="mt-8 grid gap-3 sm:grid-cols-2">
+      <p class="flex gap-2.5 rounded-lg border border-brand-200 bg-brand-50 px-4 py-3 text-sm leading-relaxed text-ink-700">
+        ${icon("checkCircle", { class: "mt-0.5 h-4 w-4 shrink-0 text-brand-600" })}
+        <span><strong class="font-semibold">Terverifikasi:</strong> tanggal 3–6 Agustus 2026 dan kuliah perdana 24 Agustus 2026, dikonfirmasi laman resmi Poliban.</span>
+      </p>
+      <p class="flex gap-2.5 rounded-lg border border-accent-300 bg-accent-100/60 px-4 py-3 text-sm leading-relaxed text-ink-700">
+        ${icon("info", { class: "mt-0.5 h-4 w-4 shrink-0 text-accent-600" })}
+        <span><strong class="font-semibold">Belum dipublikasikan:</strong> jam per sesi, ruangan, dan nama pemateri. Acuan resminya adalah dokumen rundown di bawah.</span>
+      </p>
+    </div>
+
+    <div class="relative mt-8 pl-10">
       <div class="timeline-rail" aria-hidden="true"></div>
       <ol class="space-y-4">
         ${join(
@@ -284,6 +334,7 @@ export default function render() {
         crumbs: [{ label: "Beranda", href: "index.html" }, { label: "PKKMB 2026" }],
         aside: heroAside(),
       }),
+      pageNav(),
       steps(),
       scheduleSection(),
       checklist(),

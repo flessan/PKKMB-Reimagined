@@ -12,7 +12,7 @@ import { icon } from "../lib/icons.js";
 import { esc, join, formatDate } from "../lib/html.js";
 import { site } from "../data/site.js";
 import { sortedPosts, announcements, news } from "../data/posts.js";
-import { schedule, eventWindow } from "../data/schedule.js";
+import { schedule, eventWindow, eventStatus } from "../data/schedule.js";
 import { programs, programStats } from "../data/programs.js";
 import { stats, quickServices, facilities, leader } from "../data/campus.js";
 import { assets } from "../data/assets.js";
@@ -23,55 +23,85 @@ import { latestNews, pkkmbNews, newsSource } from "../data/news.js";
  * ------------------------------------------------------------------ */
 
 function hero() {
+  const st = eventStatus();
   const days = schedule.slice(0, 4);
+  const today = new Date().toISOString().slice(0, 10);
+
+  /* Lencana status: warna mengikuti fase, dirender saat build. */
+  const toneClass =
+    st.tone === "live"
+      ? "bg-accent-400 text-ink-950"
+      : st.tone === "accent"
+        ? "bg-accent-300 text-ink-950"
+        : "bg-white/15 text-white";
+
   return `
 <section class="relative isolate overflow-hidden bg-ink-950 text-white">
-  <div class="absolute inset-0 bg-[linear-gradient(105deg,#091d34_10%,#102f51_55%,#17457a_100%)]"></div>
-  <div class="absolute inset-0 grid-fine opacity-25" aria-hidden="true"></div>
+  <!-- Foto dokumentasi resmi sebagai latar; digelapkan agar teks tetap terbaca. -->
+  <picture>
+    <source srcset="${assets.pkkmbDirector.webp}" type="image/webp">
+    <img src="${assets.pkkmbDirector.file}" alt=""
+         width="${assets.pkkmbDirector.width}" height="${assets.pkkmbDirector.height}"
+         fetchpriority="high" decoding="async"
+         class="absolute inset-0 h-full w-full object-cover object-[62%_30%] opacity-[0.22]">
+  </picture>
+  <div class="absolute inset-0 bg-[linear-gradient(100deg,#071628_4%,#0b2340_46%,rgba(16,47,81,0.72)_100%)]"></div>
 
-  <div class="shell relative py-14 md:py-20 lg:py-24">
-    <div class="grid gap-12 lg:grid-cols-12 lg:gap-10">
+  <div class="shell relative py-12 md:py-16 lg:py-20">
+    <div class="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
 
       <div class="lg:col-span-7">
-        <p class="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 py-1.5 pl-2 pr-4 text-xs font-semibold">
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-accent-400 px-2.5 py-1 font-display text-[0.65rem] uppercase tracking-wider text-ink-950">
-            <span class="h-1.5 w-1.5 rounded-full bg-ink-950"></span>Resmi
-          </span>
-          <span class="text-white/80">Tahun Akademik 2026/2027</span>
+        <p class="flex flex-wrap items-center gap-x-3 gap-y-2 font-display text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
+          <span class="text-accent-300">Politeknik Negeri Banjarmasin</span>
+          <span class="hidden h-3 w-px bg-white/25 sm:block"></span>
+          <span>Tahun Akademik 2026/2027</span>
         </p>
 
-        <h1 class="mt-6 font-display text-[2.5rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4rem]">
-          PKKMB <span class="text-accent-300">2026</span><br>Politeknik Negeri Banjarmasin
+        <h1 class="mt-4 font-display text-[2.75rem] font-extrabold leading-[0.98] tracking-tight sm:text-6xl lg:text-[4.25rem]">
+          PKKMB <span class="text-accent-300">2026</span>
         </h1>
 
-        <p class="mt-5 max-w-xl text-lg leading-relaxed text-white/75">
-          Pengenalan Kehidupan Kampus bagi Mahasiswa Baru \u2014 jadwal, tata tertib,
-          pengumuman resmi, dan portal presensi kehadiran dalam satu tempat.
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl">
+          Pengenalan Kehidupan Kampus bagi Mahasiswa Baru — semua jadwal, dokumen resmi,
+          dan presensi kehadiran dalam satu tempat.
         </p>
 
-        <p class="mt-4 font-display text-base font-semibold text-accent-300">\u201c${esc(site.tagline)}\u201d</p>
+        <p class="mt-4 border-l-2 border-accent-400 pl-3.5 font-display text-base font-semibold leading-snug text-accent-300">
+          “${esc(site.tagline)}”
+        </p>
 
-        <div class="mt-8 flex flex-wrap gap-3">
+        <!-- Status kegiatan: dirender saat build, diperbarui skrip bila perlu. -->
+        <div class="mt-7 max-w-xl rounded-xl border border-white/12 bg-white/[0.07] p-4 sm:p-5"
+             data-event-card data-built="${today}">
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-display text-[0.68rem] font-bold uppercase tracking-wider ${toneClass}"
+                  data-event-status>${esc(st.state)}</span>
+            <p class="font-display text-lg font-bold leading-tight sm:text-xl" data-event-headline>${esc(st.headline)}</p>
+          </div>
+          <p class="mt-2 text-sm leading-relaxed text-white/65" data-event-detail>${esc(st.detail)}</p>
+        </div>
+
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a href="login.html" class="btn btn-invert btn-lg">
             ${icon("shield", { class: "h-5 w-5" })}<span>Masuk Portal PKKMB</span>
           </a>
           <a href="pkkmb.html" class="btn btn-outline-invert btn-lg">
-            <span>Panduan peserta</span>${icon("arrowRight", { class: "h-4 w-4" })}
+            <span>Panduan lengkap peserta</span>${icon("arrowRight", { class: "h-4 w-4" })}
           </a>
         </div>
 
-        <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-6 text-sm">
+        <dl class="mt-9 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-white/10 pt-6 text-sm sm:grid-cols-3">
           <div>
             <dt class="text-white/50">Kegiatan utama</dt>
-            <dd class="mt-0.5 font-display font-bold text-white">4 \u2013 6 Agustus 2026</dd>
+            <dd class="mt-1 font-display text-base font-bold text-white">4 – 6 Agustus 2026</dd>
           </div>
           <div>
             <dt class="text-white/50">Peserta</dt>
-            <dd class="mt-0.5 font-display font-bold text-white">1.817 mahasiswa baru</dd>
+            <dd class="mt-1 font-display text-base font-bold text-white">1.817 mahasiswa</dd>
           </div>
           <div>
             <dt class="text-white/50">Kuliah perdana</dt>
-            <dd class="mt-0.5 font-display font-bold text-white">24 Agustus 2026</dd>
+            <dd class="mt-1 font-display text-base font-bold text-white">24 Agustus 2026</dd>
           </div>
         </dl>
 
@@ -83,54 +113,34 @@ function hero() {
         </p>
       </div>
 
-      <div class="lg:col-span-5 lg:pl-4">
-        <div class="rounded-xl border border-white/12 bg-white/[0.06] p-5 sm:p-6">
-          <div class="flex items-center justify-between gap-4">
-            <h2 class="font-display text-sm font-bold uppercase tracking-[0.12em] text-white/70">Status kegiatan</h2>
-            <span class="badge badge-invert" data-event-status>Memuat\u2026</span>
+      <div class="lg:col-span-5">
+        <div class="rounded-xl border border-white/12 bg-ink-950/50 p-5 sm:p-6">
+          <div class="flex items-baseline justify-between gap-4">
+            <h2 class="font-display text-sm font-bold uppercase tracking-[0.12em] text-white/70">Rangkaian kegiatan</h2>
+            <span class="text-xs text-white/45">3 – 6 Agustus 2026</span>
           </div>
 
-          <p class="mt-4 font-display text-2xl font-extrabold leading-tight" data-event-headline>
-            Rangkaian PKKMB 2026
-          </p>
-          <p class="mt-1.5 text-sm leading-relaxed text-white/65" data-event-detail>
-            Pra-PKKMB 3 Agustus, kegiatan utama 4\u20136 Agustus 2026.
-          </p>
-
-          <ol class="mt-6 space-y-2.5" data-event-days>
+          <ol class="mt-5 space-y-2" data-event-days>
             ${join(
               days.map(
                 (d) => `
-            <li class="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.04] px-3.5 py-2.5 transition-colors" data-day="${d.date}">
-              <span class="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-white/10 font-display text-sm font-bold">${d.date.slice(8)}</span>
+            <li class="flex items-center gap-3.5 rounded-lg border border-white/10 bg-white/[0.05] px-3.5 py-3" data-day="${d.date}">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white/10 font-display text-base font-bold leading-none">${d.date.slice(8)}</span>
               <span class="min-w-0 flex-1">
-                <span class="block truncate font-display text-sm font-semibold text-white">${esc(d.phase)}</span>
-                <span class="block truncate text-xs text-white/55">${esc(d.title)}</span>
+                <span class="block font-display text-sm font-semibold text-white">${esc(d.phase)}</span>
+                <span class="mt-0.5 block text-xs leading-snug text-white/55">${esc(d.title)}</span>
               </span>
             </li>`,
               ),
             )}
           </ol>
 
-          <a href="pkkmb.html#jadwal" class="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-accent-300 hover:text-accent-400">
-            Lihat jadwal lengkap ${icon("arrowRight", { class: "h-4 w-4" })}
+          <a href="pkkmb.html#jadwal" class="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-accent-300 transition-colors hover:text-accent-400">
+            Jadwal lengkap &amp; dokumen ${icon("arrowRight", { class: "h-4 w-4" })}
           </a>
         </div>
 
-        <figure class="mt-4 overflow-hidden rounded-xl border border-white/12 bg-white/[0.04]">
-          <picture>
-            <source srcset="${assets.pkkmbDirector.webp}" type="image/webp">
-            <img src="${assets.pkkmbDirector.file}" alt="${esc(assets.pkkmbDirector.alt)}"
-                 width="${assets.pkkmbDirector.width}" height="${assets.pkkmbDirector.height}"
-                 loading="lazy" decoding="async"
-                 class="aspect-[16/10] w-full object-cover object-[50%_35%]">
-          </picture>
-          <figcaption class="border-t border-white/10 px-4 py-2.5 text-xs leading-relaxed text-white/55">
-            ${esc(assets.pkkmbDirector.caption)} — dokumentasi resmi Poliban.
-          </figcaption>
-        </figure>
-
-        <figure class="mt-4 overflow-hidden rounded-xl border border-white/12 bg-white/[0.04] p-3">
+        <figure class="mt-4 rounded-xl border border-white/12 bg-white/[0.04] p-3">
           <picture>
             <source srcset="${assets.banner.webp}" type="image/webp">
             <img src="${assets.banner.file}" alt="${esc(assets.banner.alt)}"
@@ -295,44 +305,71 @@ function newsroom() {
  * WP REST API resmi; setiap entri hanya diringkas dan selalu menautkan
  * kembali ke laman aslinya.
  */
+/**
+ * Kabar resmi dari poliban.ac.id.
+ *
+ * Disusun editorial, bukan grid kartu seragam: satu berita utama mendapat
+ * perlakuan visual terkuat, sisanya menjadi daftar ringkas yang lebih tenang.
+ * Semua entri berasal dari cache WP REST API resmi dan menautkan artikel asli.
+ */
 function officialFeed() {
-  const items = latestNews(4);
+  const [lead, ...rest] = latestNews(5);
+  if (!lead) return "";
+
   return `
-<section class="border-y border-ink-200 bg-ink-50 py-16 md:py-20">
+<section class="border-y border-ink-200 bg-ink-50 py-14 md:py-18">
   <div class="shell">
-    ${sectionHeading({
-      eyebrow: "Dari poliban.ac.id",
-      title: "Kabar terbaru kampus",
-      lead: "Ditarik langsung dari situs resmi Politeknik Negeri Banjarmasin. Klik untuk membaca artikel aslinya.",
-    })}
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-xl">
+        <p class="eyebrow">Dari poliban.ac.id</p>
+        <h2 class="mt-2 font-display text-2xl font-extrabold leading-tight text-ink-900 md:text-3xl">Kabar terbaru kampus</h2>
+      </div>
+      <a href="berita.html#kabar-kampus" class="btn btn-secondary btn-sm">
+        <span>Semua kabar kampus</span>${icon("arrowRight", { class: "h-4 w-4" })}
+      </a>
+    </div>
 
-    <ul class="mt-8 grid gap-4 sm:grid-cols-2">
-      ${join(
-        items.map(
-          (n) => `
-      <li class="card card-interactive flex flex-col p-5">
+    <div class="mt-8 grid gap-x-10 gap-y-8 lg:grid-cols-12">
+
+      <article class="lg:col-span-6">
         <div class="flex flex-wrap items-center gap-2">
-          ${join(n.categories.slice(0, 2).map((c) => `<span class="badge badge-neutral">${esc(c)}</span>`))}
-          <time datetime="${n.date}" class="text-xs text-ink-500">${formatDate(n.date)}</time>
+          ${join(lead.categories.slice(0, 2).map((c) => `<span class="badge badge-brand">${esc(c)}</span>`))}
+          <time datetime="${lead.date}" class="text-xs text-ink-500">${formatDate(lead.date)}</time>
         </div>
-        <h3 class="mt-3 font-display text-base font-bold leading-snug text-ink-900">
-          <a href="${n.url}" rel="noopener" class="stretch-link transition-colors hover:text-brand-700">${esc(n.title)}</a>
+        <h3 class="mt-3 font-display text-xl font-extrabold leading-tight text-ink-900 sm:text-2xl">
+          <a href="${lead.url}" rel="noopener" class="transition-colors hover:text-brand-700">${esc(lead.title)}</a>
         </h3>
-        <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-600 clamp-3">${esc(n.summary)}</p>
-        <p class="mt-4 inline-flex items-center gap-1.5 font-display text-xs font-semibold text-brand-700">
-          poliban.ac.id ${icon("external", { class: "h-3.5 w-3.5" })}
-        </p>
-      </li>`,
-        ),
-      )}
-    </ul>
+        <p class="mt-3 text-[0.95rem] leading-relaxed text-ink-600">${esc(lead.summary)}</p>
+        <a href="${lead.url}" rel="noopener"
+           class="mt-4 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-brand-700 hover:text-brand-800">
+          Baca di poliban.ac.id ${icon("external", { class: "h-3.5 w-3.5" })}
+        </a>
+      </article>
 
-    <p class="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-500">
+      <ul class="divide-y divide-ink-200 border-t border-ink-200 lg:col-span-6 lg:border-t-0">
+        ${join(
+          rest.map(
+            (n) => `
+        <li class="group py-4 first:pt-0 lg:first:pt-0">
+          <a href="${n.url}" rel="noopener" class="block">
+            <p class="font-display text-[0.95rem] font-semibold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">${esc(n.title)}</p>
+            <p class="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-500">
+              <time datetime="${n.date}">${formatDate(n.date)}</time>
+              ${n.categories[0] ? `<span aria-hidden="true">·</span><span>${esc(n.categories[0])}</span>` : ""}
+            </p>
+          </a>
+        </li>`,
+          ),
+        )}
+      </ul>
+    </div>
+
+    <p class="mt-8 flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-ink-200 pt-5 text-xs text-ink-500">
       ${icon("info", { class: "h-4 w-4 shrink-0 text-ink-400" })}
-      <span>Diperbarui dari
+      <span>Disegarkan dari
         <a href="${newsSource.url}" rel="noopener" class="font-medium text-brand-700 underline underline-offset-2">WP REST API resmi Poliban</a>
         pada ${formatDate(newsSource.fetchedAt)}.
-        <a href="sumber.html" class="font-medium text-brand-700 underline underline-offset-2">Lihat catatan sumber</a>.</span>
+        <a href="sumber.html" class="font-medium text-brand-700 underline underline-offset-2">Catatan sumber</a>.</span>
     </p>
   </div>
 </section>`;

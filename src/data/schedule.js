@@ -21,6 +21,57 @@ export const eventWindow = {
   lectureStart: "2026-08-24",
 };
 
+/**
+ * Status kegiatan yang dihitung SAAT BUILD, bukan di peramban.
+ *
+ * Sebelumnya lencana status hanya diisi JavaScript, sehingga pengunjung tanpa
+ * JS (atau sebelum skrip termuat) melihat teks "Memuat…". Sekarang HTML statis
+ * sudah memuat status yang benar untuk tanggal build, dan skrip hanya
+ * memperbaruinya bila pengguna membuka halaman pada hari yang berbeda.
+ *
+ * @param {Date} [now] Waktu acuan; default waktu build.
+ */
+export function eventStatus(now = new Date()) {
+  const DAY = 86_400_000;
+  const at = (iso) => new Date(`${iso}T00:00:00+08:00`);
+  const preStart = at(eventWindow.preStart);
+  const end = at(eventWindow.end);
+  const lecture = at(eventWindow.lectureStart);
+  const daysTo = (d) => Math.ceil((d - now) / DAY);
+
+  if (now < preStart) {
+    return {
+      state: "Segera",
+      tone: "accent",
+      headline: `${daysTo(preStart)} hari menuju Pra-PKKMB`,
+      detail:
+        "Pastikan akun Portal PKKMB Anda sudah dapat diakses sebelum 3 Agustus 2026.",
+    };
+  }
+  if (now <= new Date(end.getTime() + DAY)) {
+    return {
+      state: "Berlangsung",
+      tone: "live",
+      headline: "Rangkaian PKKMB sedang berlangsung",
+      detail: "Jangan lupa melakukan presensi digital pada setiap sesi kegiatan.",
+    };
+  }
+  if (now < lecture) {
+    return {
+      state: "Selesai",
+      tone: "neutral",
+      headline: `${daysTo(lecture)} hari menuju kuliah perdana`,
+      detail: "Rangkaian PKKMB telah selesai. Sertifikat diproses oleh panitia.",
+    };
+  }
+  return {
+    state: "Arsip",
+    tone: "neutral",
+    headline: "Rangkaian PKKMB 2026 telah selesai",
+    detail: "Halaman ini menjadi arsip resmi rangkaian PKKMB 2026.",
+  };
+}
+
 export const schedule = [
   {
     id: "pra-pkkmb",

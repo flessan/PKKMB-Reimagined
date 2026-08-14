@@ -106,32 +106,44 @@ function dropdowns() {
  * ------------------------------------------------------------------ */
 
 function eventStatus() {
+  const card = document.querySelector("[data-event-card]");
   const badge = document.querySelector("[data-event-status]");
   if (!badge) return;
 
-  const headline = document.querySelector("[data-event-headline]");
-  const detail = document.querySelector("[data-event-detail]");
   const days = [...document.querySelectorAll("[data-day]")];
-
   const DAY = 86_400_000;
   const parse = (iso) => new Date(`${iso}T00:00:00+08:00`);
-  const preStart = parse("2026-08-03");
-  const start = parse("2026-08-04");
-  const end = parse("2026-08-06");
-  const lecture = parse("2026-08-24");
   const now = new Date();
 
+  /* Tandai hari yang sedang berjalan. */
   const today = days.find((d) => {
     const t = parse(d.dataset.day);
     return now >= t && now < new Date(t.getTime() + DAY);
   });
+  if (today) {
+    today.classList.add("border-accent-400/60", "bg-accent-400/10");
+    today.querySelector("span")?.classList.add("bg-accent-400", "text-ink-950");
+  }
+
+  /*
+   * Status sudah dirender server saat build, jadi halaman tetap benar tanpa JS.
+   * Skrip hanya perlu menghitung ulang bila halaman dibuka pada tanggal yang
+   * berbeda dari tanggal build (mis. HTML lama yang tersimpan di cache).
+   */
+  const builtOn = card?.dataset.built;
+  if (!builtOn || builtOn === now.toISOString().slice(0, 10)) return;
+
+  const headline = document.querySelector("[data-event-headline]");
+  const detail = document.querySelector("[data-event-detail]");
+  const preStart = parse("2026-08-03");
+  const end = parse("2026-08-06");
+  const lecture = parse("2026-08-24");
+  const daysTo = (d) => Math.ceil((d - now) / DAY);
 
   let status, title, note;
-
   if (now < preStart) {
-    const left = Math.ceil((preStart - now) / DAY);
     status = "Segera";
-    title = `${left} hari menuju Pra-PKKMB`;
+    title = `${daysTo(preStart)} hari menuju Pra-PKKMB`;
     note = "Pastikan akun Portal PKKMB Anda sudah dapat diakses sebelum 3 Agustus 2026.";
   } else if (now <= new Date(end.getTime() + DAY)) {
     status = "Berlangsung";
@@ -140,24 +152,18 @@ function eventStatus() {
       : "Rangkaian PKKMB sedang berlangsung";
     note = "Jangan lupa melakukan presensi digital pada setiap sesi kegiatan.";
   } else if (now < lecture) {
-    const left = Math.ceil((lecture - now) / DAY);
     status = "Selesai";
-    title = `${left} hari menuju kuliah perdana`;
+    title = `${daysTo(lecture)} hari menuju kuliah perdana`;
     note = "Rangkaian PKKMB telah selesai. Sertifikat diproses oleh panitia.";
   } else {
     status = "Arsip";
     title = "Rangkaian PKKMB 2026 telah selesai";
-    note = "Halaman ini tetap menyimpan seluruh dokumen dan informasi kegiatan.";
+    note = "Halaman ini menjadi arsip resmi rangkaian PKKMB 2026.";
   }
 
   badge.textContent = status;
   if (headline) headline.textContent = title;
   if (detail) detail.textContent = note;
-
-  if (today) {
-    today.classList.add("border-accent-400/60", "bg-accent-400/10");
-    today.querySelector("span").classList.add("bg-accent-400", "text-ink-950");
-  }
 }
 
 /* ------------------------------------------------------------------ *

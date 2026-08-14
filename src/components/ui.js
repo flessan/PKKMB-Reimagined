@@ -210,6 +210,69 @@ export function programCard(program, { depth = 0 } = {}) {
 </article>`;
 }
 
+/**
+ * Baris program studi untuk penjelajah.
+ *
+ * Dua puluh dua kartu bersebelahan menjadi dinding yang sulit dipindai, dan
+ * setiap kartu menuntut perhatian yang sama. Bentuk baris membuat nama prodi
+ * — informasi yang paling dicari — sejajar rapi ke bawah, sementara jenjang,
+ * akreditasi, dan lama studi menjadi kolom pendukung yang lebih tenang.
+ *
+ * Atribut data-* dipertahankan persis seperti pada kartu agar penyaring di
+ * `app.js` tetap bekerja tanpa perubahan.
+ */
+export function programRow(program, { depth = 0 } = {}) {
+  const dept = departmentOf(program);
+  const href = rel(`program-studi/${program.slug}.html`, depth);
+  const info = levelInfo(program.level);
+  const search = [
+    program.name,
+    program.level,
+    dept.name,
+    program.tagline ?? "",
+    program.careers.join(" "),
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  const levelTone =
+    program.level === "D4"
+      ? "bg-accent-100 text-accent-600"
+      : program.level === "D2"
+        ? "bg-ink-100 text-ink-600"
+        : "bg-brand-50 text-brand-700";
+
+  return `
+<li class="group relative border-b border-ink-200 last:border-b-0"
+    data-program
+    data-level="${program.level}"
+    data-dept="${program.dept}"
+    data-search="${esc(search)}">
+  <a href="${href}" class="flex flex-col gap-2 py-4 transition-colors hover:bg-ink-50/70 sm:flex-row sm:items-center sm:gap-5 sm:px-3">
+    <span class="inline-flex h-7 w-9 shrink-0 items-center justify-center rounded font-display text-xs font-bold ${levelTone}">${program.level}</span>
+
+    <span class="min-w-0 flex-1">
+      <span class="block font-display text-[0.95rem] font-bold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">${esc(program.name)}</span>
+      ${
+        program.tagline
+          ? `<span class="mt-1 line-clamp-2 block text-xs leading-relaxed text-ink-500 sm:line-clamp-1">${esc(program.tagline)}</span>`
+          : ""
+      }
+    </span>
+
+    <span class="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-500 sm:w-56 sm:justify-end">
+      <span class="tabular-nums">${info.years} tahun</span>
+      ${
+        program.accreditation
+          ? `<span class="font-medium text-ink-700">${esc(program.accreditation)}</span>`
+          : `<span class="text-ink-400">Belum tercantum</span>`
+      }
+      <span class="hidden text-ink-300 transition-transform group-hover:translate-x-0.5 sm:inline-flex" aria-hidden="true">${icon("arrowRight", { class: "h-4 w-4" })}</span>
+    </span>
+  </a>
+</li>`;
+}
+
 /* ------------------------------------------------------------------ *
  * Lain-lain
  * ------------------------------------------------------------------ */
