@@ -9,6 +9,9 @@
 import { test, describe, before } from "node:test";
 import assert from "node:assert/strict";
 import { readdir, readFile, stat } from "node:fs/promises";
+import { spawn } from "node:child_process";
+import { writeFile } from "node:fs/promises";
+import { esc } from "../src/lib/html.js";
 import { existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -626,5 +629,138 @@ describe("konsistensi klaim akreditasi", () => {
     assert.ok(sumber.includes("menyebut 21"), "konflik 21 prodi tidak dijelaskan");
     assert.ok(sumber.includes("menyebut 20"), "konflik 20 prodi tidak dijelaskan");
     assert.ok(sumber.includes("22"), "angka kanonik 22 tidak disebut");
+  });
+});
+
+/* ------------------------------------------------------------------ */
+
+describe("semantik kegagalan skrip penyegar", () => {
+  /*
+   * `--check` dipakai di CI untuk mendeteksi pergeseran data resmi. Kegagalan
+   * jaringan harus keluar netral (0), sebab itu masalah lingkungan dan bukan
+   * bukti bahwa data berubah. Keduanya juga tidak boleh menyentuh cache.
+   */
+  const run = (script, args = []) =>
+    new Promise((resolve) => {
+      const p = spawn(process.execPath, [join(root, "tools", script), ...args], {
+        cwd: root,
+        stdio: "ignore",
+      });
+      p.on("exit", (code) => resolve(code));
+    });
+
+  test("kedua skrip menangani mode --check secara konsisten", async () => {
+    const news = await readFile(join(root, "tools/fetch-news.mjs"), "utf8");
+    const prodi = await readFile(join(root, "tools/fetch-programs.mjs"), "utf8");
+    for (const [name, src] of [["fetch-news", news], ["fetch-programs", prodi]]) {
+      assert.match(src, /--check/, `${name}: tidak mendukung --check`);
+      assert.ok(
+        /process\.exit\(\s*0\s*\)/.test(src),
+        `${name}: tidak punya jalur keluar netral`,
+      );
+    }
+    // fetch-programs harus secara eksplisit membedakan galat jaringan.
+    assert.match(
+      prodi,
+      /fetch failed|ENOTFOUND|ECONNREFUSED/,
+      "fetch-programs: tidak mendeteksi galat jaringan",
+    );
+  });
+
+  test("--check tidak mengubah cache walau gagal", async () => {
+    const files = [
+      "src/data/cache/poliban-news.json",
+      "src/data/cache/pmb-programs.json",
+    ];
+    const before = await Promise.all(files.map((f) => readFile(join(root, f), "utf8")));
+
+    await run("fetch-news.mjs", ["--check"]);
+    await run("fetch-programs.mjs", ["--check"]);
+
+    const after = await Promise.all(files.map((f) => readFile(join(root, f), "utf8")));
+    for (let i = 0; i < files.length; i += 1) {
+      assert.equal(after[i], before[i], `${files[i]} berubah saat --check`);
+    }
+  });
+
+  test("cache tetap utuh setelah percobaan refresh yang gagal", async () => {
+    const f = "src/data/cache/poliban-news.json";
+    const before = await readFile(join(root, f), "utf8");
+    await run("fetch-news.mjs");
+    const after = await readFile(join(root, f), "utf8");
+    assert.equal(after, before, "cache berita rusak setelah refresh gagal");
+    // Isinya harus tetap JSON valid dengan entri yang masih lengkap.
+    const parsed = JSON.parse(after);
+    assert.ok(parsed.items.length >= 8, "entri berita menyusut");
+  });
+});
+
+/* ------------------------------------------------------------------ */
+
+describe("cache berita yang cacat ditolak saat build", () => {
+  /*
+   * Cache adalah JSON yang bisa disunting tangan atau rusak. Build harus
+   * berhenti, bukan menerbitkan data yang tidak dapat dipercaya.
+   *
+   * Menguji lewat proses terpisah karena modul di-cache oleh loader ESM.
+   */
+  const CACHE = join(root, "src/data/cache/poliban-news.json");
+
+  const buildWith = (mutate) =>
+    new Promise((resolve) => {
+      readFile(CACHE, "utf8").then(async (original) => {
+        const data = JSON.parse(original);
+        mutate(data);
+        await writeFile(CACHE, JSON.stringify(data, null, 2), "utf8");
+        const p = spawn(process.execPath, [join(root, "build.mjs")], {
+          cwd: root,
+          stdio: "ignore",
+        });
+        p.on("exit", async (code) => {
+          await writeFile(CACHE, original, "utf8");
+          resolve(code);
+        });
+      });
+    });
+
+  test("URL di luar domain resmi menggagalkan build", async () => {
+    const code = await buildWith((d) => {
+      d.items[0].url = "https://evil.example.com/x";
+    });
+    assert.notEqual(code, 0, "build seharusnya gagal");
+  });
+
+  test("URL non-https menggagalkan build", async () => {
+    const code = await buildWith((d) => {
+      d.items[0].url = "http://poliban.ac.id/x";
+    });
+    assert.notEqual(code, 0, "build seharusnya gagal");
+  });
+
+  test("tanggal tidak valid menggagalkan build", async () => {
+    const code = await buildWith((d) => {
+      d.items[0].date = "not-a-date";
+    });
+    assert.notEqual(code, 0, "build seharusnya gagal");
+  });
+
+  test("HTML mentah pada judul menggagalkan build", async () => {
+    const code = await buildWith((d) => {
+      d.items[0].title = "<script>alert(1)</script>";
+    });
+    assert.notEqual(code, 0, "build seharusnya gagal");
+  });
+
+  test("upaya keluar dari atribut dinetralkan, bukan diterbitkan", async () => {
+    /*
+     * URL dengan tanda kutip lolos daftar-izin host karena WHATWG URL
+     * meng-encode kutipnya menjadi %22. Yang penting: hasil akhirnya tidak
+     * pernah menghasilkan atribut baru pada HTML.
+     */
+    const hostile = 'https://poliban.ac.id/x" onload="alert(1)';
+    const normalised = new URL(hostile).toString();
+    assert.ok(!normalised.includes('"'), "kutip tidak ter-encode oleh URL()");
+    assert.match(normalised, /%22/, "kutip seharusnya menjadi %22");
+    assert.equal(esc(normalised), normalised, "esc() tidak boleh mengubah apa pun lagi");
   });
 });

@@ -472,3 +472,42 @@ describe("metadata & konfigurasi penerbitan", () => {
     assert.match(robots, /Sitemap: https:\/\/pkkmb\.poliban\.ac\.id\/sitemap\.xml/);
   });
 });
+
+describe("integritas artefak build", () => {
+  test("CSS terkirim dalam keadaan terminifikasi", async () => {
+    /*
+     * `npm run build:html` saja tidak menjalankan langkah Tailwind, sehingga
+     * dist/ bisa tertinggal memakai CSS lama atau versi tak terminifikasi.
+     * Ciri paling jelas: berkas terminifikasi hampir tanpa baris baru.
+     */
+    const css = await readFile(join(dist, "assets/app.css"), "utf8");
+    const lines = css.split("\n").length;
+    assert.ok(
+      lines <= 5,
+      `app.css tampak tidak terminifikasi (${lines} baris). Jalankan \`npm run build\`, bukan hanya build:html.`,
+    );
+    assert.ok(css.length > 20_000, "app.css terlalu kecil — kompilasi gagal?");
+    assert.ok(css.length < 120_000, "app.css membengkak di luar dugaan");
+  });
+
+  test("aset runtime yang dirujuk benar-benar ada", async () => {
+    for (const f of [
+      "assets/app.css",
+      "assets/app.js",
+      "assets/favicon.svg",
+      "assets/apple-touch-icon.png",
+      "assets/fonts/plus-jakarta-sans-latin.woff2",
+      "assets/fonts/inter-latin.woff2",
+    ]) {
+      assert.ok(existsSync(join(dist, f)), `aset runtime hilang: ${f}`);
+    }
+  });
+
+  test("dokumen resmi PDF ikut tersalin", async () => {
+    const dir = join(dist, "storage/post-attachments");
+    assert.ok(existsSync(dir), "direktori lampiran tidak tersalin");
+    const files = await readdir(dir);
+    const pdfs = files.filter((f) => f.endsWith(".pdf"));
+    assert.equal(pdfs.length, 4, `jumlah PDF resmi berubah: ${pdfs.length}`);
+  });
+});

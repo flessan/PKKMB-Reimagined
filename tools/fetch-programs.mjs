@@ -177,5 +177,27 @@ main().catch((err) => {
   console.error(
     "  Cache lama dipertahankan. Situs tetap dapat dibangun tanpa jaringan.",
   );
+
+  /*
+   * Bedakan "data resmi berubah" dari "mesin ini tidak punya jaringan".
+   *
+   * `--check` dipakai di CI untuk mendeteksi pergeseran data. Bila kegagalannya
+   * ada di lapisan jaringan, itu masalah lingkungan, bukan data — sama seperti
+   * perilaku tools/fetch-news.mjs. Menggagalkan CI di sini hanya menghasilkan
+   * alarm palsu, sementara build tetap sehat memakai cache.
+   */
+  const check = process.argv.includes("--check");
+  const networkError =
+    err instanceof TypeError ||
+    /fetch failed|ENOTFOUND|ECONNREFUSED|ETIMEDOUT|EAI_AGAIN|network|timeout/i.test(
+      err.message,
+    );
+
+  if (check && networkError) {
+    console.error(
+      "  (--check) Kegagalan jaringan, bukan perubahan data. Keluar netral.",
+    );
+    process.exit(0);
+  }
   process.exit(1);
 });
