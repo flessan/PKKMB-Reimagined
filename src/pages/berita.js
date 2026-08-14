@@ -123,13 +123,13 @@ export default function render() {
           <article class="mt-8 border-t-2 border-ink-900 pt-6">
             <div class="flex flex-wrap items-center gap-2">
               ${join(lead.categories.slice(0, 2).map((c) => `<span class="badge badge-brand">${esc(c)}</span>`))}
-              <time datetime="${lead.date}" class="text-xs text-ink-500">${formatDate(lead.date)}</time>
+              <time datetime="${esc(lead.date)}" class="text-xs text-ink-500">${formatDate(lead.date)}</time>
             </div>
             <h3 class="mt-3 max-w-3xl font-display text-2xl font-extrabold leading-tight text-ink-900">
-              <a href="${lead.url}" rel="noopener" class="transition-colors hover:text-brand-700">${esc(lead.title)}</a>
+              <a href="${esc(lead.url)}" rel="noopener" class="transition-colors hover:text-brand-700">${esc(lead.title)}</a>
             </h3>
             <p class="mt-3 max-w-3xl text-[0.95rem] leading-relaxed text-ink-600">${esc(lead.summary)}</p>
-            <a href="${lead.url}" rel="noopener"
+            <a href="${esc(lead.url)}" rel="noopener"
                class="mt-4 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-brand-700 hover:text-brand-800">
               Baca di poliban.ac.id ${icon("external", { class: "h-3.5 w-3.5" })}
             </a>
@@ -140,8 +140,8 @@ export default function render() {
               rest.map(
                 (n) => `
             <li class="group">
-              <a href="${n.url}" rel="noopener" class="flex flex-col gap-1.5 py-4 sm:flex-row sm:items-baseline sm:gap-5">
-                <time datetime="${n.date}" class="shrink-0 font-display text-xs font-semibold tabular-nums text-ink-500 sm:w-28">${formatDate(n.date)}</time>
+              <a href="${esc(n.url)}" rel="noopener" class="flex flex-col gap-1.5 py-4 sm:flex-row sm:items-baseline sm:gap-5">
+                <time datetime="${esc(n.date)}" class="shrink-0 font-display text-xs font-semibold tabular-nums text-ink-500 sm:w-28">${formatDate(n.date)}</time>
                 <span class="min-w-0 flex-1">
                   <span class="block font-display text-[0.95rem] font-semibold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">${esc(n.title)}</span>
                   ${

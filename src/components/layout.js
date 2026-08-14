@@ -251,9 +251,19 @@ export function page({
   bodyClass = "",
   head = "",
   canonical = "",
+  noindex = false,
 }) {
   const assets = depth ? "../".repeat(depth) : "";
   const fullTitle = title ? `${title} · ${site.name}` : site.name;
+
+  /*
+   * `canonical: ""` berarti akar situs, bukan "tidak ada kanonik". Sebelumnya
+   * nilai kosong dianggap falsy sehingga beranda — halaman terpenting — terbit
+   * tanpa <link rel="canonical"> maupun og:url.
+   *
+   * Halaman yang sengaja tidak diindeks (login) tetap tidak diberi kanonik.
+   */
+  const canonicalUrl = noindex ? "" : `${site.url}/${canonical}`;
 
   return `<!doctype html>
 <html lang="${site.lang}" class="h-full">
@@ -264,13 +274,17 @@ export function page({
 <meta name="description" content="${esc(description)}">
 <meta name="theme-color" content="#17457a">
 <meta name="color-scheme" content="light">
-${canonical ? `<link rel="canonical" href="${site.url}/${canonical}">` : ""}
+${canonicalUrl ? `<link rel="canonical" href="${canonicalUrl}">` : ""}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(site.name)}">
 <meta property="og:locale" content="id_ID">
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(description)}">
+${canonicalUrl ? `<meta property="og:url" content="${canonicalUrl}">` : ""}
 <meta property="og:image" content="${site.url}/assets/img/og-pkkmb.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(site.name)}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="${assets}assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${assets}assets/apple-touch-icon.png">

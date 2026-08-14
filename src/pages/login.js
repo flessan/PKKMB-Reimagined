@@ -186,7 +186,8 @@ export default function render() {
   return page({
     bare: true,
     title: "Masuk Portal PKKMB",
-    canonical: "login.html",
+    // Halaman ini di-noindex, jadi tidak diberi kanonik maupun og:url.
+    noindex: true,
     description:
       "Portal presensi PKKMB 2026 Politeknik Negeri Banjarmasin. Masuk dengan akun yang telah didaftarkan panitia untuk mencatat kehadiran kegiatan.",
     head: `<meta name="csrf-token" content="${CSRF_TOKEN}">

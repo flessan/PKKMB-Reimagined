@@ -21,9 +21,37 @@ export const newsSource = {
   fetchedAt: cache.fetchedAt,
 };
 
+/**
+ * Pertahanan berlapis terhadap cache yang rusak atau disunting tangan.
+ *
+ * `tools/fetch-news.mjs` sudah memvalidasi saat pengambilan, tetapi berkas
+ * cache tetap berupa JSON yang bisa diubah manual. Build sebaiknya gagal keras
+ * daripada menerbitkan tautan ke domain asing atau atribut yang cacat.
+ */
+const ALLOWED_HOSTS = new Set(["poliban.ac.id", "www.poliban.ac.id"]);
+
+function assertSafe(n) {
+  let u;
+  try {
+    u = new URL(n.url);
+  } catch {
+    throw new Error(`Berita "${n.title}" memiliki URL tidak valid: ${n.url}`);
+  }
+  if (u.protocol !== "https:" || !ALLOWED_HOSTS.has(u.hostname)) {
+    throw new Error(`Berita "${n.title}" menunjuk ke luar domain resmi: ${n.url}`);
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(n.date)) {
+    throw new Error(`Berita "${n.title}" memiliki tanggal tidak valid: ${n.date}`);
+  }
+  if (/[<>]/.test(n.title) || /[<>]/.test(n.summary ?? "")) {
+    throw new Error(`Berita "${n.title}" masih memuat HTML mentah.`);
+  }
+  return n;
+}
+
 /** Semua berita resmi, terbaru dahulu. */
 export const officialNews = cache.items.map((n) => ({
-  ...n,
+  ...assertSafe(n),
   sourceId: cache.sourceId,
 }));
 

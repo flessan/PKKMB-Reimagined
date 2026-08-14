@@ -454,3 +454,63 @@ describe("lambang institusi", () => {
     assert.match(el.meaning, /87 helai/);
   });
 });
+
+/* ------------------------------------------------------------------ */
+
+describe("keamanan pipeline berita", () => {
+  test("modul berita menolak URL di luar domain resmi", async () => {
+    /*
+     * Cache adalah berkas JSON yang bisa disunting tangan. Build harus gagal
+     * keras, bukan menerbitkan tautan ke domain asing.
+     */
+    const mod = await import("../src/data/news.js?guard-test");
+    // Modul asli harus lolos.
+    assert.ok(mod.officialNews.length > 0);
+
+    for (const n of mod.officialNews) {
+      const u = new URL(n.url);
+      assert.equal(u.protocol, "https:", `${n.title}: bukan https`);
+      assert.ok(
+        ["poliban.ac.id", "www.poliban.ac.id"].includes(u.hostname),
+        `${n.title}: host di luar daftar izin (${u.hostname})`,
+      );
+    }
+  });
+
+  test("judul dan ringkasan berita bebas dari HTML mentah", () => {
+    for (const n of officialNews) {
+      assert.ok(!/[<>]/.test(n.title), `HTML mentah pada judul: ${n.title}`);
+      assert.ok(!/[<>]/.test(n.summary ?? ""), `HTML mentah pada ringkasan: ${n.title}`);
+    }
+  });
+
+  test("atribut href dan datetime berita di-escape pada keluaran", () => {
+    /*
+     * Menjaga agar interpolasi ke dalam atribut tidak pernah kembali mentah.
+     * Tanda kutip yang lolos akan memungkinkan penambahan atribut sembarang.
+     */
+    for (const { name, html } of pages) {
+      for (const m of html.matchAll(/<a[^>]*href="([^"]*)"[^>]*>/g)) {
+        assert.ok(
+          !/\son[a-z]+=/i.test(m[0]),
+          `${name}: tautan memuat atribut event handler → ${m[0].slice(0, 110)}`,
+        );
+      }
+      for (const m of html.matchAll(/<time[^>]*datetime="([^"]*)"/g)) {
+        assert.match(
+          m[1],
+          /^\d{4}-\d{2}-\d{2}$/,
+          `${name}: datetime tidak valid → ${m[1]}`,
+        );
+      }
+    }
+  });
+
+  test("tidak ada penangan event sebaris di seluruh keluaran", () => {
+    for (const { name, html } of pages) {
+      const body = html.replace(/<script[\s\S]*?<\/script>/g, "");
+      const m = body.match(/\s(onclick|onerror|onload|onmouseover|onfocus)=/i);
+      assert.equal(m, null, `${name}: ada atribut ${m?.[1]} sebaris`);
+    }
+  });
+});

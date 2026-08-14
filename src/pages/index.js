@@ -333,13 +333,13 @@ function officialFeed() {
       <article class="lg:col-span-6">
         <div class="flex flex-wrap items-center gap-2">
           ${join(lead.categories.slice(0, 2).map((c) => `<span class="badge badge-brand">${esc(c)}</span>`))}
-          <time datetime="${lead.date}" class="text-xs text-ink-500">${formatDate(lead.date)}</time>
+          <time datetime="${esc(lead.date)}" class="text-xs text-ink-500">${formatDate(lead.date)}</time>
         </div>
         <h3 class="mt-3 font-display text-xl font-extrabold leading-tight text-ink-900 sm:text-2xl">
-          <a href="${lead.url}" rel="noopener" class="transition-colors hover:text-brand-700">${esc(lead.title)}</a>
+          <a href="${esc(lead.url)}" rel="noopener" class="transition-colors hover:text-brand-700">${esc(lead.title)}</a>
         </h3>
         <p class="mt-3 text-[0.95rem] leading-relaxed text-ink-600">${esc(lead.summary)}</p>
-        <a href="${lead.url}" rel="noopener"
+        <a href="${esc(lead.url)}" rel="noopener"
            class="mt-4 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-brand-700 hover:text-brand-800">
           Baca di poliban.ac.id ${icon("external", { class: "h-3.5 w-3.5" })}
         </a>
@@ -350,10 +350,10 @@ function officialFeed() {
           rest.map(
             (n) => `
         <li class="group py-4 first:pt-0 lg:first:pt-0">
-          <a href="${n.url}" rel="noopener" class="block">
+          <a href="${esc(n.url)}" rel="noopener" class="block">
             <p class="font-display text-[0.95rem] font-semibold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">${esc(n.title)}</p>
             <p class="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-500">
-              <time datetime="${n.date}">${formatDate(n.date)}</time>
+              <time datetime="${esc(n.date)}">${formatDate(n.date)}</time>
               ${n.categories[0] ? `<span aria-hidden="true">·</span><span>${esc(n.categories[0])}</span>` : ""}
             </p>
           </a>

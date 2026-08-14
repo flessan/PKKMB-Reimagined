@@ -8,7 +8,7 @@
 
 import { test, describe, before } from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -28,6 +28,17 @@ import { icon, iconNames } from "../src/lib/icons.js";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
 const read = (p) => readFile(join(dist, p), "utf8");
+
+/** Semua berkas .html di bawah dist/, rekursif. */
+async function walk(dir) {
+  const out = [];
+  for (const e of await readdir(dir, { withFileTypes: true })) {
+    const full = join(dir, e.name);
+    if (e.isDirectory()) out.push(...(await walk(full)));
+    else if (e.name.endsWith(".html")) out.push(full);
+  }
+  return out;
+}
 
 before(() => {
   assert.ok(
@@ -390,5 +401,74 @@ describe("keluaran build", () => {
     const css = await read("assets/app.css");
     assert.match(css, /prefers-reduced-motion/);
     assert.match(css, /:focus-visible/);
+  });
+});
+
+describe("metadata & konfigurasi penerbitan", () => {
+  test("setiap halaman terindeks punya kanonik absolut yang cocok dengan lokasinya", async () => {
+    const files = await walk(dist);
+    for (const file of files) {
+      const rel = file.replace(dist + "/", "");
+      if (rel.startsWith("profil/")) continue; // pengalihan meta-refresh
+      const html = await readFile(file, "utf8");
+
+      if (rel === "login.html") {
+        assert.ok(!/rel="canonical"/.test(html), "login.html seharusnya tanpa kanonik");
+        assert.match(html, /name="robots" content="noindex"/);
+        continue;
+      }
+
+      const m = html.match(/<link rel="canonical" href="([^"]+)">/);
+      assert.ok(m, `${rel}: tidak ada kanonik`);
+      const expected =
+        rel === "index.html"
+          ? "https://pkkmb.poliban.ac.id/"
+          : `https://pkkmb.poliban.ac.id/${rel}`;
+      assert.equal(m[1], expected, `${rel}: kanonik tidak cocok`);
+    }
+  });
+
+  test("og:url selalu sama dengan kanonik", async () => {
+    const files = await walk(dist);
+    for (const file of files) {
+      const rel = file.replace(dist + "/", "");
+      if (rel.startsWith("profil/") || rel === "login.html") continue;
+      const html = await readFile(file, "utf8");
+      const can = html.match(/<link rel="canonical" href="([^"]+)">/)?.[1];
+      const og = html.match(/property="og:url" content="([^"]+)"/)?.[1];
+      assert.equal(og, can, `${rel}: og:url berbeda dari kanonik`);
+    }
+  });
+
+  test("kartu pratinjau memuat dimensi dan teks alternatif gambar", async () => {
+    const html = await read("index.html");
+    assert.match(html, /og:image:width" content="1200"/);
+    assert.match(html, /og:image:height" content="630"/);
+    assert.match(html, /og:image:alt" content="[^"]+"/);
+  });
+
+  test("sitemap memuat tepat halaman yang boleh diindeks", async () => {
+    const sitemap = await readFile(join(dist, "sitemap.xml"), "utf8");
+    const locs = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
+    const base = "https://pkkmb.poliban.ac.id/";
+
+    assert.ok(!locs.has(`${base}login.html`), "login.html tidak boleh ada di sitemap");
+    for (const l of locs) {
+      assert.ok(!l.includes("/profil/"), `pengalihan ikut ter-sitemap: ${l}`);
+    }
+
+    const files = await walk(dist);
+    for (const file of files) {
+      const rel = file.replace(dist + "/", "");
+      if (rel.startsWith("profil/") || rel === "login.html") continue;
+      const url = rel === "index.html" ? base : base + rel;
+      assert.ok(locs.has(url), `${rel} hilang dari sitemap`);
+    }
+  });
+
+  test("robots.txt melarang halaman login dan menunjuk sitemap", async () => {
+    const robots = await readFile(join(dist, "robots.txt"), "utf8");
+    assert.match(robots, /Disallow: \/login\.html/);
+    assert.match(robots, /Sitemap: https:\/\/pkkmb\.poliban\.ac\.id\/sitemap\.xml/);
   });
 });

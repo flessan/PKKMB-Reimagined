@@ -49,6 +49,64 @@ const stripTags = (html) =>
 
 const decode = (html) => stripTags(html);
 
+/**
+ * Hanya host resmi Poliban yang boleh masuk ke cache.
+ *
+ * Endpoint WP mengembalikan `link` apa adanya. Bila suatu saat isinya berubah
+ * (salah konfigurasi, kompromi, atau pengalihan ke domain lain), tautan itu
+ * tidak boleh ikut terbit di situs ini.
+ */
+const ALLOWED_HOSTS = new Set([
+  "poliban.ac.id",
+  "www.poliban.ac.id",
+]);
+
+/** URL absolut https ke host resmi; selain itu ditolak. */
+function safeUrl(value) {
+  let u;
+  try {
+    u = new URL(String(value));
+  } catch {
+    return null;
+  }
+  if (u.protocol !== "https:") return null;
+  if (!ALLOWED_HOSTS.has(u.hostname)) return null;
+  return u.toString();
+}
+
+/** ISO date "YYYY-MM-DD" yang benar-benar valid. */
+function safeDate(value) {
+  const d = String(value ?? "").slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return null;
+  const t = new Date(`${d}T00:00:00Z`);
+  return Number.isNaN(t.getTime()) ? null : d;
+}
+
+/**
+ * Membersihkan satu entri. Mengembalikan null bila entri tidak layak terbit,
+ * sehingga data cacat tidak pernah sampai ke cache maupun ke HTML.
+ */
+function sanitise(p) {
+  const url = safeUrl(p.link);
+  const date = safeDate(p.date);
+  const title = decode(p.title?.rendered ?? "");
+  if (!url || !date || !title) return null;
+
+  const summary = decode(p.excerpt?.rendered ?? "");
+  const id = Number(p.id);
+  if (!Number.isInteger(id)) return null;
+
+  return {
+    id,
+    slug: String(p.slug ?? "").replace(/[^a-z0-9-]/gi, ""),
+    title,
+    date,
+    url,
+    summary: summary.length > 260 ? summary.slice(0, 257).trimEnd() + "…" : summary,
+    categories: (p.categories ?? []).map((c) => CATEGORY_LABELS[c]).filter(Boolean),
+  };
+}
+
 async function fetchNews() {
   const res = await fetch(ENDPOINT, {
     headers: {
@@ -61,20 +119,22 @@ async function fetchNews() {
   if (!res.ok) throw new Error(`HTTP ${res.status} dari ${ENDPOINT}`);
   const raw = await res.json();
 
-  return raw.map((p) => {
-    const summary = decode(p.excerpt?.rendered ?? "");
-    return {
-      id: p.id,
-      slug: p.slug,
-      title: decode(p.title?.rendered ?? ""),
-      date: p.date.slice(0, 10),
-      url: p.link,
-      summary: summary.length > 260 ? summary.slice(0, 257).trimEnd() + "…" : summary,
-      categories: (p.categories ?? [])
-        .map((c) => CATEGORY_LABELS[c])
-        .filter(Boolean),
-    };
-  });
+  if (!Array.isArray(raw)) throw new Error("Respons API bukan array");
+
+  const clean = [];
+  let rejected = 0;
+  for (const p of raw) {
+    const item = sanitise(p);
+    if (item) clean.push(item);
+    else rejected += 1;
+  }
+  if (rejected) {
+    console.warn(`${rejected} entri ditolak karena tautan/tanggal/judul tidak valid.`);
+  }
+
+  // Urut menurun agar keluaran deterministik apa pun urutan dari API.
+  clean.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : a.id - b.id));
+  return clean;
 }
 
 const check = process.argv.includes("--check");
@@ -92,6 +152,25 @@ try {
 if (!items.length) {
   console.error("API mengembalikan daftar kosong — cache tidak diubah.");
   process.exit(1);
+}
+
+/*
+ * Jangan pernah menukar cache yang sehat dengan hasil yang jauh lebih sedikit.
+ * Respons parsial (rate limit, plugin error) bisa mengembalikan satu-dua entri;
+ * menuliskannya akan menghapus berita yang masih valid tanpa disadari.
+ */
+try {
+  const prev = JSON.parse(await readFile(CACHE, "utf8"));
+  const before = prev.items?.length ?? 0;
+  if (before >= 4 && items.length < Math.ceil(before / 2)) {
+    console.error(
+      `API hanya mengembalikan ${items.length} entri sedangkan cache berisi ${before}. ` +
+        "Cache dipertahankan; jalankan ulang setelah memastikan sumber sehat.",
+    );
+    process.exit(1);
+  }
+} catch {
+  // Belum ada cache — tidak ada yang perlu dilindungi.
 }
 
 const payload = {
