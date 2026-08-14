@@ -697,7 +697,7 @@ describe("semantik kegagalan skrip penyegar", () => {
 
 /* ------------------------------------------------------------------ */
 
-describe("cache berita yang cacat ditolak saat build", () => {
+describe("cache berita yang cacat ditolak saat memuat data", () => {
   /*
    * Cache adalah JSON yang bisa disunting tangan atau rusak. Build harus
    * berhenti, bukan menerbitkan data yang tidak dapat dipercaya.
@@ -706,16 +706,23 @@ describe("cache berita yang cacat ditolak saat build", () => {
    */
   const CACHE = join(root, "src/data/cache/poliban-news.json");
 
-  const buildWith = (mutate) =>
+  /*
+   * PENTING: jangan menjalankan build.mjs di sini — ia menghapus dist/ lebih
+   * dulu, sehingga suite lain yang berjalan paralel kehilangan CSS dan HTML
+   * di tengah eksekusi. Cukup impor modul berita di proses terpisah: di situlah
+   * validasi berada, dan itu yang sesungguhnya menghentikan build.
+   */
+  const loadWith = (mutate) =>
     new Promise((resolve) => {
       readFile(CACHE, "utf8").then(async (original) => {
         const data = JSON.parse(original);
         mutate(data);
         await writeFile(CACHE, JSON.stringify(data, null, 2), "utf8");
-        const p = spawn(process.execPath, [join(root, "build.mjs")], {
-          cwd: root,
-          stdio: "ignore",
-        });
+        const p = spawn(
+          process.execPath,
+          ["--input-type=module", "-e", 'await import("./src/data/news.js");'],
+          { cwd: root, stdio: "ignore" },
+        );
         p.on("exit", async (code) => {
           await writeFile(CACHE, original, "utf8");
           resolve(code);
@@ -724,31 +731,31 @@ describe("cache berita yang cacat ditolak saat build", () => {
     });
 
   test("URL di luar domain resmi menggagalkan build", async () => {
-    const code = await buildWith((d) => {
+    const code = await loadWith((d) => {
       d.items[0].url = "https://evil.example.com/x";
     });
-    assert.notEqual(code, 0, "build seharusnya gagal");
+    assert.notEqual(code, 0, "pemuatan modul seharusnya gagal");
   });
 
   test("URL non-https menggagalkan build", async () => {
-    const code = await buildWith((d) => {
+    const code = await loadWith((d) => {
       d.items[0].url = "http://poliban.ac.id/x";
     });
-    assert.notEqual(code, 0, "build seharusnya gagal");
+    assert.notEqual(code, 0, "pemuatan modul seharusnya gagal");
   });
 
   test("tanggal tidak valid menggagalkan build", async () => {
-    const code = await buildWith((d) => {
+    const code = await loadWith((d) => {
       d.items[0].date = "not-a-date";
     });
-    assert.notEqual(code, 0, "build seharusnya gagal");
+    assert.notEqual(code, 0, "pemuatan modul seharusnya gagal");
   });
 
   test("HTML mentah pada judul menggagalkan build", async () => {
-    const code = await buildWith((d) => {
+    const code = await loadWith((d) => {
       d.items[0].title = "<script>alert(1)</script>";
     });
-    assert.notEqual(code, 0, "build seharusnya gagal");
+    assert.notEqual(code, 0, "pemuatan modul seharusnya gagal");
   });
 
   test("upaya keluar dari atribut dinetralkan, bukan diterbitkan", async () => {
