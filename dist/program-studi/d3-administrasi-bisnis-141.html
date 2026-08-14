@@ -112,9 +112,16 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="../login.html" class="btn btn-primary btn-sm hidden sm:inline-flex">
+        <!--
+          Aksi utama harus tetap terjangkau di ponsel kecil. Sebelumnya tombol
+          ini disembunyikan di bawah 640px sehingga justru hilang pada layar
+          yang paling banyak dipakai peserta. Kini label yang menyusut, bukan
+          tombolnya.
+        -->
+        <a href="../login.html" class="btn btn-primary btn-sm"
+           aria-label="Masuk Portal PKKMB">
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 5 6v6c0 4.2 2.9 7.6 7 9 4.1-1.4 7-4.8 7-9V6Z"/><path d="m9.5 12 1.8 1.8 3.4-3.6"/></svg>
-          <span>Portal PKKMB</span>
+          <span class="hidden sm:inline">Portal PKKMB</span>
         </a>
 
         <!-- Disclosure native: menu tetap berfungsi tanpa JavaScript. -->

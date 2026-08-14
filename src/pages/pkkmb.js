@@ -74,7 +74,7 @@ function pageNav() {
     { href: "#faq", label: "Tanya jawab" },
   ];
   return `
-<nav class="sticky top-[3.75rem] z-30 border-b border-ink-200 bg-white/95 backdrop-blur-sm no-print"
+<nav class="sticky top-[4.5rem] z-30 border-b border-ink-200 bg-white/95 backdrop-blur-sm no-print"
      aria-label="Bagian halaman PKKMB">
   <div class="shell">
     <ul class="-mx-1 flex gap-1 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -93,7 +93,7 @@ function pageNav() {
 
 function steps() {
   return `
-<section class="shell py-16 md:py-20" id="alur">
+<section class="scroll-mt-32 shell py-16 md:py-20" id="alur">
   ${sectionHeading({
     eyebrow: "Alur peserta",
     title: "Lima langkah sebelum dan selama kegiatan",
@@ -120,7 +120,7 @@ function steps() {
 
 function scheduleSection() {
   return `
-<section class="border-y border-ink-200 bg-ink-50 py-16 md:py-20" id="jadwal">
+<section class="scroll-mt-32 border-y border-ink-200 bg-ink-50 py-16 md:py-20" id="jadwal">
   <div class="shell">
     ${sectionHeading({
       eyebrow: "Jadwal",
@@ -209,7 +209,7 @@ function checklist() {
   ];
 
   return `
-<section class="shell py-16 md:py-20" id="persiapan">
+<section class="scroll-mt-32 shell py-16 md:py-20" id="persiapan">
   ${sectionHeading({
     eyebrow: "Persiapan",
     title: "Apa yang perlu Anda siapkan",
@@ -261,7 +261,7 @@ function downloads() {
     (p.attachments ?? []).map((a) => ({ ...a, from: p })),
   );
   return `
-<section class="border-y border-ink-200 bg-ink-50 py-16 md:py-20" id="unduhan">
+<section class="scroll-mt-32 border-y border-ink-200 bg-ink-50 py-16 md:py-20" id="unduhan">
   <div class="shell">
     ${sectionHeading({
       eyebrow: "Unduhan",
@@ -277,7 +277,7 @@ function downloads() {
 
 function faqSection() {
   return `
-<section class="shell py-16 md:py-20" id="faq">
+<section class="scroll-mt-32 shell py-16 md:py-20" id="faq">
   <div class="grid gap-10 lg:grid-cols-12">
     <div class="lg:col-span-4">
       ${sectionHeading({

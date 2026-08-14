@@ -112,9 +112,16 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="login.html" class="btn btn-primary btn-sm hidden sm:inline-flex">
+        <!--
+          Aksi utama harus tetap terjangkau di ponsel kecil. Sebelumnya tombol
+          ini disembunyikan di bawah 640px sehingga justru hilang pada layar
+          yang paling banyak dipakai peserta. Kini label yang menyusut, bukan
+          tombolnya.
+        -->
+        <a href="login.html" class="btn btn-primary btn-sm"
+           aria-label="Masuk Portal PKKMB">
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 5 6v6c0 4.2 2.9 7.6 7 9 4.1-1.4 7-4.8 7-9V6Z"/><path d="m9.5 12 1.8 1.8 3.4-3.6"/></svg>
-          <span>Portal PKKMB</span>
+          <span class="hidden sm:inline">Portal PKKMB</span>
         </a>
 
         <!-- Disclosure native: menu tetap berfungsi tanpa JavaScript. -->
@@ -238,7 +245,7 @@
   </div>
 </section>
 
-<nav class="sticky top-[3.75rem] z-30 border-b border-ink-200 bg-white/95 backdrop-blur-sm no-print"
+<nav class="sticky top-[4.5rem] z-30 border-b border-ink-200 bg-white/95 backdrop-blur-sm no-print"
      aria-label="Bagian halaman PKKMB">
   <div class="shell">
     <ul class="-mx-1 flex gap-1 overflow-x-auto py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -266,7 +273,7 @@
   </div>
 </nav>
 
-<section class="shell py-16 md:py-20" id="alur">
+<section class="scroll-mt-32 shell py-16 md:py-20" id="alur">
   
 <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
   <div class="max-w-2xl">
@@ -326,7 +333,7 @@
   </ol>
 </section>
 
-<section class="border-y border-ink-200 bg-ink-50 py-16 md:py-20" id="jadwal">
+<section class="scroll-mt-32 border-y border-ink-200 bg-ink-50 py-16 md:py-20" id="jadwal">
   <div class="shell">
     
 <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
@@ -485,7 +492,7 @@
   </div>
 </section>
 
-<section class="shell py-16 md:py-20" id="persiapan">
+<section class="scroll-mt-32 shell py-16 md:py-20" id="persiapan">
   
 <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
   <div class="max-w-2xl">
@@ -530,7 +537,7 @@
   </div>
 </section>
 
-<section class="border-y border-ink-200 bg-ink-50 py-16 md:py-20" id="unduhan">
+<section class="scroll-mt-32 border-y border-ink-200 bg-ink-50 py-16 md:py-20" id="unduhan">
   <div class="shell">
     
 <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
@@ -590,7 +597,7 @@
   </div>
 </section>
 
-<section class="shell py-16 md:py-20" id="faq">
+<section class="scroll-mt-32 shell py-16 md:py-20" id="faq">
   <div class="grid gap-10 lg:grid-cols-12">
     <div class="lg:col-span-4">
       

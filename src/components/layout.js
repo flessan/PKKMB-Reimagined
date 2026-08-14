@@ -100,9 +100,16 @@ export function header({ depth = 0, active = "" } = {}) {
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="${rel("login.html", depth)}" class="btn btn-primary btn-sm hidden sm:inline-flex">
+        <!--
+          Aksi utama harus tetap terjangkau di ponsel kecil. Sebelumnya tombol
+          ini disembunyikan di bawah 640px sehingga justru hilang pada layar
+          yang paling banyak dipakai peserta. Kini label yang menyusut, bukan
+          tombolnya.
+        -->
+        <a href="${rel("login.html", depth)}" class="btn btn-primary btn-sm"
+           aria-label="Masuk Portal PKKMB">
           ${icon("shield", { class: "h-4 w-4" })}
-          <span>Portal PKKMB</span>
+          <span class="hidden sm:inline">Portal PKKMB</span>
         </a>
 
         <!-- Disclosure native: menu tetap berfungsi tanpa JavaScript. -->
