@@ -163,6 +163,18 @@ function historySection() {
       </div>
       <p class="mt-2 text-xs text-ink-500">${esc(assets.campusGate.attribution)} \u00b7 <a href="${assets.campusGate.origin}" rel="noopener" class="underline underline-offset-2 hover:text-brand-700">lisensi Attribution</a></p>
 
+      <figure class="mt-5 overflow-hidden rounded-[1rem] border border-ink-200">
+        <picture>
+          <source srcset="${assets.campusSignage.webp}" type="image/webp">
+          <img src="${assets.campusSignage.file}" alt="${esc(assets.campusSignage.alt)}"
+               width="${assets.campusSignage.width}" height="${assets.campusSignage.height}"
+               loading="lazy" decoding="async" class="aspect-[3/2] w-full object-cover object-[50%_40%]">
+        </picture>
+        <figcaption class="border-t border-ink-200 bg-ink-50 px-4 py-2.5 text-xs leading-relaxed text-ink-500">
+          Papan nama institusi di kampus Poliban — dokumentasi resmi Poliban.
+        </figcaption>
+      </figure>
+
       <ol class="relative mt-8 space-y-4 pl-10">
         <div class="timeline-rail" aria-hidden="true"></div>
         ${join(

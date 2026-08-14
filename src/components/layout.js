@@ -9,11 +9,11 @@ import { esc, join, rel, cls } from "../lib/html.js";
 
 export function brandMark({ depth = 0, tone = "light", compact = false } = {}) {
   const dark = tone === "dark";
-  const src = rel(assets.logo.file, depth);
+  const src = rel(assets.crest.file, depth);
   return `
 <a href="${rel("index.html", depth)}" class="group inline-flex items-center gap-3 rounded-lg" aria-label="PKKMB 2026 Politeknik Negeri Banjarmasin — kembali ke beranda">
-  <img src="${src}" alt="" width="44" height="44" decoding="async"
-       class="h-11 w-11 shrink-0 rounded-lg object-contain">
+  <img src="${src}" alt="" width="44" height="43" decoding="async"
+       class="h-11 w-11 shrink-0 object-contain">
   <span class="leading-tight">
     <span class="block font-display text-[0.95rem] font-extrabold tracking-tight ${
       dark ? "text-white" : "text-ink-900"
@@ -148,6 +148,13 @@ export function footer({ depth = 0 } = {}) {
           Politeknik Negeri Banjarmasin tahun ${site.year}.
         </p>
         <p class="font-display text-sm font-semibold text-accent-300">“${esc(site.tagline)}”</p>
+
+        <a href="https://poliban.ac.id/" rel="noopener"
+           class="inline-flex rounded-lg bg-white px-4 py-3 transition-opacity hover:opacity-90">
+          <img src="${rel(assets.wordmark.file, depth)}" alt="${esc(assets.wordmark.alt)}"
+               width="200" height="63" loading="lazy" decoding="async" class="h-[3.25rem] w-auto">
+        </a>
+
         <ul class="space-y-2 text-sm text-ink-400">
           <li class="flex gap-2.5">${icon("pin", { class: "mt-0.5 h-4 w-4 shrink-0 text-ink-500" })}<span>${esc(site.contact.address)}</span></li>
           <li class="flex gap-2.5">${icon("phone", { class: "mt-0.5 h-4 w-4 shrink-0 text-ink-500" })}<a href="${site.contact.phoneHref}" class="hover:text-white">${esc(site.contact.phone)}</a></li>

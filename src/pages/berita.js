@@ -3,6 +3,7 @@ import { pageHeader, postCard, featuredPostCard, emptyState } from "../component
 import { icon } from "../lib/icons.js";
 import { esc, join, formatDate } from "../lib/html.js";
 import { sortedPosts, categories } from "../data/posts.js";
+import { officialNews, newsSource } from "../data/news.js";
 
 function filters() {
   const cats = Object.entries(categories);
@@ -89,6 +90,57 @@ export default function render() {
               body: "Coba kata kunci lain atau pilih kategori “Semua” untuk melihat seluruh artikel.",
             })}
           </div>
+        </div>
+      </section>`,
+
+      /*
+       * Kabar dari situs institusi. Dipisahkan dari artikel PKKMB agar jelas
+       * bahwa sumbernya berbeda: ini diambil dari poliban.ac.id, bukan ditulis
+       * oleh panitia PKKMB. Setiap entri menautkan ke artikel aslinya.
+       */
+      `<section class="border-t border-ink-200 bg-ink-50 py-14 md:py-16" aria-labelledby="kabar-kampus">
+        <div class="shell">
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p class="eyebrow">Dari situs resmi</p>
+              <h2 id="kabar-kampus" class="mt-2 font-display text-2xl font-extrabold text-ink-900">Kabar kampus Poliban</h2>
+              <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-600">
+                Berita institusi di luar rangkaian PKKMB, ditarik dari
+                <a href="https://poliban.ac.id/" rel="noopener" class="font-medium text-brand-700 underline underline-offset-2">poliban.ac.id</a>.
+                Judul dan ringkasan ditampilkan apa adanya; artikel lengkap tetap di situs aslinya.
+              </p>
+            </div>
+            <a href="https://poliban.ac.id/our-blog/" rel="noopener" class="btn btn-secondary btn-sm">
+              <span>Arsip berita Poliban</span>${icon("external", { class: "h-4 w-4" })}
+            </a>
+          </div>
+
+          <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            ${join(
+              officialNews.map(
+                (n) => `
+            <li class="card card-interactive flex flex-col p-5">
+              <div class="flex flex-wrap items-center gap-2">
+                ${join(n.categories.slice(0, 2).map((c) => `<span class="badge badge-neutral">${esc(c)}</span>`))}
+                <time datetime="${n.date}" class="text-xs text-ink-500">${formatDate(n.date)}</time>
+              </div>
+              <h3 class="mt-3 font-display text-[0.95rem] font-bold leading-snug text-ink-900">
+                <a href="${n.url}" rel="noopener" class="stretch-link transition-colors hover:text-brand-700">${esc(n.title)}</a>
+              </h3>
+              <p class="mt-2 flex-1 clamp-3 text-sm leading-relaxed text-ink-600">${esc(n.summary)}</p>
+              <p class="mt-4 inline-flex items-center gap-1.5 font-display text-xs font-semibold text-brand-700">
+                Baca di poliban.ac.id ${icon("external", { class: "h-3.5 w-3.5" })}
+              </p>
+            </li>`,
+              ),
+            )}
+          </ul>
+
+          <p class="mt-6 flex flex-wrap gap-x-2 gap-y-1 text-xs text-ink-500">
+            ${icon("info", { class: "h-4 w-4 shrink-0 text-ink-400" })}
+            <span>Disegarkan dari WP REST API resmi pada ${formatDate(newsSource.fetchedAt)}.
+              <a href="sumber.html" class="font-medium text-brand-700 underline underline-offset-2">Catatan sumber &amp; cara pembaruan</a>.</span>
+          </p>
         </div>
       </section>`,
     ]),

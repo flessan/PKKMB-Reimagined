@@ -12,9 +12,11 @@
     "dev": "node tools/dev.mjs",
     "lint": "node tools/lint.mjs",
     "refresh:prodi": "node tools/fetch-programs.mjs",
-    "refresh:check": "node tools/fetch-programs.mjs --check",
+    "refresh:check": "node tools/fetch-programs.mjs --check && node tools/fetch-news.mjs --check",
     "test": "node --test tools/*.test.mjs",
-    "check": "npm run build && npm run lint && npm test"
+    "check": "npm run build && npm run lint && npm test",
+    "refresh:news": "node tools/fetch-news.mjs",
+    "refresh": "node tools/fetch-programs.mjs && node tools/fetch-news.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/inter": "^5.2.8",

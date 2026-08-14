@@ -4,6 +4,8 @@ import { icon } from "../lib/icons.js";
 import { esc, join, formatDateLong } from "../lib/html.js";
 import { schedule, participantSteps, faq } from "../data/schedule.js";
 import { posts } from "../data/posts.js";
+import { assets } from "../data/assets.js";
+import { pkkmbNews } from "../data/news.js";
 
 function heroAside() {
   return `
@@ -16,11 +18,11 @@ function heroAside() {
     </div>
     <div class="flex items-start gap-3">
       ${icon("pin", { class: "mt-0.5 h-4 w-4 shrink-0 text-brand-600" })}
-      <div><dt class="font-display font-semibold text-ink-900">Kampus Poliban</dt><dd class="text-ink-500">Aula Utama, lapangan upacara, dan gedung jurusan</dd></div>
+      <div><dt class="font-display font-semibold text-ink-900">Kampus Poliban</dt><dd class="text-ink-500">Jl. Brigjen H. Hasan Basri, Kayu Tangi</dd></div>
     </div>
     <div class="flex items-start gap-3">
       ${icon("users", { class: "mt-0.5 h-4 w-4 shrink-0 text-brand-600" })}
-      <div><dt class="font-display font-semibold text-ink-900">Seluruh mahasiswa baru</dt><dd class="text-ink-500">Wajib bagi jenjang D3 maupun D4</dd></div>
+      <div><dt class="font-display font-semibold text-ink-900">Seluruh mahasiswa baru</dt><dd class="text-ink-500">1.817 peserta tahun akademik 2026/2027</dd></div>
     </div>
     <div class="flex items-start gap-3">
       ${icon("checkCircle", { class: "mt-0.5 h-4 w-4 shrink-0 text-brand-600" })}
@@ -28,7 +30,31 @@ function heroAside() {
     </div>
   </dl>
   <a href="login.html" class="btn btn-primary mt-5 w-full">Masuk Portal PKKMB</a>
-</div>`;
+</div>
+
+<figure class="mt-4 overflow-hidden rounded-[1rem] border border-ink-200 bg-white">
+  <picture>
+    <source srcset="${assets.pkkmbDirector.webp}" type="image/webp">
+    <img src="${assets.pkkmbDirector.file}" alt="${esc(assets.pkkmbDirector.alt)}"
+         width="${assets.pkkmbDirector.width}" height="${assets.pkkmbDirector.height}"
+         loading="lazy" decoding="async"
+         class="aspect-[16/10] w-full object-cover object-[50%_35%]">
+  </picture>
+  <figcaption class="border-t border-ink-200 px-4 py-3 text-xs leading-relaxed text-ink-500">
+    ${esc(assets.pkkmbDirector.caption)}. Suasana kegiatan tahun sebelumnya — dokumentasi resmi Poliban.
+  </figcaption>
+</figure>
+
+<blockquote class="mt-4 rounded-[1rem] border border-brand-200 bg-brand-50 p-5">
+  <p class="text-sm italic leading-relaxed text-ink-700">
+    “Pembekalan mencakup pengenalan lingkungan akademik, wawasan kebangsaan sebagai bekal
+    memasuki dunia pendidikan tinggi, serta penanaman nilai-nilai kedisiplinan.”
+  </p>
+  <footer class="mt-3 text-xs text-ink-600">
+    <span class="font-display font-semibold text-ink-900">Joni Riadi, S.ST., M.T.</span> — Direktur Poliban,
+    <a href="${pkkmbNews.url}" rel="noopener" class="text-brand-700 underline underline-offset-2">siaran resmi 7 Agustus 2026</a>
+  </footer>
+</blockquote>`;
 }
 
 function steps() {

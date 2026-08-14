@@ -18,6 +18,15 @@ import { assets, attributedAssets } from "../src/data/assets.js";
 import { programs, programsSource } from "../src/data/programs.js";
 import { stats, leader, leadership, facilities, history } from "../src/data/campus.js";
 import { site } from "../src/data/site.js";
+import { officialNews, newsSource } from "../src/data/news.js";
+
+/** Meniru esc() milik situs agar teks feed dapat dicocokkan pada HTML. */
+const escapeHtml = (s) =>
+  s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -142,6 +151,96 @@ describe("aset visual", () => {
     }
   });
 
+
+  test("setiap gambar di keluaran terdaftar pada sistem metadata aset", () => {
+    const known = new Set();
+    for (const a of Object.values(assets)) {
+      known.add(a.file);
+      if (a.webp) known.add(a.webp);
+    }
+    // Aset non-foto yang memang bukan bagian dari pustaka bermetadata.
+    const infra = [/^assets\/favicon\.svg$/, /^assets\/apple-touch-icon\.png$/];
+
+    for (const { name, html } of pages) {
+      const depth = name.split("/").length - 1;
+      const norm = (src) => src.replace(/^(\.\.\/)+/, "");
+      for (const m of html.matchAll(/<img[^>]+src="([^"]+)"/g)) {
+        const src = norm(m[1]);
+        if (src.startsWith("data:")) continue;
+        if (infra.some((r) => r.test(src))) continue;
+        assert.ok(
+          known.has(src),
+          `${name}: gambar "${src}" tidak terdaftar di src/data/assets.js`,
+        );
+        assert.equal(
+          depth > 0 ? m[1].startsWith("../") : true,
+          true,
+          `${name}: jalur gambar tidak relatif terhadap kedalaman halaman`,
+        );
+      }
+      for (const m of html.matchAll(/<source[^>]+srcset="([^"]+)"/g)) {
+        const src = norm(m[1]);
+        assert.ok(
+          known.has(src),
+          `${name}: srcset "${src}" tidak terdaftar di src/data/assets.js`,
+        );
+      }
+    }
+  });
+
+  test("gambar bermakna punya alt deskriptif, dekoratif ditandai kosong", () => {
+    for (const { name, html } of pages) {
+      for (const m of html.matchAll(/<img[^>]*>/g)) {
+        const tag = m[0];
+        const alt = tag.match(/\salt="([^"]*)"/);
+        assert.ok(alt, `${name}: <img> tanpa atribut alt → ${tag.slice(0, 80)}`);
+        const src = tag.match(/src="([^"]+)"/)?.[1] ?? "";
+        if (alt[1] === "") continue; // dekoratif — sah
+        assert.ok(
+          alt[1].length >= 12,
+          `${name}: alt terlalu pendek untuk ${src} → "${alt[1]}"`,
+        );
+        assert.ok(
+          !/^(gambar|foto|image|logo)$/i.test(alt[1].trim()),
+          `${name}: alt tidak deskriptif untuk ${src}`,
+        );
+      }
+    }
+  });
+
+  test("gambar menyatakan dimensi agar tata letak tidak bergeser", () => {
+    for (const { name, html } of pages) {
+      for (const m of html.matchAll(/<img[^>]*>/g)) {
+        const tag = m[0];
+        assert.ok(
+          /\swidth="\d+"/.test(tag) && /\sheight="\d+"/.test(tag),
+          `${name}: <img> tanpa width/height → ${tag.slice(0, 90)}`,
+        );
+      }
+    }
+  });
+
+  test("lambang resmi tidak diregangkan", () => {
+    // Rasio asli harus dipertahankan pada atribut width/height.
+    for (const id of ["crest", "wordmark"]) {
+      const a = assets[id];
+      const ratio = a.width / a.height;
+      for (const { name, html } of pages) {
+        const re = new RegExp(`<img[^>]+src="[^"]*${a.file.split("/").pop()}"[^>]*>`, "g");
+        for (const m of html.matchAll(re)) {
+          const w = Number(m[0].match(/\swidth="(\d+)"/)?.[1]);
+          const h = Number(m[0].match(/\sheight="(\d+)"/)?.[1]);
+          if (!w || !h) continue;
+          const used = w / h;
+          assert.ok(
+            Math.abs(used - ratio) / ratio < 0.06,
+            `${name}: lambang ${id} diregangkan (${w}×${h}, rasio asli ${ratio.toFixed(3)})`,
+          );
+        }
+      }
+    }
+  });
+
   test("tidak ada sisa citra hasil AI dari iterasi sebelumnya", () => {
     const banned = [
       "hero-campus",
@@ -193,11 +292,33 @@ describe("tidak ada fakta fabrikasi", () => {
   });
 
   test("nomenklatur politeknik dipakai konsisten", () => {
+    /*
+     * Poliban dipimpin Direktur dan tersusun atas Jurusan. Istilah universitas
+     * tidak boleh dipakai untuk menyebut Poliban sendiri.
+     *
+     * Kutipan berita resmi bisa menyebut institusi LAIN yang memang memakai
+     * istilah tersebut (mis. "Fakultas Kedokteran Universitas Negeri ..."),
+     * jadi yang diuji adalah teks milik situs ini, bukan judul/ringkasan yang
+     * ditarik dari feed resmi.
+     */
+    const feedText = new Set(
+      officialNews.flatMap((n) => [n.title, n.summary]),
+    );
+    const stripFeed = (html) => {
+      let out = html;
+      for (const t of feedText) {
+        if (!t) continue;
+        out = out.split(escapeHtml(t)).join(" ");
+      }
+      return out;
+    };
+
     for (const { name, html } of pages) {
+      const own = stripFeed(html);
       for (const wrong of ["Rektor", "Dekan", "Fakultas", "Senat Universitas"]) {
         assert.ok(
-          !new RegExp(`\\b${wrong}\\b`).test(html),
-          `${name}: memakai istilah universitas "${wrong}"`,
+          !new RegExp(`\\b${wrong}\\b`).test(own),
+          `${name}: memakai istilah universitas "${wrong}" pada teks sendiri`,
         );
       }
     }
@@ -214,5 +335,81 @@ describe("tidak ada fakta fabrikasi", () => {
     assert.equal(site.contact.email, "info@poliban.ac.id");
     assert.match(site.contact.address, /Hasan Basri/);
     assert.match(site.contact.phone, /330 5052/);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+
+describe("cache berita resmi", () => {
+  test("metadata cache lengkap dan menunjuk endpoint resmi", () => {
+    assert.equal(newsSource.sourceId, "poliban-wp-api");
+    assert.match(newsSource.url, /^https:\/\/poliban\.ac\.id\/wp-json\/wp\/v2\/posts/);
+    assert.match(newsSource.fetchedAt, /^\d{4}-\d{2}-\d{2}$/);
+    assert.doesNotThrow(() => source(newsSource.sourceId));
+  });
+
+  test("setiap entri berita valid dan menautkan ke domain resmi", () => {
+    assert.ok(officialNews.length >= 8, "berita terlalu sedikit");
+    const seen = new Set();
+    for (const n of officialNews) {
+      assert.ok(Number.isInteger(n.id), `id tidak valid: ${n.title}`);
+      assert.ok(!seen.has(n.id), `id ganda: ${n.id}`);
+      seen.add(n.id);
+      assert.ok(n.title?.length > 8, `judul terlalu pendek: ${n.title}`);
+      assert.match(n.date, /^\d{4}-\d{2}-\d{2}$/, `tanggal tidak valid: ${n.title}`);
+      assert.match(
+        n.url,
+        /^https:\/\/poliban\.ac\.id\//,
+        `tautan bukan domain resmi: ${n.url}`,
+      );
+      assert.ok(n.summary?.length > 20, `ringkasan kosong: ${n.title}`);
+      assert.ok(n.summary.length <= 262, `ringkasan terlalu panjang: ${n.title}`);
+      assert.ok(!/<[a-z]/i.test(n.title + n.summary), `HTML mentah tersisa: ${n.title}`);
+      assert.ok(
+        !/&(amp|lt|gt|quot|#\d+|hellip|nbsp);/.test(n.title + n.summary),
+        `entitas HTML belum diterjemahkan: ${n.title}`,
+      );
+    }
+  });
+
+  test("berita diurutkan dari yang terbaru", () => {
+    const dates = officialNews.map((n) => n.date);
+    const sorted = [...dates].sort().reverse();
+    assert.deepEqual(dates, sorted, "urutan berita tidak menurun");
+  });
+
+  test("berita PKKMB 2026 tersedia dan dipakai pada beranda", () => {
+    const home = pages.find((p) => p.name === "index.html").html;
+    const pkkmb = officialNews.find((n) => n.slug.includes("pkkmb-2026-2027"));
+    assert.ok(pkkmb, "berita PKKMB 2026 tidak ada di cache");
+    assert.ok(home.includes(pkkmb.url), "beranda tidak menautkan siaran resmi PKKMB");
+  });
+
+  test("halaman berita menampilkan seluruh entri dengan tautan aslinya", () => {
+    const page = pages.find((p) => p.name === "berita.html");
+    for (const n of officialNews) {
+      assert.ok(page.html.includes(n.url), `berita.html tidak memuat ${n.url}`);
+    }
+  });
+
+  test("tautan keluar memakai rel yang aman", () => {
+    for (const { name, html } of pages) {
+      for (const m of html.matchAll(/<a[^>]+href="https?:[^"]*"[^>]*>/g)) {
+        const tag = m[0];
+        if (tag.includes('target="_blank"')) {
+          assert.ok(
+            /rel="[^"]*noopener/.test(tag),
+            `${name}: tautan _blank tanpa rel=noopener → ${tag.slice(0, 90)}`,
+          );
+        }
+      }
+    }
+  });
+
+  test("halaman sumber menjelaskan mekanisme pembaruan", () => {
+    const page = pages.find((p) => p.name === "sumber.html").html;
+    assert.ok(page.includes("refresh:news"), "perintah refresh:news tidak dijelaskan");
+    assert.ok(page.includes("refresh:prodi"), "perintah refresh:prodi tidak dijelaskan");
+    assert.ok(page.includes(newsSource.url), "endpoint berita tidak dicantumkan");
   });
 });

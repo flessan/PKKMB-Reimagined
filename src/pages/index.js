@@ -16,6 +16,7 @@ import { schedule, eventWindow } from "../data/schedule.js";
 import { programs, programStats } from "../data/programs.js";
 import { stats, quickServices, facilities, leader } from "../data/campus.js";
 import { assets } from "../data/assets.js";
+import { latestNews, pkkmbNews, newsSource } from "../data/news.js";
 
 /* ------------------------------------------------------------------ *
  * Hero — status kegiatan + aksi utama
@@ -73,10 +74,17 @@ function hero() {
             <dd class="mt-0.5 font-display font-bold text-white">24 Agustus 2026</dd>
           </div>
         </dl>
+
+        <p class="mt-4 text-xs leading-relaxed text-white/45">
+          Angka peserta dan tanggal dikutip dari
+          <a href="${pkkmbNews.url}" rel="noopener"
+             class="font-medium text-white/70 underline underline-offset-2 hover:text-white">siaran resmi Poliban</a>,
+          ${formatDate(pkkmbNews.date)}.
+        </p>
       </div>
 
       <div class="lg:col-span-5 lg:pl-4">
-        <div class="rounded-[1.25rem] border border-white/12 bg-white/[0.06] p-5 backdrop-blur-sm sm:p-6">
+        <div class="rounded-xl border border-white/12 bg-white/[0.06] p-5 sm:p-6">
           <div class="flex items-center justify-between gap-4">
             <h2 class="font-display text-sm font-bold uppercase tracking-[0.12em] text-white/70">Status kegiatan</h2>
             <span class="badge badge-invert" data-event-status>Memuat\u2026</span>
@@ -109,7 +117,20 @@ function hero() {
           </a>
         </div>
 
-        <figure class="mt-4 overflow-hidden rounded-[1rem] border border-white/12 bg-white/[0.04] p-3">
+        <figure class="mt-4 overflow-hidden rounded-xl border border-white/12 bg-white/[0.04]">
+          <picture>
+            <source srcset="${assets.pkkmbDirector.webp}" type="image/webp">
+            <img src="${assets.pkkmbDirector.file}" alt="${esc(assets.pkkmbDirector.alt)}"
+                 width="${assets.pkkmbDirector.width}" height="${assets.pkkmbDirector.height}"
+                 loading="lazy" decoding="async"
+                 class="aspect-[16/10] w-full object-cover object-[50%_35%]">
+          </picture>
+          <figcaption class="border-t border-white/10 px-4 py-2.5 text-xs leading-relaxed text-white/55">
+            ${esc(assets.pkkmbDirector.caption)} — dokumentasi resmi Poliban.
+          </figcaption>
+        </figure>
+
+        <figure class="mt-4 overflow-hidden rounded-xl border border-white/12 bg-white/[0.04] p-3">
           <picture>
             <source srcset="${assets.banner.webp}" type="image/webp">
             <img src="${assets.banner.file}" alt="${esc(assets.banner.alt)}"
@@ -266,6 +287,58 @@ function newsroom() {
 }
 
 /* ------------------------------------------------------------------ *
+ * Kabar resmi dari poliban.ac.id
+ * ------------------------------------------------------------------ */
+
+/**
+ * Menampilkan berita terbaru dari situs institusi. Data berasal dari cache
+ * WP REST API resmi; setiap entri hanya diringkas dan selalu menautkan
+ * kembali ke laman aslinya.
+ */
+function officialFeed() {
+  const items = latestNews(4);
+  return `
+<section class="border-y border-ink-200 bg-ink-50 py-16 md:py-20">
+  <div class="shell">
+    ${sectionHeading({
+      eyebrow: "Dari poliban.ac.id",
+      title: "Kabar terbaru kampus",
+      lead: "Ditarik langsung dari situs resmi Politeknik Negeri Banjarmasin. Klik untuk membaca artikel aslinya.",
+    })}
+
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+      ${join(
+        items.map(
+          (n) => `
+      <li class="card card-interactive flex flex-col p-5">
+        <div class="flex flex-wrap items-center gap-2">
+          ${join(n.categories.slice(0, 2).map((c) => `<span class="badge badge-neutral">${esc(c)}</span>`))}
+          <time datetime="${n.date}" class="text-xs text-ink-500">${formatDate(n.date)}</time>
+        </div>
+        <h3 class="mt-3 font-display text-base font-bold leading-snug text-ink-900">
+          <a href="${n.url}" rel="noopener" class="stretch-link transition-colors hover:text-brand-700">${esc(n.title)}</a>
+        </h3>
+        <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-600 clamp-3">${esc(n.summary)}</p>
+        <p class="mt-4 inline-flex items-center gap-1.5 font-display text-xs font-semibold text-brand-700">
+          poliban.ac.id ${icon("external", { class: "h-3.5 w-3.5" })}
+        </p>
+      </li>`,
+        ),
+      )}
+    </ul>
+
+    <p class="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-500">
+      ${icon("info", { class: "h-4 w-4 shrink-0 text-ink-400" })}
+      <span>Diperbarui dari
+        <a href="${newsSource.url}" rel="noopener" class="font-medium text-brand-700 underline underline-offset-2">WP REST API resmi Poliban</a>
+        pada ${formatDate(newsSource.fetchedAt)}.
+        <a href="sumber.html" class="font-medium text-brand-700 underline underline-offset-2">Lihat catatan sumber</a>.</span>
+    </p>
+  </div>
+</section>`;
+}
+
+/* ------------------------------------------------------------------ *
  * Sambutan direktur
  * ------------------------------------------------------------------ */
 
@@ -335,6 +408,19 @@ function campus() {
     ${join(highlights.map((p) => programCard(p)))}
   </div>
 
+  <figure class="mt-12 overflow-hidden rounded-xl border border-ink-200">
+    <picture>
+      <source srcset="${assets.campusSignage.webp}" type="image/webp">
+      <img src="${assets.campusSignage.file}" alt="${esc(assets.campusSignage.alt)}"
+           width="${assets.campusSignage.width}" height="${assets.campusSignage.height}"
+           loading="lazy" decoding="async"
+           class="aspect-[21/9] w-full object-cover object-[50%_38%] sm:aspect-[3/1]">
+    </picture>
+    <figcaption class="border-t border-ink-200 bg-ink-50 px-5 py-3 text-xs leading-relaxed text-ink-500">
+      Kampus Poliban, Jl. Brigjen H. Hasan Basri, Kayu Tangi, Banjarmasin — dokumentasi resmi Poliban.
+    </figcaption>
+  </figure>
+
   <div class="mt-14">${statBlock(stats)}</div>
 
   <div class="mt-14 grid gap-4 lg:grid-cols-3">
@@ -389,6 +475,7 @@ export default function render() {
       services(),
       timeline(),
       newsroom(),
+      officialFeed(),
       welcome(),
       campus(),
       `<div class="shell pb-20">${calloutPortal()}</div>`,

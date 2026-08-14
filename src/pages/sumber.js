@@ -5,6 +5,7 @@ import { esc, join, formatDate } from "../lib/html.js";
 import { sources } from "../data/sources.js";
 import { assets } from "../data/assets.js";
 import { programsSource } from "../data/programs.js";
+import { newsSource, officialNews } from "../data/news.js";
 
 const STATUS = {
   official: { label: "Sumber resmi", tone: "badge-brand" },
@@ -58,6 +59,16 @@ const facts = [
     claim: "Alamat: Jl. Brigjen H. Hasan Basri, Kayu Tangi, Banjarmasin 70123",
     sourceId: "poliban-home",
   },
+  {
+    claim:
+      "Peserta PKKMB 2026 meningkat dari sekitar 1.400 orang pada tahun 2025",
+    sourceId: "poliban-pkkmb-2026",
+  },
+  {
+    claim:
+      "PKKMB Poliban berlangsung bebas kekerasan, sejalan dengan slogan happy and friendly",
+    sourceId: "poliban-pkkmb-2026",
+  },
 ];
 
 /** Hal yang sengaja tidak ditampilkan karena tidak dapat diverifikasi. */
@@ -82,9 +93,19 @@ const unverified = [
     reason: "Belum dipublikasikan pada kanal resmi mana pun.",
   },
   {
-    item: "Peringkat akreditasi untuk tiga program studi baru",
+    item: "Peringkat akreditasi satu program studi",
     reason:
-      "Portal SPMB belum mencantumkan nilainya. Kartu prodi menampilkan keterangan “belum tercantum”, bukan menebak nilai.",
+      "Portal SPMB mengosongkan kolom akreditasi untuk kode 21318. Halaman prodi menampilkan keterangan “belum tercantum pada sumber resmi”, bukan menebak nilai.",
+  },
+  {
+    item: "Dokumentasi foto PKKMB 2026",
+    reason:
+      "Situs resmi baru menerbitkan satu foto kegiatan 2026 dan berkas aslinya tidak dapat diambil secara terprogram. Suasana PKKMB diwakili dokumentasi resmi tahun 2024 yang selalu diberi keterangan tahun.",
+  },
+  {
+    item: "Visi dan misi tingkat institusi",
+    reason:
+      "Setiap jurusan menerbitkan visi–misinya sendiri, tetapi tidak ditemukan laman visi–misi institusi pada domain resmi.",
   },
 ];
 
@@ -172,8 +193,10 @@ function assetList() {
         ([id, a]) => `
     <article class="card p-5">
       <div class="flex items-start gap-4">
-        <img src="${a.file}" alt="" width="72" height="72" loading="lazy" decoding="async"
-             class="h-16 w-16 shrink-0 rounded-lg border border-ink-200 object-contain p-1">
+        <img src="${a.file}" alt=""
+             width="${Math.round((a.width / a.height) * 64)}" height="64"
+             loading="lazy" decoding="async"
+             class="h-16 w-auto max-w-[7rem] shrink-0 rounded-lg border border-ink-200 bg-white object-contain p-1">
         <div class="min-w-0">
           <h3 class="font-display text-sm font-bold text-ink-900">${esc(id)}</h3>
           <p class="mt-1 text-xs leading-relaxed text-ink-600">${esc(a.note)}</p>
@@ -202,6 +225,71 @@ function assetList() {
     </article>`,
       ),
     )}
+  </div>
+</section>`;
+}
+
+/**
+ * Menjelaskan bagaimana data faktual disegarkan, agar pembaca tahu situs ini
+ * tidak menyalin manual dan tidak melakukan scraping saat runtime.
+ */
+function pipeline() {
+  const feeds = [
+    {
+      name: "Program studi",
+      endpoint: programsSource.url,
+      fetched: programsSource.fetchedAt,
+      command: "npm run refresh:prodi",
+      detail:
+        "22 program studi beserta jenjang, akreditasi, dan tautan resminya diambil dari portal SPMB.",
+    },
+    {
+      name: "Berita kampus",
+      endpoint: newsSource.url,
+      fetched: newsSource.fetchedAt,
+      command: "npm run refresh:news",
+      detail: `${officialNews.length} berita terbaru diambil dari WP REST API situs resmi. Hanya judul, tanggal, dan ringkasan yang disimpan; isi artikel tetap di sumbernya.`,
+    },
+  ];
+
+  return `
+<section class="border-t border-ink-200 bg-ink-50 py-14">
+  <div class="shell-narrow">
+    ${sectionHeading({
+      eyebrow: "Cara data disegarkan",
+      title: "Diambil sekali, disimpan, lalu dibangun",
+      lead: "Situs ini statis. Data resmi diambil melalui perintah eksplisit dan disimpan sebagai cache — tidak ada permintaan jaringan saat halaman dibuka.",
+    })}
+
+    <div class="mt-8 space-y-4">
+      ${join(
+        feeds.map(
+          (f) => `
+      <div class="card p-5">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 class="font-display text-base font-bold text-ink-900">${esc(f.name)}</h3>
+          <span class="text-xs text-ink-500">Diambil ${formatDate(f.fetched)}</span>
+        </div>
+        <p class="mt-2 text-sm leading-relaxed text-ink-600">${esc(f.detail)}</p>
+        <dl class="mt-4 space-y-2 border-t border-ink-200 pt-3 text-xs">
+          <div class="flex flex-wrap gap-2">
+            <dt class="shrink-0 font-medium text-ink-500">Endpoint</dt>
+            <dd class="min-w-0"><a href="${f.endpoint}" rel="noopener" class="break-all text-brand-700 underline underline-offset-2">${esc(f.endpoint)}</a></dd>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <dt class="shrink-0 font-medium text-ink-500">Perintah</dt>
+            <dd><code class="rounded bg-ink-100 px-1.5 py-0.5 font-mono text-[0.7rem] text-ink-700">${esc(f.command)}</code></dd>
+          </div>
+        </dl>
+      </div>`,
+        ),
+      )}
+    </div>
+
+    <p class="mt-5 flex gap-2.5 rounded-lg border border-ink-200 bg-white px-4 py-3 text-xs leading-relaxed text-ink-600">
+      ${icon("info", { class: "mt-0.5 h-4 w-4 shrink-0 text-brand-600" })}
+      <span><code class="font-mono">npm run refresh:check</code> membandingkan cache dengan sumber resmi dan gagal bila keduanya berbeda, sehingga data usang dapat terdeteksi lebih awal. Bila jaringan tidak tersedia, cache lama tetap dipakai dan build tetap berhasil.</span>
+    </p>
   </div>
 </section>`;
 }
@@ -263,6 +351,7 @@ export default function render() {
       factList(),
       sourceList(),
       assetList(),
+      pipeline(),
       gaps(),
     ]),
   });
