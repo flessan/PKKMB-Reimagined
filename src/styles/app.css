@@ -1,0 +1,538 @@
+@import "tailwindcss" source(none);
+
+@source "../data";
+@source "../lib";
+@source "../components";
+@source "../pages";
+@source "../scripts";
+
+/* ------------------------------------------------------------------ *
+ * Fonts — dilayani sendiri (self-hosted) agar tidak bergantung pada
+ * jaringan pihak ketiga dan tidak memblokir render.
+ * ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 800;
+  src: url("./fonts/plus-jakarta-sans-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  src: url("./fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ------------------------------------------------------------------ *
+ * Token desain
+ * ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui,
+    sans-serif;
+
+  /* Biru institusi Poliban */
+  --color-brand-50: #eef5fc;
+  --color-brand-100: #d9e8f8;
+  --color-brand-200: #b4d1f0;
+  --color-brand-300: #83b2e3;
+  --color-brand-400: #4f8ed2;
+  --color-brand-500: #2c6fb8;
+  --color-brand-600: #1d5697;
+  --color-brand-700: #17457a;
+  --color-brand-800: #143a64;
+  --color-brand-900: #102f51;
+  --color-brand-950: #091d34;
+
+  /* Emas — aksen dari lambang Poliban, dipakai hemat.
+     Nada 500/600 sengaja digelapkan agar teks di atas putih dan
+     `accent-100` tetap memenuhi kontras WCAG AA. */
+  --color-accent-100: #fdf0d2;
+  --color-accent-300: #f4c765;
+  --color-accent-400: #eab134;
+  --color-accent-500: #a06a10;
+  --color-accent-600: #8a5a10;
+
+  /* Netral hangat. `ink-400` hanya untuk elemen non-teks (ikon dekoratif,
+     garis); teks sekunder memakai `ink-500` ke atas. */
+  --color-ink-50: #f7f8fa;
+  --color-ink-100: #eef0f4;
+  --color-ink-200: #dfe3ea;
+  --color-ink-300: #c5ccd8;
+  --color-ink-400: #8b96a9;
+  --color-ink-500: #5d6775;
+  --color-ink-600: #515c6c;
+  --color-ink-700: #3e4756;
+  --color-ink-800: #2a3140;
+  --color-ink-900: #1a1f2b;
+  --color-ink-950: #0e121a;
+
+  --radius-card: 0.875rem;
+
+  --shadow-raise: 0 1px 2px rgb(9 29 52 / 0.05), 0 8px 24px -12px rgb(9 29 52 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(9 29 52 / 0.05), 0 18px 40px -20px rgb(9 29 52 / 0.28);
+
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --animate-reveal: reveal 0.55s var(--ease-out-soft) both;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Dasar
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-white);
+    color: var(--color-ink-700);
+    font-feature-settings: "cv05", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-display {
+    font-family: var(--font-display);
+    color: var(--color-ink-900);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-600);
+    color: white;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  img {
+    color: transparent;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Komponen yang benar-benar berulang
+ * ------------------------------------------------------------------ */
+@layer components {
+  .shell {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 78rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  .shell-narrow {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 48rem;
+    padding-inline: 1.25rem;
+  }
+
+  /* Tombol */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.625rem;
+    padding: 0.6875rem 1.125rem;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.18s var(--ease-out-soft),
+      border-color 0.18s var(--ease-out-soft), color 0.18s var(--ease-out-soft),
+      box-shadow 0.18s var(--ease-out-soft);
+  }
+
+  .btn-sm {
+    padding: 0.4375rem 0.8125rem;
+    font-size: 0.8125rem;
+    border-radius: 0.5rem;
+  }
+
+  .btn-lg {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background-color: var(--color-brand-600);
+    color: white;
+    box-shadow: var(--shadow-raise);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-brand-700);
+  }
+
+  .btn-secondary {
+    background-color: var(--color-white);
+    border-color: var(--color-ink-200);
+    color: var(--color-ink-800);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-ink-300);
+    background-color: var(--color-ink-50);
+  }
+
+  .btn-ghost {
+    color: var(--color-ink-700);
+  }
+  .btn-ghost:hover {
+    background-color: var(--color-ink-100);
+  }
+
+  .btn-invert {
+    background-color: var(--color-white);
+    color: var(--color-brand-800);
+  }
+  .btn-invert:hover {
+    background-color: var(--color-brand-50);
+  }
+
+  .btn-outline-invert {
+    border-color: color-mix(in srgb, white 35%, transparent);
+    color: white;
+  }
+  .btn-outline-invert:hover {
+    background-color: color-mix(in srgb, white 12%, transparent);
+    border-color: color-mix(in srgb, white 60%, transparent);
+  }
+
+  /* Kartu */
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid var(--color-ink-200);
+    border-radius: var(--radius-card);
+  }
+
+  .card-interactive {
+    transition: border-color 0.2s var(--ease-out-soft),
+      box-shadow 0.2s var(--ease-out-soft), transform 0.2s var(--ease-out-soft);
+  }
+  .card-interactive:hover {
+    border-color: var(--color-brand-300);
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-2px);
+  }
+  .card-interactive:focus-within {
+    border-color: var(--color-brand-400);
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* Tautan yang menutupi seluruh kartu */
+  .stretch-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  /* Lencana */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 999px;
+    padding: 0.1875rem 0.625rem;
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .badge-brand {
+    background-color: var(--color-brand-50);
+    color: var(--color-brand-700);
+  }
+  .badge-accent {
+    background-color: var(--color-accent-100);
+    color: var(--color-accent-600);
+  }
+  .badge-neutral {
+    background-color: var(--color-ink-100);
+    color: var(--color-ink-600);
+  }
+  .badge-invert {
+    background-color: color-mix(in srgb, white 14%, transparent);
+    color: white;
+  }
+
+  /* Label bagian */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-brand-600);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.5rem;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+  }
+
+  /* Field form */
+  .field {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--color-ink-300);
+    border-radius: 0.625rem;
+    background-color: white;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9375rem;
+    color: var(--color-ink-900);
+    transition: border-color 0.15s var(--ease-out-soft),
+      box-shadow 0.15s var(--ease-out-soft);
+  }
+  .field::placeholder {
+    color: var(--color-ink-500);
+    opacity: 1;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-brand-500);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-500) 18%, transparent);
+  }
+
+  .field-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink-800);
+    margin-bottom: 0.375rem;
+  }
+
+  /* Pilihan filter berbentuk chip */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border: 1px solid var(--color-ink-200);
+    border-radius: 999px;
+    background-color: white;
+    padding: 0.4375rem 0.875rem;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink-600);
+    cursor: pointer;
+    transition: all 0.15s var(--ease-out-soft);
+  }
+  .chip:hover {
+    border-color: var(--color-brand-300);
+    color: var(--color-brand-700);
+  }
+  .chip[aria-pressed="true"] {
+    background-color: var(--color-brand-600);
+    border-color: var(--color-brand-600);
+    color: white;
+  }
+
+  /* Artikel */
+  .prose-editorial {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-ink-700);
+  }
+  .prose-editorial > * + * {
+    margin-top: 1.25rem;
+  }
+  .prose-editorial h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    line-height: 1.3;
+  }
+  .prose-editorial h3 {
+    font-size: 1.1875rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    line-height: 1.4;
+  }
+  .prose-editorial a {
+    color: var(--color-brand-700);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-brand-300);
+  }
+  .prose-editorial a:hover {
+    text-decoration-color: var(--color-brand-600);
+  }
+  .prose-editorial strong {
+    color: var(--color-ink-900);
+    font-weight: 650;
+  }
+  .prose-editorial ul,
+  .prose-editorial ol {
+    padding-left: 1.25rem;
+  }
+  .prose-editorial ul {
+    list-style: disc;
+  }
+  .prose-editorial ol {
+    list-style: decimal;
+  }
+  .prose-editorial li + li {
+    margin-top: 0.5rem;
+  }
+  .prose-editorial li::marker {
+    color: var(--color-brand-400);
+  }
+  .prose-editorial blockquote {
+    border-left: 3px solid var(--color-brand-500);
+    background-color: var(--color-brand-50);
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 1rem 1.25rem;
+    color: var(--color-ink-800);
+  }
+  .prose-editorial blockquote > * + * {
+    margin-top: 0.75rem;
+  }
+  .prose-editorial img {
+    border-radius: var(--radius-card);
+  }
+
+  /* Garis waktu */
+  .timeline-rail {
+    position: absolute;
+    left: 0.9375rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-brand-200),
+      var(--color-ink-200)
+    );
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Utilitas
+ * ------------------------------------------------------------------ */
+@utility clamp-* {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: --value(integer);
+  overflow: hidden;
+}
+
+@utility grid-fine {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in srgb, white 6%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, white 6%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 4rem 4rem;
+}
+
+/* Elemen yang muncul saat masuk viewport.
+   Disembunyikan hanya bila JavaScript aktif (kelas `js` dipasang di <head>),
+   sehingga konten tetap terlihat ketika skrip gagal dimuat. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+  }
+  .js [data-reveal].is-visible {
+    animation: var(--animate-reveal);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    color: #000;
+  }
+}
