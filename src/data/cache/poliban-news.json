@@ -1,0 +1,145 @@
+{
+  "_comment": "Cache berita resmi Poliban dari WP REST API. JANGAN disunting manual — jalankan `npm run refresh:news`. Hanya metadata yang disimpan; isi artikel tetap milik sumber dan selalu ditautkan kembali.",
+  "source": "https://poliban.ac.id/wp-json/wp/v2/posts",
+  "sourceId": "poliban-wp-api",
+  "fetchedAt": "2026-08-14",
+  "items": [
+    {
+      "id": 12111,
+      "slug": "35-asn-poliban-dilantik-22-cpns-resmi-menjadi-pns",
+      "title": "35 ASN Poliban Dilantik, 22 CPNS Resmi Menjadi PNS",
+      "date": "2026-08-11",
+      "url": "https://poliban.ac.id/35-asn-poliban-dilantik-22-cpns-resmi-menjadi-pns/",
+      "summary": "Direktur Politeknik Negeri Banjarmasin (Poliban), Joni Riadi, melantik 35 Aparatur Sipil Negara (ASN) yang terdiri atas Jabatan Fungsional Asisten Ahli dan Lektor Kepala di lingkungan Poliban. Pelantikan dan pengambilan sumpah…",
+      "categories": [
+        "Kelembagaan"
+      ]
+    },
+    {
+      "id": 12086,
+      "slug": "poliban-sambut-1-817-mahasiswa-baru-melalui-pkkmb-2026-2027",
+      "title": "Poliban Sambut 1.817 Mahasiswa Baru melalui PKKMB 2026/2027",
+      "date": "2026-08-07",
+      "url": "https://poliban.ac.id/poliban-sambut-1-817-mahasiswa-baru-melalui-pkkmb-2026-2027/",
+      "summary": "Sebanyak 1.817 mahasiswa baru mengikuti kegiatan Pengenalan Kehidupan Kampus bagi Mahasiswa Baru (PKKMB) Tahun Akademik 2026/2027 di Politeknik Negeri Banjarmasin (Poliban), Jum’at (07/08/2026). Kegiatan tersebut berlangsung selama tiga hari, mulai…",
+      "categories": [
+        "Penerimaan Mahasiswa Baru",
+        "Mahasiswa Baru"
+      ]
+    },
+    {
+      "id": 12047,
+      "slug": "saatnya-tunjukkan-bakatmu-di-peksiminas-xviii-tahun-2026",
+      "title": "Saatnya Tunjukkan Bakatmu di PEKSIMINAS XVIII Tahun 2026",
+      "date": "2026-07-13",
+      "url": "https://poliban.ac.id/saatnya-tunjukkan-bakatmu-di-peksiminas-xviii-tahun-2026/",
+      "summary": "Halo Mahasiswa Politeknik Negeri Banjarmasin! Punya bakat dan minat di bidang seni? Saatnya menunjukkan kemampuan terbaikmu melalui Pekan Seni Mahasiswa Nasional (PEKSIMINAS) XVIII Tahun 2026. PEKSIMINAS merupakan ajang bergengsi bagi…",
+      "categories": [
+        "Pengumuman"
+      ]
+    },
+    {
+      "id": 12001,
+      "slug": "brian-yuliarto-pendidikan-kedokteran-daerah-merupakan-investasi-jangka-panjang",
+      "title": "Brian Yuliarto: Pendidikan Kedokteran Daerah Merupakan Investasi Jangka Panjang",
+      "date": "2026-06-18",
+      "url": "https://poliban.ac.id/brian-yuliarto-pendidikan-kedokteran-daerah-merupakan-investasi-jangka-panjang/",
+      "summary": "Dilansir dari siaran pers Kementerian Pendidikan Tinggi, Sains, dan Teknologi (Kemdiktisaintek), Menteri Pendidikan Tinggi, Sains, dan Teknologi Brian Yuliarto mengapresiasi skema penerimaan mahasiswa angkatan pertama Fakultas Kedokteran (FK) Universitas Ne…",
+      "categories": []
+    },
+    {
+      "id": 11998,
+      "slug": "sobat-poliban-saatnya-tantang-dirimu-di-ai-x-5d-bim-master-challenge-2026",
+      "title": "Sobat Poliban, Saatnya Tantang Dirimu di AI x 5D BIM Master Challenge 2026",
+      "date": "2026-06-12",
+      "url": "https://poliban.ac.id/sobat-poliban-saatnya-tantang-dirimu-di-ai-x-5d-bim-master-challenge-2026/",
+      "summary": "Halo Sobat Poliban, Ada kabar baik untuk kalian yang ingin mengembangkan kompetensi di bidang konstruksi digital dan teknologi masa depan. AI x 5D BIM Master Challenge 2026 resmi dibuka sebagai…",
+      "categories": []
+    },
+    {
+      "id": 11991,
+      "slug": "upa-perpustakaan-poliban-dorong-pemanfaatan-e-jurnal-cambridge-untuk-penelitian",
+      "title": "UPA Perpustakaan Poliban Dorong Pemanfaatan E-Jurnal Cambridge untuk Penelitian",
+      "date": "2026-06-02",
+      "url": "https://poliban.ac.id/upa-perpustakaan-poliban-dorong-pemanfaatan-e-jurnal-cambridge-untuk-penelitian/",
+      "summary": "Dalam upaya mendukung pengembangan riset dan inovasi, Unit Penunjang Akademik (UPA) Perpustakaan Politeknik Negeri Banjarmasin (Poliban) menyelenggarakan Sosialisasi Pemanfaatan E-Jurnal Cambridge serta Bimbingan Penggunaannya bagi civitas akademika. Kegiat…",
+      "categories": [
+        "Akademik"
+      ]
+    },
+    {
+      "id": 11983,
+      "slug": "hasil-snbt-2026-diumumkan-hari-ini-simak-cara-ceknya",
+      "title": "Hasil SNBT 2026 Diumumkan Hari Ini, Simak Cara Ceknya!",
+      "date": "2026-05-25",
+      "url": "https://poliban.ac.id/hasil-snbt-2026-diumumkan-hari-ini-simak-cara-ceknya/",
+      "summary": "Halo Sobat Politeknik Negeri Banjarmasin Hasil Seleksi Nasional Berdasarkan Tes (SNBT) 2026 akan diumumkan hari ini, Senin, 25 Mei 2026 pukul 15.00 WIB. Sudah siap cek hasilnya? Pengumuman dapat dicek…",
+      "categories": [
+        "Penerimaan Mahasiswa Baru",
+        "Pengumuman",
+        "Mahasiswa Baru"
+      ]
+    },
+    {
+      "id": 11979,
+      "slug": "poliban-siapkan-mahasiswa-berprestasi-melalui-seleksi-jalur-prestasi-2026",
+      "title": "Poliban Siapkan Mahasiswa Berprestasi melalui Seleksi Jalur Prestasi 2026",
+      "date": "2026-05-21",
+      "url": "https://poliban.ac.id/poliban-siapkan-mahasiswa-berprestasi-melalui-seleksi-jalur-prestasi-2026/",
+      "summary": "Politeknik Negeri Banjarmasin (Poliban) menyelenggarakan tes wawancara bagi calon mahasiswa baru jalur prestasi di Gedung UPA TIK Lantai 3 Poliban, Kamis (21/05/2026). Tes wawancara tersebut terbagi menjadi dua sesi, yakni…",
+      "categories": [
+        "Penerimaan Mahasiswa Baru",
+        "Mahasiswa Baru"
+      ]
+    },
+    {
+      "id": 11972,
+      "slug": "talk-show-inspiratif-di-poliban-ajak-mahasiswa-bergabung-dalam-pemuda-pelopor-2026",
+      "title": "Talk Show Inspiratif di Poliban Ajak Mahasiswa Bergabung dalam Pemuda Pelopor 2026",
+      "date": "2026-05-07",
+      "url": "https://poliban.ac.id/talk-show-inspiratif-di-poliban-ajak-mahasiswa-bergabung-dalam-pemuda-pelopor-2026/",
+      "summary": "Politeknik Negeri Banjarmasin (Poliban) bersama Dinas Kebudayaan, Kepemudaan, Olahraga, dan Pariwisata (Disbudporapar) Kota Banjarmasin menggelar Talk Show Inspiratif dan Pendampingan Program Pemuda Pelopor di Ruang Multimedia, Gedung Kantor Utama Lantai…",
+      "categories": [
+        "Kelembagaan",
+        "Kerja Sama"
+      ]
+    },
+    {
+      "id": 11955,
+      "slug": "pengumuman-penetapan-mahasiswa-baru-snbp-poliban-2026-2027",
+      "title": "Pengumuman: Penetapan Mahasiswa Baru SNBP Poliban 2026/2027",
+      "date": "2026-04-30",
+      "url": "https://poliban.ac.id/pengumuman-penetapan-mahasiswa-baru-snbp-poliban-2026-2027/",
+      "summary": "Politeknik Negeri Banjarmasin (Poliban) resmi menetapkan mahasiswa baru jalur Seleksi Nasional Berdasarkan Prestasi (SNBP) Tahun Akademik 2026/2027 melalui Surat Keputusan Direktur Nomor 476/DST/PL18/PP.01.11/2026. Berdasarkan keputusan tersebut, sebanyak l…",
+      "categories": [
+        "Penerimaan Mahasiswa Baru",
+        "Pengumuman",
+        "Mahasiswa Baru"
+      ]
+    },
+    {
+      "id": 11950,
+      "slug": "kerja-sama-poliban-dan-pt-darma-henwa-buka-peluang-pendidikan-bagi-karyawan-melalui-program-rpl",
+      "title": "Kerja Sama Poliban dan PT. Darma Henwa, Buka Peluang Pendidikan bagi Karyawan melalui Program RPL",
+      "date": "2026-04-27",
+      "url": "https://poliban.ac.id/kerja-sama-poliban-dan-pt-darma-henwa-buka-peluang-pendidikan-bagi-karyawan-melalui-program-rpl/",
+      "summary": "Direktur Politeknik Negeri Banjarmasin, Joni Riadi, menandatangani kerja sama melalui Memorandum of Understanding (MoU) dengan PT Darma Henwa yang diwakili oleh Legal & Corporate Services, Mahmud Samuri. Penandatanganan berlangsung di…",
+      "categories": [
+        "Kelembagaan",
+        "Kerja Sama"
+      ]
+    },
+    {
+      "id": 11938,
+      "slug": "poliban-umumkan-verval-kip-k-mahasiswa-baru-snbp-2026-digelar-14-17-april",
+      "title": "Poliban Umumkan Verval KIP-K Mahasiswa Baru SNBP 2026, Digelar 14–17 April",
+      "date": "2026-04-14",
+      "url": "https://poliban.ac.id/poliban-umumkan-verval-kip-k-mahasiswa-baru-snbp-2026-digelar-14-17-april/",
+      "summary": "Politeknik Negeri Banjarmasin (Poliban) resmi mengumumkan pelaksanaan verifikasi dan validasi (verval) Kartu Indonesia Pintar Kuliah (KIP-K) bagi calon mahasiswa baru jalur SNBP Tahun Akademik 2026/2027. Verval akan berlangsung pada 14–17…",
+      "categories": [
+        "Penerimaan Mahasiswa Baru",
+        "Mahasiswa Baru"
+      ]
+    }
+  ]
+}

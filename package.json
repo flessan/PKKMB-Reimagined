@@ -1,0 +1,27 @@
+{
+  "name": "pkkmb-poliban-2026",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Situs resmi PKKMB 2026 Politeknik Negeri Banjarmasin — static site generator sederhana tanpa framework.",
+  "type": "module",
+  "scripts": {
+    "clean": "node --experimental-default-type=module tools/clean.mjs",
+    "build:css": "tailwindcss -i src/styles/app.css -o dist/assets/app.css --minify",
+    "build:html": "node build.mjs",
+    "build": "npm run build:html && npm run build:css",
+    "dev": "node tools/dev.mjs",
+    "lint": "node tools/lint.mjs",
+    "refresh:prodi": "node tools/fetch-programs.mjs",
+    "refresh:check": "node tools/fetch-programs.mjs --check && node tools/fetch-news.mjs --check",
+    "test": "node --test tools/*.test.mjs",
+    "check": "npm run build && npm run lint && npm test",
+    "refresh:news": "node tools/fetch-news.mjs",
+    "refresh": "node tools/fetch-programs.mjs && node tools/fetch-news.mjs"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.9",
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}
