@@ -57,10 +57,10 @@ function explorer() {
         <div class="lg:col-span-4">
           <span class="field-label" id="label-jenjang">Jenjang</span>
           <div class="flex gap-2" role="group" aria-labelledby="label-jenjang">
-            <button type="button" class="chip flex-1 justify-center" aria-pressed="true" data-program-level value="">Semua</button>
-            <button type="button" class="chip flex-1 justify-center" aria-pressed="false" data-program-level value="D2">D2</button>
-            <button type="button" class="chip flex-1 justify-center" aria-pressed="false" data-program-level value="D3">D3</button>
-            <button type="button" class="chip flex-1 justify-center" aria-pressed="false" data-program-level value="D4">D4</button>
+            <button type="button" class="chip h-11 flex-1 justify-center" aria-pressed="true" data-program-level value="">Semua</button>
+            <button type="button" class="chip h-11 flex-1 justify-center" aria-pressed="false" data-program-level value="D2">D2</button>
+            <button type="button" class="chip h-11 flex-1 justify-center" aria-pressed="false" data-program-level value="D3">D3</button>
+            <button type="button" class="chip h-11 flex-1 justify-center" aria-pressed="false" data-program-level value="D4">D4</button>
           </div>
         </div>
       </div>

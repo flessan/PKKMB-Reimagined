@@ -25,8 +25,8 @@ export const assets = {
 
   director: {
     file: "assets/img/direktur.jpg",
-    width: 459,
-    height: 667,
+    width: 600,
+    height: 872,
     alt: "Potret resmi Joni Riadi, S.ST., M.T., Direktur Politeknik Negeri Banjarmasin",
     origin:
       "https://pkkmb.poliban.ac.id/storage/leaders/R8vXnFaFe3Dh5kyRdxscS4oNIuCLoBA1hdKbErya.jpg",

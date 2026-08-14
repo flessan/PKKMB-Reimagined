@@ -514,3 +514,68 @@ describe("keamanan pipeline berita", () => {
     }
   });
 });
+
+/* ------------------------------------------------------------------ */
+
+describe("dimensi aset", () => {
+  test("width/height pada assets.js sama dengan berkas sebenarnya", async () => {
+    /*
+     * Metadata yang melenceng dari berkas menyebabkan pergeseran tata letak
+     * (CLS) dan, bila rasionya ikut berubah, gambar menjadi gepeng.
+     * Membaca header berkas langsung agar tidak bergantung pada ImageMagick.
+     */
+    for (const [id, a] of Object.entries(assets)) {
+      const buf = await readFile(join(dist, a.file));
+      const dim = readSize(buf, a.file);
+      if (!dim) continue; // format tak dikenal — dilewati, bukan digagalkan
+      assert.equal(dim.w, a.width, `${id}: lebar tercatat ${a.width}, berkas ${dim.w}`);
+      assert.equal(dim.h, a.height, `${id}: tinggi tercatat ${a.height}, berkas ${dim.h}`);
+    }
+  });
+
+  test("varian webp punya rasio yang sama dengan aslinya", async () => {
+    for (const [id, a] of Object.entries(assets)) {
+      if (!a.webp) continue;
+      const buf = await readFile(join(dist, a.webp));
+      const dim = readSize(buf, a.webp);
+      if (!dim) continue;
+      const r1 = a.width / a.height;
+      const r2 = dim.w / dim.h;
+      assert.ok(
+        Math.abs(r1 - r2) / r1 < 0.02,
+        `${id}: rasio webp (${dim.w}x${dim.h}) berbeda dari aslinya`,
+      );
+    }
+  });
+});
+
+/** Membaca dimensi PNG/JPEG/WebP dari header biner. */
+function readSize(buf, name) {
+  if (buf.slice(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
+    return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+  }
+  if (buf[0] === 0xff && buf[1] === 0xd8) {
+    let o = 2;
+    while (o < buf.length) {
+      if (buf[o] !== 0xff) { o += 1; continue; }
+      const marker = buf[o + 1];
+      const len = buf.readUInt16BE(o + 2);
+      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+        return { h: buf.readUInt16BE(o + 5), w: buf.readUInt16BE(o + 7) };
+      }
+      o += 2 + len;
+    }
+    return null;
+  }
+  if (buf.slice(0, 4).toString() === "RIFF" && buf.slice(8, 12).toString() === "WEBP") {
+    const fmt = buf.slice(12, 16).toString();
+    if (fmt === "VP8X") return { w: (buf.readUIntLE(24, 3) & 0xffffff) + 1, h: (buf.readUIntLE(27, 3) & 0xffffff) + 1 };
+    if (fmt === "VP8 ") return { w: buf.readUInt16LE(26) & 0x3fff, h: buf.readUInt16LE(28) & 0x3fff };
+    if (fmt === "VP8L") {
+      const b = buf.readUInt32LE(21);
+      return { w: (b & 0x3fff) + 1, h: ((b >> 14) & 0x3fff) + 1 };
+    }
+    return null;
+  }
+  return null;
+}

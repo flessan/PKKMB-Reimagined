@@ -106,7 +106,7 @@ export function header({ depth = 0, active = "" } = {}) {
           yang paling banyak dipakai peserta. Kini label yang menyusut, bukan
           tombolnya.
         -->
-        <a href="${rel("login.html", depth)}" class="btn btn-primary btn-sm"
+        <a href="${rel("login.html", depth)}" class="btn btn-primary btn-sm !h-11"
            aria-label="Masuk Portal PKKMB">
           ${icon("shield", { class: "h-4 w-4" })}
           <span class="hidden sm:inline">Portal PKKMB</span>
@@ -114,7 +114,7 @@ export function header({ depth = 0, active = "" } = {}) {
 
         <!-- Disclosure native: menu tetap berfungsi tanpa JavaScript. -->
         <details class="group/menu lg:hidden" data-menu>
-          <summary class="btn btn-secondary btn-sm !px-2.5 list-none" aria-label="Menu navigasi" data-menu-toggle>
+          <summary class="btn btn-secondary btn-sm !h-11 !w-11 !px-0 list-none" aria-label="Menu navigasi" data-menu-toggle>
             <span class="group-open/menu:hidden">${icon("menu", { class: "h-5 w-5", stroke: 2 })}</span>
             <span class="hidden group-open/menu:inline">${icon("close", { class: "h-5 w-5", stroke: 2 })}</span>
           </summary>
@@ -292,7 +292,8 @@ ${canonicalUrl ? `<meta property="og:url" content="${canonicalUrl}">` : ""}
 <link rel="preload" href="${assets}assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${assets}assets/app.css">
 <script>document.documentElement.classList.add("js")</script>
-<script src="${assets}assets/app.js" type="module" defer></script>
+<!-- type="module" sudah menunda eksekusi; atribut defer tidak diperlukan. -->
+<script src="${assets}assets/app.js" type="module"></script>
 ${head}
 </head>
 <body class="${cls("flex min-h-full flex-col bg-white antialiased", bodyClass)}">

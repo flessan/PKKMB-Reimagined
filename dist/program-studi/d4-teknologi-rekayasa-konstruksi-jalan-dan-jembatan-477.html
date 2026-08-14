@@ -25,7 +25,8 @@
 <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/app.css">
 <script>document.documentElement.classList.add("js")</script>
-<script src="../assets/app.js" type="module" defer></script>
+<!-- type="module" sudah menunda eksekusi; atribut defer tidak diperlukan. -->
+<script src="../assets/app.js" type="module"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationalOccupationalProgram","name":"D4 Teknologi Rekayasa Konstruksi Jalan dan Jembatan","programType":"Sarjana Terapan (S.Tr.)","educationalCredentialAwarded":"Sarjana Terapan (S.Tr.)","timeToComplete":"P4Y","description":"Fokus pada perancangan dan pelaksanaan infrastruktur jalan serta jembatan.","provider":{"@type":"CollegeOrUniversity","name":"Politeknik Negeri Banjarmasin","url":"https://pkkmb.poliban.ac.id"},"occupationalCategory":["Highway & bridge engineer","Site manager proyek jalan","Konsultan perencana infrastruktur","Pengawas pemeliharaan jalan"]}</script>
 </head>
 <body class="flex min-h-full flex-col bg-white antialiased">
@@ -122,7 +123,7 @@
           yang paling banyak dipakai peserta. Kini label yang menyusut, bukan
           tombolnya.
         -->
-        <a href="../login.html" class="btn btn-primary btn-sm"
+        <a href="../login.html" class="btn btn-primary btn-sm !h-11"
            aria-label="Masuk Portal PKKMB">
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3 5 6v6c0 4.2 2.9 7.6 7 9 4.1-1.4 7-4.8 7-9V6Z"/><path d="m9.5 12 1.8 1.8 3.4-3.6"/></svg>
           <span class="hidden sm:inline">Portal PKKMB</span>
@@ -130,7 +131,7 @@
 
         <!-- Disclosure native: menu tetap berfungsi tanpa JavaScript. -->
         <details class="group/menu lg:hidden" data-menu>
-          <summary class="btn btn-secondary btn-sm !px-2.5 list-none" aria-label="Menu navigasi" data-menu-toggle>
+          <summary class="btn btn-secondary btn-sm !h-11 !w-11 !px-0 list-none" aria-label="Menu navigasi" data-menu-toggle>
             <span class="group-open/menu:hidden"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span>
             <span class="hidden group-open/menu:inline"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
           </summary>
