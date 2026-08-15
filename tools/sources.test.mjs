@@ -204,7 +204,7 @@ describe("aset visual", () => {
         const alt = tag.match(/\salt="([^"]*)"/);
         assert.ok(alt, `${name}: <img> tanpa atribut alt → ${tag.slice(0, 80)}`);
         const src = tag.match(/src="([^"]+)"/)?.[1] ?? "";
-        if (alt[1] === "") continue; // dekoratif — sah
+        if (alt[1] === "") continue; // dekoratif - sah
         assert.ok(
           alt[1].length >= 12,
           `${name}: alt terlalu pendek untuk ${src} → "${alt[1]}"`,
@@ -535,7 +535,7 @@ describe("dimensi aset", () => {
     for (const [id, a] of Object.entries(assets)) {
       const buf = await readFile(join(dist, a.file));
       const dim = readSize(buf, a.file);
-      if (!dim) continue; // format tak dikenal — dilewati, bukan digagalkan
+      if (!dim) continue; // format tak dikenal - dilewati, bukan digagalkan
       assert.equal(dim.w, a.width, `${id}: lebar tercatat ${a.width}, berkas ${dim.w}`);
       assert.equal(dim.h, a.height, `${id}: tinggi tercatat ${a.height}, berkas ${dim.h}`);
     }
@@ -707,7 +707,7 @@ describe("cache berita yang cacat ditolak saat memuat data", () => {
   const CACHE = join(root, "src/data/cache/poliban-news.json");
 
   /*
-   * PENTING: jangan menjalankan build.mjs di sini — ia menghapus dist/ lebih
+   * PENTING: jangan menjalankan build.mjs di sini - ia menghapus dist/ lebih
    * dulu, sehingga suite lain yang berjalan paralel kehilangan CSS dan HTML
    * di tengah eksekusi. Cukup impor modul berita di proses terpisah: di situlah
    * validasi berada, dan itu yang sesungguhnya menghentikan build.

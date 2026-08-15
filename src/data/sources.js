@@ -6,9 +6,9 @@
  * tanggal verifikasi terakhir oleh tim pengembang.
  *
  * status:
- *   "official"   — domain resmi Poliban atau sistem resminya
- *   "press"      — kantor berita/kredibel, dipakai untuk melengkapi
- *   "commons"    — repositori media berlisensi bebas
+ *   "official"   - domain resmi Poliban atau sistem resminya
+ *   "press"      - kantor berita/kredibel, dipakai untuk melengkapi
+ *   "commons"    - repositori media berlisensi bebas
  */
 
 export const sources = {
@@ -74,7 +74,7 @@ export const sources = {
     checked: "2026-08-14",
   },
   "pmb-prodi": {
-    label: "Informasi Program Studi — SPMB Poliban",
+    label: "Informasi Program Studi - SPMB Poliban",
     url: "https://pmb.poliban.ac.id/program-studi",
     publisher: "Politeknik Negeri Banjarmasin (siAkad Cloud)",
     status: "official",
@@ -120,7 +120,7 @@ export const sources = {
     checked: "2026-08-14",
   },
   "poliban-penerimaan-2024": {
-    label: "Penerimaan Mahasiswa Baru 2024 — Politeknik Negeri Banjarmasin",
+    label: "Penerimaan Mahasiswa Baru 2024 - Politeknik Negeri Banjarmasin",
     url: "https://poliban.ac.id/penerimaan2024/",
     publisher: "Politeknik Negeri Banjarmasin",
     status: "official",
@@ -141,7 +141,7 @@ export const sources = {
     checked: "2026-08-14",
   },
   "poliban-lambang": {
-    label: "Lambang Poliban — Enggang Bakilau",
+    label: "Lambang Poliban - Enggang Bakilau",
     url: "https://poliban.ac.id/logo-poliban/",
     publisher: "Politeknik Negeri Banjarmasin",
     status: "official",
@@ -150,7 +150,7 @@ export const sources = {
       "Laman resmi yang menguraikan nama, warna, perancang, dan makna setiap unsur lambang institusi.",
   },
   "poliban-penerimaan-2026": {
-    label: "PMB — Penerimaan Mahasiswa Baru Poliban 2026",
+    label: "PMB - Penerimaan Mahasiswa Baru Poliban 2026",
     url: "https://poliban.ac.id/penerimaan2026/",
     publisher: "Politeknik Negeri Banjarmasin",
     status: "official",
@@ -177,9 +177,9 @@ export function source(id) {
 
 /**
  * Status verifikasi sebuah fakta.
- * "verified"   — dikonfirmasi minimal satu sumber resmi
- * "mirror"     — berasal dari mirror situs PKKMB (belum ada sumber lain)
- * "unverified" — tidak dapat dikonfirmasi; jangan tampilkan sebagai fakta
+ * "verified"   - dikonfirmasi minimal satu sumber resmi
+ * "mirror"     - berasal dari mirror situs PKKMB (belum ada sumber lain)
+ * "unverified" - tidak dapat dikonfirmasi; jangan tampilkan sebagai fakta
  */
 export const VERIFIED = "verified";
 export const MIRROR = "mirror";

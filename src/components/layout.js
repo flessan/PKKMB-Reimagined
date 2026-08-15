@@ -11,15 +11,13 @@ export function brandMark({ depth = 0, tone = "light", compact = false } = {}) {
   const dark = tone === "dark";
   const src = rel(assets.crest.file, depth);
   return `
-<a href="${rel("index.html", depth)}" class="group inline-flex items-center gap-3 rounded-lg" aria-label="PKKMB 2026 Politeknik Negeri Banjarmasin — kembali ke beranda">
+<a href="${rel("index.html", depth)}" class="group inline-flex items-center gap-3 rounded-lg" aria-label="PKKMB 2026 Politeknik Negeri Banjarmasin - kembali ke beranda">
   <img src="${src}" alt="" width="44" height="43" decoding="async"
        class="h-11 w-11 shrink-0 object-contain">
   <span class="leading-tight">
-    <span class="block font-display text-[0.95rem] font-extrabold tracking-tight ${
-      dark ? "text-white" : "text-ink-900"
+    <span class="block font-display text-[0.95rem] font-extrabold tracking-tight ${dark ? "text-white" : "text-ink-900"
     }">PKKMB <span class="${dark ? "text-accent-300" : "text-brand-700"}">2026</span></span>
-    <span class="block text-[0.7rem] font-medium ${
-      dark ? "text-white/60" : "text-ink-500"
+    <span class="block text-[0.7rem] font-medium ${dark ? "text-white/60" : "text-ink-500"
     } ${compact ? "hidden sm:block" : ""}">Politeknik Negeri Banjarmasin</span>
   </span>
 </a>`;
@@ -52,14 +50,14 @@ function navLink(item, depth, active) {
   <div id="${id}" class="absolute left-0 top-full z-50 hidden w-80 pt-2" data-dropdown-panel>
     <div class="overflow-hidden rounded-xl border border-ink-200 bg-white p-2 shadow-lift">
       ${join(
-        item.children.map(
-          (child) => `
+    item.children.map(
+      (child) => `
       <a href="${rel(child.href, depth)}" class="block rounded-lg px-3 py-2.5 transition-colors hover:bg-ink-50">
         <span class="block font-display text-sm font-semibold text-ink-900">${esc(child.label)}</span>
         <span class="mt-0.5 block text-xs leading-relaxed text-ink-500">${esc(child.desc)}</span>
       </a>`,
-        ),
-      )}
+    ),
+  )}
     </div>
   </div>
 </div>`;
@@ -77,11 +75,11 @@ function mobileNavItem(item, depth) {
   </summary>
   <div class="mt-0.5 space-y-0.5 border-l border-ink-200 pb-1 pl-3 ml-3">
     ${join(
-      item.children.map(
-        (c) =>
-          `<a href="${rel(c.href, depth)}" class="block rounded-lg px-3 py-2 text-sm text-ink-600 hover:bg-ink-50 hover:text-brand-700">${esc(c.label)}</a>`,
-      ),
-    )}
+    item.children.map(
+      (c) =>
+        `<a href="${rel(c.href, depth)}" class="block rounded-lg px-3 py-2 text-sm text-ink-600 hover:bg-ink-50 hover:text-brand-700">${esc(c.label)}</a>`,
+    ),
+  )}
   </div>
 </details>`;
 }
@@ -156,7 +154,7 @@ export function footer({ depth = 0 } = {}) {
         </p>
         <p class="font-display text-sm font-semibold text-accent-300">“${esc(site.tagline)}”</p>
 
-        <a href="https://poliban.ac.id/" rel="noopener"
+        <a href="https://poliban.ac.id/" rel="noopener" style="background-color: aliceblue; width: 1300px;"
            class="inline-flex rounded-lg bg-white px-4 py-3 transition-opacity hover:opacity-90">
           <img src="${rel(assets.wordmark.file, depth)}" alt="${esc(assets.wordmark.alt)}"
                width="200" height="63" loading="lazy" decoding="async" class="h-[3.25rem] w-auto">
@@ -170,33 +168,32 @@ export function footer({ depth = 0 } = {}) {
       </div>
 
       ${join(
-        footerNav.map(
-          (group) => `
+    footerNav.map(
+      (group) => `
       <nav class="lg:col-span-2" aria-label="${esc(group.title)}">
         <h2 class="font-display text-xs font-bold uppercase tracking-[0.14em] text-white">${esc(group.title)}</h2>
         <ul class="mt-4 space-y-2.5 text-sm">
           ${join(
-            group.links.map(
-              (l) =>
-                `<li><a href="${l.external ? l.href : rel(l.href, depth)}" class="inline-flex items-center gap-1.5 text-ink-400 transition-colors hover:text-white"${
-                  l.external ? ' rel="noopener"' : ""
-                }>${esc(l.label)}${l.external ? icon("arrowUpRight", { class: "h-3 w-3" }) : ""}</a></li>`,
-            ),
-          )}
-        </ul>
-      </nav>`,
+        group.links.map(
+          (l) =>
+            `<li><a href="${l.external ? l.href : rel(l.href, depth)}" class="inline-flex items-center gap-1.5 text-ink-400 transition-colors hover:text-white"${l.external ? ' rel="noopener"' : ""
+            }>${esc(l.label)}${l.external ? icon("arrowUpRight", { class: "h-3 w-3" }) : ""}</a></li>`,
         ),
       )}
+        </ul>
+      </nav>`,
+    ),
+  )}
 
       <div class="lg:col-span-2">
         <h2 class="font-display text-xs font-bold uppercase tracking-[0.14em] text-white">Kanal Resmi</h2>
         <ul class="mt-4 flex gap-2">
           ${join(
-            site.social.map(
-              (s) =>
-                `<li><a href="${s.href}" rel="noopener" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-ink-400 transition-colors hover:border-white/30 hover:text-white" title="${esc(s.label)}"><span class="sr-only">${esc(s.label)}</span>${icon(s.icon, { class: "h-5 w-5" })}</a></li>`,
-            ),
-          )}
+    site.social.map(
+      (s) =>
+        `<li><a href="${s.href}" rel="noopener" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-ink-400 transition-colors hover:border-white/30 hover:text-white" title="${esc(s.label)}"><span class="sr-only">${esc(s.label)}</span>${icon(s.icon, { class: "h-5 w-5" })}</a></li>`,
+    ),
+  )}
         </ul>
         <a href="${site.contact.whatsappHref}" rel="noopener" class="mt-4 inline-flex items-center gap-2 text-sm text-ink-400 transition-colors hover:text-white">
           ${icon("whatsapp", { class: "h-4 w-4" })}<span>${esc(site.contact.whatsapp)}</span>
@@ -218,10 +215,10 @@ export function footer({ depth = 0 } = {}) {
 
 export function helpButton() {
   return `
-<a href="${site.contact.whatsappHref}" rel="noopener"
+<a href="${site.contact.whatsappHref}" rel="noopener" 
    class="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-ink-900 py-3 pl-3.5 pr-4 text-white shadow-lift transition-colors hover:bg-ink-800 no-print">
   ${icon("whatsapp", { class: "h-5 w-5 text-accent-300" })}
-  <span class="font-display text-sm font-semibold">Bantuan</span>
+  <span style="color: aliceblue;" class="font-display text-sm font-semibold">Bantuan</span>
 </a>`;
 }
 
@@ -258,7 +255,7 @@ export function page({
 
   /*
    * `canonical: ""` berarti akar situs, bukan "tidak ada kanonik". Sebelumnya
-   * nilai kosong dianggap falsy sehingga beranda — halaman terpenting — terbit
+   * nilai kosong dianggap falsy sehingga beranda - halaman terpenting - terbit
    * tanpa <link rel="canonical"> maupun og:url.
    *
    * Halaman yang sengaja tidak diindeks (login) tetap tidak diberi kanonik.

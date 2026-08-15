@@ -3,6 +3,6 @@ node_modules/
 *.log
 .cache/
 
-# Direktori kerja hasil pencarian gambar — bukan bagian dari pustaka aset.
+# Direktori kerja hasil pencarian gambar - bukan bagian dari pustaka aset.
 # Aset yang dipakai selalu disalin ke src/media/ dan dicatat di src/data/assets.js.
 image-search/

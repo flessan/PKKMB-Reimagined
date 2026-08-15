@@ -18,7 +18,7 @@ import { assets } from "../data/assets.js";
 import { latestNews, pkkmbNews, newsSource } from "../data/news.js";
 
 /* ------------------------------------------------------------------ *
- * Hero — status kegiatan + aksi utama
+ * Hero - status kegiatan + aksi utama
  * ------------------------------------------------------------------ */
 
 function hero() {
@@ -38,11 +38,11 @@ function hero() {
 <section class="relative isolate overflow-hidden bg-ink-950 text-white">
   <!-- Foto dokumentasi resmi sebagai latar; digelapkan agar teks tetap terbaca. -->
   <picture>
-    <source srcset="${assets.pkkmbDirector.webp}" type="image/webp">
-    <img src="${assets.pkkmbDirector.file}" alt=""
-         width="${assets.pkkmbDirector.width}" height="${assets.pkkmbDirector.height}"
+    <source srcset="${assets.campusGate.webp}" type="image/webp">
+    <img src="${assets.campusGate.file}" alt=""
+         width="${assets.campusGate.width}" height="${assets.campusGate.height}"
          fetchpriority="high" decoding="async"
-         class="absolute inset-0 h-full w-full object-cover object-[62%_30%] opacity-[0.22]">
+         class="absolute inset-0 h-full w-full object-cover object-[62%_30%]">
   </picture>
   <div class="absolute inset-0 bg-[linear-gradient(100deg,#071628_4%,#0b2340_46%,rgba(16,47,81,0.72)_100%)]"></div>
 
@@ -56,12 +56,12 @@ function hero() {
           <span>Tahun Akademik 2026/2027</span>
         </p>
 
-        <h1 class="mt-4 font-display text-[2.75rem] font-extrabold leading-[0.98] tracking-tight sm:text-6xl lg:text-[4.25rem]">
+        <h1 style="color: aliceblue;" class="mt-4 font-display text-[2.75rem] font-extrabold leading-[0.98] tracking-tight sm:text-6xl lg:text-[4.25rem]">
           PKKMB <span class="text-accent-300">2026</span>
         </h1>
 
         <p class="mt-4 max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl">
-          Pengenalan Kehidupan Kampus bagi Mahasiswa Baru — semua jadwal, dokumen resmi,
+          Pengenalan Kehidupan Kampus bagi Mahasiswa Baru - semua jadwal, dokumen resmi,
           dan presensi kehadiran dalam satu tempat.
         </p>
 
@@ -75,7 +75,7 @@ function hero() {
           <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
             <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-display text-[0.68rem] font-bold uppercase tracking-wider ${toneClass}"
                   data-event-status>${esc(st.state)}</span>
-            <p class="font-display text-lg font-bold leading-tight sm:text-xl" data-event-headline>${esc(st.headline)}</p>
+            <p style="color: aliceblue;" class="font-display text-lg font-bold leading-tight sm:text-xl" data-event-headline>${esc(st.headline)}</p>
           </div>
           <p class="mt-2 text-sm leading-relaxed text-white/65" data-event-detail>${esc(st.detail)}</p>
         </div>
@@ -121,17 +121,17 @@ function hero() {
 
           <ol class="mt-5 space-y-2" data-event-days>
             ${join(
-              days.map(
-                (d) => `
+    days.map(
+      (d) => `
             <li class="flex items-center gap-3.5 rounded-lg border border-white/10 bg-white/[0.05] px-3.5 py-3" data-day="${d.date}">
-              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white/10 font-display text-base font-bold leading-none">${d.date.slice(8)}</span>
+              <span style="color: aliceblue;" class="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-white/10 font-display text-base font-bold leading-none">${d.date.slice(8)}</span>
               <span class="min-w-0 flex-1">
                 <span class="block font-display text-sm font-semibold text-white">${esc(d.phase)}</span>
                 <span class="mt-0.5 block text-xs leading-snug text-white/55">${esc(d.title)}</span>
               </span>
             </li>`,
-              ),
-            )}
+    ),
+  )}
           </ol>
 
           <a href="pkkmb.html#jadwal" class="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-accent-300 transition-colors hover:text-accent-400">
@@ -166,7 +166,7 @@ function urgentBar() {
     <span class="badge badge-accent shrink-0">${icon("bell", { class: "h-3.5 w-3.5" })}Penting</span>
     <p class="min-w-0 flex-1 text-sm text-ink-700">
       <a href="berita/${top.slug}.html" class="font-medium underline-offset-2 hover:underline">${esc(top.title)}</a>
-      <span class="text-ink-500"> — wajib dibaca seluruh peserta.</span>
+      <span class="text-ink-500"> - wajib dibaca seluruh peserta.</span>
     </p>
     <a href="pengumuman.html" class="shrink-0 font-display text-sm font-semibold text-brand-700 hover:text-brand-800">Semua pengumuman →</a>
   </div>
@@ -188,14 +188,13 @@ function services() {
 
   <div class="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     ${join(
-      quickServices.map(
-        (s) => `
+    quickServices.map(
+      (s) => `
     <a href="${s.href}" class="card card-interactive group p-5 ${s.primary ? "border-brand-300 bg-brand-50/50" : ""}" data-reveal>
-      <span class="grid h-11 w-11 place-items-center rounded-lg transition-colors ${
-        s.primary
+      <span class="grid h-11 w-11 place-items-center rounded-lg transition-colors ${s.primary
           ? "bg-brand-600 text-white group-hover:bg-brand-700"
           : "bg-ink-100 text-ink-600 group-hover:bg-brand-50 group-hover:text-brand-700"
-      }">
+        }">
         ${icon(s.icon, { class: "h-5 w-5" })}
       </span>
       <h3 class="mt-4 font-display text-base font-bold text-ink-900">${esc(s.title)}</h3>
@@ -204,8 +203,8 @@ function services() {
         Buka ${icon("arrowRight", { class: "h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" })}
       </span>
     </a>`,
-      ),
-    )}
+    ),
+  )}
   </div>
 </section>`;
 }
@@ -219,16 +218,16 @@ function timeline() {
 <section class="border-y border-ink-200 bg-ink-50 py-16 md:py-20">
   <div class="shell">
     ${sectionHeading({
-      eyebrow: "Rangkaian kegiatan",
-      title: "Empat hari yang menentukan awal kuliah Anda",
-      lead: "Dari verifikasi peserta hingga upacara penutupan. Setiap sesi memerlukan presensi digital melalui portal.",
-      action: { label: "Jadwal lengkap", href: "pkkmb.html#jadwal" },
-    })}
+    eyebrow: "Rangkaian kegiatan",
+    title: "Empat hari yang menentukan awal kuliah Anda",
+    lead: "Dari verifikasi peserta hingga upacara penutupan. Setiap sesi memerlukan presensi digital melalui portal.",
+    action: { label: "Jadwal lengkap", href: "pkkmb.html#jadwal" },
+  })}
 
     <ol class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       ${join(
-        schedule.slice(0, 4).map(
-          (d, i) => `
+    schedule.slice(0, 4).map(
+      (d, i) => `
       <li class="card p-5" data-reveal>
         <div class="flex items-baseline justify-between gap-3">
           <span class="badge ${i === 0 ? "badge-accent" : "badge-brand"}">${esc(d.phase)}</span>
@@ -241,8 +240,8 @@ function timeline() {
           ${icon("pin", { class: "h-3.5 w-3.5" })}${esc(d.venue)}
         </p>
       </li>`,
-        ),
-      )}
+    ),
+  )}
     </ol>
   </div>
 </section>`;
@@ -262,11 +261,11 @@ function newsroom() {
 
     <div class="lg:col-span-7">
       ${sectionHeading({
-        eyebrow: "Pengumuman resmi",
-        title: "Informasi wajib dibaca",
-        lead: "Diterbitkan langsung oleh panitia PKKMB dan Humas Poliban.",
-        action: { label: "Semua pengumuman", href: "pengumuman.html" },
-      })}
+    eyebrow: "Pengumuman resmi",
+    title: "Informasi wajib dibaca",
+    lead: "Diterbitkan langsung oleh panitia PKKMB dan Humas Poliban.",
+    action: { label: "Semua pengumuman", href: "pengumuman.html" },
+  })}
       <div class="mt-7 space-y-3">
         ${join(announcements.map((p) => postRow(p)))}
       </div>
@@ -277,16 +276,16 @@ function newsroom() {
       <div class="mt-4">${featuredPostCard(featured)}</div>
       <ul class="mt-4 divide-y divide-ink-200 border-t border-ink-200">
         ${join(
-          rest.map(
-            (p) => `
+    rest.map(
+      (p) => `
         <li class="group py-3.5">
           <a href="berita/${p.slug}.html" class="block">
             <p class="font-display text-sm font-semibold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">${esc(p.listTitle ?? p.title)}</p>
             <p class="mt-1 text-xs text-ink-500"><time datetime="${p.date}">${formatDate(p.date)}</time> · ${p.readMinutes} menit baca</p>
           </a>
         </li>`,
-          ),
-        )}
+    ),
+  )}
       </ul>
       <a href="berita.html" class="btn btn-secondary btn-sm mt-5 w-full">Jelajahi semua berita</a>
     </div>
@@ -347,8 +346,8 @@ function officialFeed() {
 
       <ul class="divide-y divide-ink-200 border-t border-ink-200 lg:col-span-6 lg:border-t-0">
         ${join(
-          rest.map(
-            (n) => `
+    rest.map(
+      (n) => `
         <li class="group py-4 first:pt-0 lg:first:pt-0">
           <a href="${esc(n.url)}" rel="noopener" class="block">
             <p class="font-display text-[0.95rem] font-semibold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">${esc(n.title)}</p>
@@ -358,8 +357,8 @@ function officialFeed() {
             </p>
           </a>
         </li>`,
-          ),
-        )}
+    ),
+  )}
       </ul>
     </div>
 
@@ -404,14 +403,14 @@ function welcome() {
 
       <dl class="mt-7 grid gap-4 sm:grid-cols-3">
         ${join(
-          leader.themePillars.map(
-            (p) => `
+    leader.themePillars.map(
+      (p) => `
         <div class="rounded-lg border border-ink-200 bg-white p-4">
           <dt class="font-display text-sm font-bold text-brand-700">${esc(p.key)}</dt>
           <dd class="mt-1.5 clamp-4 text-xs leading-relaxed text-ink-600">${esc(p.body)}</dd>
         </div>`,
-          ),
-        )}
+    ),
+  )}
       </dl>
 
       <a href="profil.html#sambutan" class="btn btn-secondary btn-sm mt-7">
@@ -464,15 +463,15 @@ function campus() {
         </picture>
       </div>
       <figcaption class="mt-2.5 text-xs leading-relaxed text-ink-500">
-        Kampus Poliban, Jl. Brigjen H. Hasan Basri, Kayu Tangi, Banjarmasin — dokumentasi resmi Poliban.
+        Kampus Poliban, Jl. Brigjen H. Hasan Basri, Kayu Tangi, Banjarmasin - dokumentasi resmi Poliban.
       </figcaption>
     </figure>
 
     <div class="lg:col-span-7">
       <ul class="divide-y divide-ink-200 border-y border-ink-200">
         ${join(
-          byDept.map(
-            (d) => `
+    byDept.map(
+      (d) => `
         <li class="group">
           <a href="program-studi.html#jurusan-${d.id}" class="flex items-center gap-4 py-4 transition-colors hover:bg-ink-50/70">
             <span class="min-w-0 flex-1">
@@ -483,24 +482,24 @@ function campus() {
             <span class="shrink-0 text-ink-300 transition-transform group-hover:translate-x-0.5" aria-hidden="true">${icon("arrowRight", { class: "h-4 w-4" })}</span>
           </a>
         </li>`,
-          ),
-        )}
+    ),
+  )}
       </ul>
 
       <div class="mt-8">
         <h3 class="font-display text-sm font-bold uppercase tracking-[0.12em] text-ink-500">Sarana utama</h3>
         <ul class="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
           ${join(
-            featured.map(
-              (f) => `
+    featured.map(
+      (f) => `
           <li>
             <a href="fasilitas.html#${f.id}" class="group inline-flex items-baseline gap-2 py-1 text-sm">
               <span class="font-display font-semibold text-ink-800 transition-colors group-hover:text-brand-700">${esc(f.name)}</span>
               <span class="text-xs text-ink-500">${esc(f.kind)}</span>
             </a>
           </li>`,
-            ),
-          )}
+    ),
+  )}
         </ul>
         <a href="fasilitas.html" class="mt-3 inline-flex items-center gap-1.5 font-display text-sm font-semibold text-brand-700 hover:text-brand-800">
           Semua fasilitas ${icon("arrowRight", { class: "h-4 w-4" })}

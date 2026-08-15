@@ -38,18 +38,17 @@ export function breadcrumb(items, depth = 0) {
 <nav aria-label="Remah roti">
   <ol class="flex flex-wrap items-center gap-1.5 text-sm text-ink-500">
     ${join(
-      items.map((item, i) => {
-        const last = i === items.length - 1;
-        return `<li class="flex items-center gap-1.5">${
-          last
-            ? `<span class="font-medium text-ink-700" aria-current="page">${esc(item.label)}</span>`
-            : `<a href="${rel(item.href, depth)}" class="transition-colors hover:text-brand-700">${esc(item.label)}</a>${icon(
-                "chevronRight",
-                { class: "h-3.5 w-3.5 text-ink-300", stroke: 2.2 },
-              )}`
+    items.map((item, i) => {
+      const last = i === items.length - 1;
+      return `<li class="flex items-center gap-1.5">${last
+        ? `<span class="font-medium text-ink-700" aria-current="page">${esc(item.label)}</span>`
+        : `<a href="${rel(item.href, depth)}" class="transition-colors hover:text-brand-700">${esc(item.label)}</a>${icon(
+          "chevronRight",
+          { class: "h-3.5 w-3.5 text-ink-300", stroke: 2.2 },
+        )}`
         }</li>`;
-      }),
-    )}
+    }),
+  )}
   </ol>
 </nav>`;
 }
@@ -67,11 +66,10 @@ export function sectionHeading({ eyebrow, title, lead, action, depth = 0, level 
     <${H} class="mt-3 font-display text-2xl font-extrabold leading-tight text-ink-900 md:text-3xl">${esc(title)}</${H}>
     ${lead ? `<p class="mt-3 text-[1.0625rem] leading-relaxed text-ink-600">${lead}</p>` : ""}
   </div>
-  ${
-    action
+  ${action
       ? `<a href="${rel(action.href, depth)}" class="btn btn-secondary btn-sm shrink-0">${esc(action.label)}${icon("arrowRight", { class: "h-4 w-4" })}</a>`
       : ""
-  }
+    }
 </div>`;
 }
 
@@ -102,10 +100,9 @@ export function postCard(post, { depth = 0, compact = false } = {}) {
     <time datetime="${post.date}">${formatDate(post.date)}</time>
     <span aria-hidden="true">·</span>
     <span>${post.readMinutes} menit baca</span>
-    ${
-      post.attachments?.length
-        ? `<span aria-hidden="true">·</span><span class="inline-flex items-center gap-1 text-brand-700">${icon("document", { class: "h-3.5 w-3.5" })}PDF</span>`
-        : ""
+    ${post.attachments?.length
+      ? `<span aria-hidden="true">·</span><span class="inline-flex items-center gap-1 text-brand-700">${icon("document", { class: "h-3.5 w-3.5" })}PDF</span>`
+      : ""
     }
   </div>
 </article>`;
@@ -123,7 +120,7 @@ export function featuredPostCard(post, { depth = 0 } = {}) {
       ${categoryBadge(post.category, { invert: true })}
       <span class="text-xs text-white/60"><time datetime="${post.date}">${formatDate(post.date)}</time></span>
     </div>
-    <h3 class="mt-4 font-display text-2xl font-extrabold leading-tight md:text-3xl">
+    <h3 style="color: aliceblue;" class="mt-4 font-display text-2xl font-extrabold leading-tight md:text-3xl">
       <a href="${href}" class="stretch-link">${esc(post.title)}</a>
     </h3>
     <p class="mt-3 max-w-xl clamp-3 text-[0.9375rem] leading-relaxed text-white/70">${esc(post.excerpt)}</p>
@@ -152,10 +149,9 @@ export function postRow(post, { depth = 0 } = {}) {
       <a href="${href}" class="stretch-link transition-colors group-hover:text-brand-700">${esc(post.title)}</a>
     </h3>
     <p class="mt-1.5 clamp-2 text-sm leading-relaxed text-ink-600">${esc(post.excerpt)}</p>
-    ${
-      post.attachments?.length
-        ? `<p class="mt-2.5 inline-flex items-center gap-1.5 text-xs font-medium text-brand-700">${icon("document", { class: "h-3.5 w-3.5" })}${esc(post.attachments[0].name)} · ${esc(post.attachments[0].size)}</p>`
-        : ""
+    ${post.attachments?.length
+      ? `<p class="mt-2.5 inline-flex items-center gap-1.5 text-xs font-medium text-brand-700">${icon("document", { class: "h-3.5 w-3.5" })}${esc(post.attachments[0].name)} · ${esc(post.attachments[0].size)}</p>`
+      : ""
     }
   </div>
   ${icon("chevronRight", { class: "mt-1 hidden h-5 w-5 shrink-0 text-ink-300 transition-transform group-hover:translate-x-0.5 group-hover:text-brand-600 sm:block" })}
@@ -188,21 +184,19 @@ export function programCard(program, { depth = 0 } = {}) {
          data-search="${esc(search)}">
   <div class="flex items-center justify-between gap-3">
     <span class="badge ${program.level === "D4" ? "badge-accent" : program.level === "D2" ? "badge-neutral" : "badge-brand"}">${program.level}</span>
-    ${
-      program.accreditation
-        ? `<span class="text-[0.7rem] font-medium text-ink-500">Akreditasi ${esc(program.accreditation)}</span>`
-        : `<span class="text-[0.7rem] font-medium text-ink-400">Akreditasi belum tercantum</span>`
+    ${program.accreditation
+      ? `<span class="text-[0.7rem] font-medium text-ink-500">Akreditasi ${esc(program.accreditation)}</span>`
+      : `<span class="text-[0.7rem] font-medium text-ink-400">Akreditasi belum tercantum</span>`
     }
   </div>
   <h3 class="mt-3 font-display text-lg font-bold leading-snug text-ink-900">
     <a href="${href}" class="stretch-link transition-colors group-hover:text-brand-700">${esc(program.name)}</a>
   </h3>
   <p class="mt-1 text-xs font-medium text-ink-500">Jurusan ${esc(dept.name)}</p>
-  ${
-    program.tagline
+  ${program.tagline
       ? `<p class="mt-3 clamp-3 text-sm leading-relaxed text-ink-600">${esc(program.tagline)}</p>`
       : ""
-  }
+    }
   <div class="mt-auto flex items-center justify-between pt-4 text-xs text-ink-500">
     <span>${info.semesters} semester</span>
     <span class="inline-flex items-center gap-1 font-display font-semibold text-brand-700">Detail${icon("arrowRight", { class: "h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" })}</span>
@@ -215,7 +209,7 @@ export function programCard(program, { depth = 0 } = {}) {
  *
  * Dua puluh dua kartu bersebelahan menjadi dinding yang sulit dipindai, dan
  * setiap kartu menuntut perhatian yang sama. Bentuk baris membuat nama prodi
- * — informasi yang paling dicari — sejajar rapi ke bawah, sementara jenjang,
+ * - informasi yang paling dicari - sejajar rapi ke bawah, sementara jenjang,
  * akreditasi, dan lama studi menjadi kolom pendukung yang lebih tenang.
  *
  * Atribut data-* dipertahankan persis seperti pada kartu agar penyaring di
@@ -253,20 +247,18 @@ export function programRow(program, { depth = 0 } = {}) {
 
     <span class="min-w-0 flex-1">
       <span class="block font-display text-[0.95rem] font-bold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">${esc(program.name)}</span>
-      ${
-        program.tagline
-          ? `<span class="mt-1 line-clamp-2 block text-xs leading-relaxed text-ink-500 sm:line-clamp-1">${esc(program.tagline)}</span>`
-          : ""
-      }
+      ${program.tagline
+      ? `<span class="mt-1 line-clamp-2 block text-xs leading-relaxed text-ink-500 sm:line-clamp-1">${esc(program.tagline)}</span>`
+      : ""
+    }
     </span>
 
     <span class="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-500 sm:w-56 sm:justify-end">
       <span class="tabular-nums">${info.years} tahun</span>
-      ${
-        program.accreditation
-          ? `<span class="font-medium text-ink-700">${esc(program.accreditation)}</span>`
-          : `<span class="text-ink-400">Belum tercantum</span>`
-      }
+      ${program.accreditation
+      ? `<span class="font-medium text-ink-700">${esc(program.accreditation)}</span>`
+      : `<span class="text-ink-400">Belum tercantum</span>`
+    }
       <span class="hidden text-ink-300 transition-transform group-hover:translate-x-0.5 sm:inline-flex" aria-hidden="true">${icon("arrowRight", { class: "h-4 w-4" })}</span>
     </span>
   </a>
@@ -314,11 +306,11 @@ export function calloutPortal({ depth = 0, variant = "default" } = {}) {
   <div class="relative grid gap-8 lg:grid-cols-12 lg:items-center">
     <div class="lg:col-span-7">
       <p class="eyebrow !text-accent-300">Portal Peserta</p>
-      <h2 class="mt-3 font-display text-2xl font-extrabold leading-tight md:text-[2rem]">
+      <h2 style="color: aliceblue;" class="mt-3 font-display text-2xl font-extrabold leading-tight md:text-[2rem]">
         Presensi kehadiran dilakukan melalui Portal PKKMB
       </h2>
       <p class="mt-4 max-w-xl leading-relaxed text-white/70">
-        Kehadiran penuh pada seluruh sesi menjadi syarat terbitnya sertifikat PKKMB —
+        Kehadiran penuh pada seluruh sesi menjadi syarat terbitnya sertifikat PKKMB -
         dokumen yang diperlukan untuk mengikuti UAS serta kelulusan di Poliban.
       </p>
     </div>
@@ -343,19 +335,18 @@ export function emptyState({ title, body, action, depth = 0 }) {
 export function statBlock(stats, { tone = "light" } = {}) {
   const dark = tone === "dark";
   return `
-<dl class="grid grid-cols-2 gap-px overflow-hidden rounded-[1rem] border ${
-    dark ? "border-white/10 bg-white/10" : "border-ink-200 bg-ink-200"
-  } sm:grid-cols-4">
+<dl class="grid grid-cols-2 gap-px overflow-hidden rounded-[1rem] border ${dark ? "border-white/10 bg-white/10" : "border-ink-200 bg-ink-200"
+    } sm:grid-cols-4">
   ${join(
-    stats.map(
-      (s) => `
+      stats.map(
+        (s) => `
   <div class="${dark ? "bg-ink-950" : "bg-white"} px-5 py-6 text-center">
     <dt class="order-2 mt-1.5 text-xs font-medium ${dark ? "text-ink-400" : "text-ink-500"}">${esc(s.label)}</dt>
     <dd class="font-display text-[1.75rem] font-extrabold leading-none ${dark ? "text-white" : "text-ink-900"}">
       <span data-count-to="${s.value}">${s.value.toLocaleString("id-ID")}</span>${esc(s.suffix)}
     </dd>
   </div>`,
-    ),
-  )}
+      ),
+    )}
 </dl>`;
 }

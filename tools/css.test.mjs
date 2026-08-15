@@ -1,7 +1,7 @@
 /**
  * Menjaga agar setiap kelas yang dipakai pada HTML benar-benar dihasilkan
  * Tailwind. Kelas yang dirangkai dinamis (`group-hover:${...}`) tidak terdeteksi
- * pemindai Tailwind dan menyebabkan gaya hilang tanpa pesan galat — uji ini
+ * pemindai Tailwind dan menyebabkan gaya hilang tanpa pesan galat - uji ini
  * menangkap kasus tersebut.
  */
 

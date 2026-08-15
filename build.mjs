@@ -139,7 +139,7 @@ async function copyAssets() {
     await cp(staticDir, dist, { recursive: true });
   }
 
-  // Lampiran PDF asli — dipertahankan pada jalur yang sama
+  // Lampiran PDF asli - dipertahankan pada jalur yang sama
   const storage = join(root, "storage");
   if (existsSync(storage)) {
     await cp(join(storage, "post-attachments"), join(dist, "storage/post-attachments"), {

@@ -43,7 +43,7 @@ async function walk(dir) {
 before(() => {
   assert.ok(
     existsSync(join(dist, "index.html")),
-    "dist/index.html tidak ada — jalankan `npm run build` terlebih dahulu.",
+    "dist/index.html tidak ada - jalankan `npm run build` terlebih dahulu.",
   );
 });
 
@@ -61,7 +61,7 @@ describe("utilitas html", () => {
 
   test("slugify menghasilkan slug aman", () => {
     assert.equal(slugify("Visi & Misi Poliban"), "visi-misi-poliban");
-    assert.equal(slugify("  D4 — Bisnis Digital  "), "d4-bisnis-digital");
+    assert.equal(slugify("  D4 - Bisnis Digital  "), "d4-bisnis-digital");
   });
 
   test("format tanggal memakai bahasa Indonesia", () => {
@@ -165,7 +165,7 @@ describe("integritas data", () => {
     }
     // Portal resmi mencantumkan nilai berbeda-beda; bila seragam, ada yang salah.
     const distinct = new Set(programs.map((p) => p.accreditation));
-    assert.ok(distinct.size > 1, "akreditasi seluruh prodi seragam — periksa sumber");
+    assert.ok(distinct.size > 1, "akreditasi seluruh prodi seragam - periksa sumber");
   });
 
   test("slug program studi unik dan jurusannya valid", () => {
@@ -486,7 +486,7 @@ describe("integritas artefak build", () => {
       lines <= 5,
       `app.css tampak tidak terminifikasi (${lines} baris). Jalankan \`npm run build\`, bukan hanya build:html.`,
     );
-    assert.ok(css.length > 20_000, "app.css terlalu kecil — kompilasi gagal?");
+    assert.ok(css.length > 20_000, "app.css terlalu kecil - kompilasi gagal?");
     assert.ok(css.length < 120_000, "app.css membengkak di luar dugaan");
   });
 

@@ -13,7 +13,7 @@ Konsekuensinya:
 
 * Tidak ada `package.json`, konfigurasi Vite/Tailwind, template Blade, maupun sumber CSS/JS.
 * `build/assets/app-*.css` (83 KB) dan `build/assets/app-*.js` (45 KB) adalah artefak build
-  yang tidak dapat direproduksi — CSS memuat seluruh Tailwind base + utilitas yang tidak dipakai,
+  yang tidak dapat direproduksi - CSS memuat seluruh Tailwind base + utilitas yang tidak dipakai,
   JS berisi Alpine.js utuh.
 * Seluruh markup layout (header, footer, tombol WhatsApp) **diduplikasi manual** pada 33 berkas HTML.
 
@@ -29,7 +29,7 @@ Konsekuensinya:
 | `program-studi/*.html` (21) | Teks *placeholder* identik di semua prodi ("Program studi", prospek karir generik) | **Dipertahankan URL-nya**, konten ditulis ulang per prodi |
 | `profil/sejarah.html` | 1 paragraf | **Digabung** ke `profil.html#sejarah` (+ pengalihan) |
 | `profil/visi-misi.html` | Visi, 3 misi, 4 tujuan | **Digabung** ke `profil.html#visi-misi` (+ pengalihan) |
-| `profil/struktur.html` | 1 kalimat, menyebut "Rektor/Dekan/Fakultas" (salah — Poliban dipimpin Direktur) | **Digabung** + diperbaiki |
+| `profil/struktur.html` | 1 kalimat, menyebut "Rektor/Dekan/Fakultas" (salah - Poliban dipimpin Direktur) | **Digabung** + diperbaiki |
 | `profil/rektor.html` | Sambutan Direktur lengkap (konten bernilai tinggi) | **Digabung** ke `profil.html#sambutan` (+ pengalihan) |
 | `fasilitas.html` | 3 fasilitas (Perpustakaan, UPA TIK, GOR) | **Dirombak** jadi tata letak editorial |
 | `kontak.html` | Alamat, telepon, surel, peta Google, form tanpa `action` | **Dirombak**; form palsu diganti kanal nyata + `mailto:` progresif |
@@ -41,15 +41,15 @@ Konsekuensinya:
 2. **Identitas salah**: logo hanya huruf "U" dalam kotak biru, sub-teks "INDONESIA";
    `<title>` login berbunyi "Login - Laravel"; deskripsi meta memakai teks profil kampus generik,
    bukan PKKMB.
-3. **Nomenklatur salah**: "Pimpinan Rektor", "Fakultas Teknik Elektro", "Senat Universitas" —
+3. **Nomenklatur salah**: "Pimpinan Rektor", "Fakultas Teknik Elektro", "Senat Universitas" -
    Poliban adalah politeknik dengan **Direktur** dan **Jurusan**, bukan Rektor/Fakultas.
 4. **Aset rusak**: `images/Logo-Poliban.html` sebenarnya halaman "404 Not Found" nginx,
    tetapi dipakai sebagai `<img src>` di `login.html`.
 5. **Gambar rusak**: 21+ kartu prodi memakai `<img src="#">` (memicu permintaan ulang halaman).
 6. **Aset duplikat**: 5 berkas di `storage/posts/` identik byte-per-byte (MD5 sama, 204 KB × 5 = 1 MB)
-   — semuanya spanduk PKKMB yang sama.
+   - semuanya spanduk PKKMB yang sama.
 7. **Tautan mati**: 9 tautan `href="#"` di menu "Sistem Informasi" & footer (SIAKAD, LMS, Perpustakaan
-   digital, Sistem PMB) — menu ini juga tidak relevan untuk situs PKKMB.
+   digital, Sistem PMB) - menu ini juga tidak relevan untuk situs PKKMB.
 8. **Statistik cacat**: penghitung "Akreditasi Institusi" menganimasikan angka `21` lalu menempelkan
    sufiks `" B"` sehingga tampil "21 B".
 9. **Penghitung kunjungan palsu** (`32,436`) di-hardcode di footer setiap halaman.

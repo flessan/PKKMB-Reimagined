@@ -18,37 +18,35 @@ export default function render(program) {
     canonical: `program-studi/${program.slug}.html`,
     active: "program-studi.html",
     description: program.tagline
-      ? `${fullName(program)} Politeknik Negeri Banjarmasin — ${program.tagline}`
+      ? `${fullName(program)} Politeknik Negeri Banjarmasin - ${program.tagline}`
       : `${fullName(program)} pada Jurusan ${dept.name}, Politeknik Negeri Banjarmasin.`,
     body: join([
       `<header class="border-b border-ink-200 bg-ink-50">
   <div class="shell py-10 md:py-14">
     ${breadcrumb(
-      [
-        { label: "Beranda", href: "index.html" },
-        { label: "Program Studi", href: "program-studi.html" },
-        { label: fullName(program) },
-      ],
-      depth,
-    )}
+        [
+          { label: "Beranda", href: "index.html" },
+          { label: "Program Studi", href: "program-studi.html" },
+          { label: fullName(program) },
+        ],
+        depth,
+      )}
 
     <div class="mt-6 grid gap-8 lg:grid-cols-12 lg:items-end">
       <div class="lg:col-span-7">
         <div class="flex flex-wrap items-center gap-2">
           <span class="badge ${program.level === "D4" ? "badge-accent" : "badge-brand"}">${program.level}</span>
-          ${
-            program.accreditation
-              ? `<span class="badge badge-neutral">Akreditasi ${esc(program.accreditation)}</span>`
-              : ""
-          }
+          ${program.accreditation
+        ? `<span class="badge badge-neutral">Akreditasi ${esc(program.accreditation)}</span>`
+        : ""
+      }
         </div>
         <h1 class="mt-4 font-display text-3xl font-extrabold leading-[1.12] text-ink-900 md:text-[2.5rem]">${esc(program.name)}</h1>
         <p class="mt-2 font-display text-sm font-semibold text-brand-700">Jurusan ${esc(dept.name)}</p>
-        ${
-          program.tagline
-            ? `<p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">${esc(program.tagline)}</p>`
-            : ""
-        }
+        ${program.tagline
+        ? `<p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">${esc(program.tagline)}</p>`
+        : ""
+      }
       </div>
 
       <div class="lg:col-span-5">
@@ -75,9 +73,8 @@ export default function render(program) {
   <div class="grid gap-10 lg:grid-cols-12">
     <div class="space-y-12 lg:col-span-8">
 
-      ${
-        program.focus.length
-          ? `
+      ${program.focus.length
+        ? `
       <section aria-labelledby="fokus">
         <h2 id="fokus" class="font-display text-xl font-extrabold text-ink-900">Fokus keilmuan</h2>
         <p class="mt-2 max-w-2xl leading-relaxed text-ink-600">
@@ -86,22 +83,21 @@ export default function render(program) {
         </p>
         <ul class="mt-5 grid gap-3 sm:grid-cols-2">
           ${join(
-            program.focus.map(
-              (f) => `
+          program.focus.map(
+            (f) => `
           <li class="card flex-row items-start gap-3 p-4">
             ${icon("check", { class: "mt-0.5 h-4 w-4 shrink-0 text-brand-600" })}
             <span class="text-sm leading-relaxed text-ink-700">${esc(f)}</span>
           </li>`,
-            ),
-          )}
+          ),
+        )}
         </ul>
       </section>`
-          : ""
+        : ""
       }
 
-      ${
-        program.careers.length
-          ? `
+      ${program.careers.length
+        ? `
       <section aria-labelledby="karir">
         <h2 id="karir" class="font-display text-xl font-extrabold text-ink-900">Prospek karier lulusan</h2>
         <p class="mt-2 max-w-2xl leading-relaxed text-ink-600">
@@ -110,17 +106,17 @@ export default function render(program) {
         </p>
         <ul class="mt-5 grid gap-2.5 sm:grid-cols-2">
           ${join(
-            program.careers.map(
-              (c) => `
+          program.careers.map(
+            (c) => `
           <li class="flex items-center gap-2.5 rounded-lg border border-ink-200 px-4 py-3">
             ${icon("target", { class: "h-4 w-4 shrink-0 text-brand-600" })}
             <span class="text-sm font-medium text-ink-800">${esc(c)}</span>
           </li>`,
-            ),
-          )}
+          ),
+        )}
         </ul>
       </section>`
-          : ""
+        : ""
       }
 
       <section aria-labelledby="kurikulum">
@@ -146,25 +142,23 @@ export default function render(program) {
           Pembelajaran vokasi menekankan praktik laboratorium dan bengkel, proyek terapan, serta
           magang industri. Rincian kurikulum disampaikan pada sesi jurusan saat PKKMB.
         </p>
-        ${
-          program.accreditationConflict
-            ? `
+        ${program.accreditationConflict
+        ? `
         <p class="mt-4 flex gap-2.5 rounded-lg border border-accent-300 bg-accent-100/50 px-4 py-3 text-xs leading-relaxed text-ink-700">
           ${icon("info", { class: "mt-0.5 h-4 w-4 shrink-0 text-accent-600" })}
           <span>${esc(program.accreditationConflict)}
           <a href="${program.accreditationConflictUrl}" rel="noopener" class="font-medium text-brand-700 underline underline-offset-2">Lihat laman prodi</a>.</span>
         </p>`
-            : ""
-        }
+        : ""
+      }
         <div class="mt-5 flex flex-wrap gap-3">
           <a href="${program.detailUrl}" rel="noopener" class="btn btn-secondary btn-sm">
             Profil resmi di portal SPMB${icon("arrowUpRight", { class: "h-4 w-4" })}
           </a>
-          ${
-            program.website
-              ? `<a href="${program.website}" rel="noopener" class="btn btn-secondary btn-sm">Situs program studi${icon("arrowUpRight", { class: "h-4 w-4" })}</a>`
-              : ""
-          }
+          ${program.website
+        ? `<a href="${program.website}" rel="noopener" class="btn btn-secondary btn-sm">Situs program studi${icon("arrowUpRight", { class: "h-4 w-4" })}</a>`
+        : ""
+      }
         </div>
       </section>
     </div>
@@ -213,7 +207,7 @@ export default function render(program) {
       programType: degree,
       educationalCredentialAwarded: degree,
       timeToComplete: `P${years}Y`,
-      description: program.tagline ?? `${fullName(program)} — Jurusan ${dept.name}`,
+      description: program.tagline ?? `${fullName(program)} - Jurusan ${dept.name}`,
       provider: { "@type": "CollegeOrUniversity", name: site.institution, url: site.url },
       occupationalCategory: program.careers,
     })}</script>`,

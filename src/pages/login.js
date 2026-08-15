@@ -64,8 +64,8 @@ function panel() {
 
     <ul class="mt-8 space-y-4 border-t border-white/10 pt-8">
       ${join(
-        assurances().map(
-          (a) => `
+    assurances().map(
+      (a) => `
       <li class="flex gap-3.5">
         <span class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/10 text-accent-300">${icon(a.icon, { class: "h-4.5 w-4.5" })}</span>
         <span>
@@ -73,8 +73,8 @@ function panel() {
           <span class="mt-0.5 block text-sm text-white/55">${esc(a.body)}</span>
         </span>
       </li>`,
-        ),
-      )}
+    ),
+  )}
     </ul>
 
     <figure class="mt-10 overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] p-2.5">
@@ -116,7 +116,7 @@ function form() {
 
       <form method="POST" action="${site.auth.action}" class="mt-7 space-y-5" data-login-form>
         <!--
-          PENERAPAN LARAVEL — JANGAN UBAH KONTRAK DI BAWAH INI.
+          PENERAPAN LARAVEL - JANGAN UBAH KONTRAK DI BAWAH INI.
 
           Saat halaman ini kembali dirender Laravel, ganti value berikut dengan
           {{ csrf_token() }}. Nilai statis pada keluaran ini hanya penampung

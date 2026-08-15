@@ -9,7 +9,7 @@
  * MATERI harian diringkas dari pernyataan resmi Direktur bahwa pembekalan
  * mencakup "pengenalan lingkungan akademik, wawasan kebangsaan sebagai bekal
  * memasuki dunia pendidikan tinggi, serta penanaman nilai-nilai kedisiplinan".
- * Susunan jam per sesi TIDAK dipublikasikan di web — hanya tersedia pada
+ * Susunan jam per sesi TIDAK dipublikasikan di web - hanya tersedia pada
  * lampiran PDF rundown, sehingga halaman jadwal menautkan dokumen aslinya
  * alih-alih menampilkan jam yang tidak dapat diverifikasi.
  */
@@ -220,7 +220,7 @@ export const faq = [
   },
   {
     q: "Berapa jumlah peserta PKKMB 2026?",
-    a: "Sebanyak 1.817 mahasiswa baru mengikuti PKKMB tahun akademik 2026/2027 — meningkat dibandingkan sekitar 1.400 peserta pada tahun 2025.",
+    a: "Sebanyak 1.817 mahasiswa baru mengikuti PKKMB tahun akademik 2026/2027 - meningkat dibandingkan sekitar 1.400 peserta pada tahun 2025.",
   },
   {
     q: "Apakah ada perpeloncoan selama PKKMB?",

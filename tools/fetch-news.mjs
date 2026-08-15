@@ -6,7 +6,7 @@
  *
  * Situs resmi poliban.ac.id berjalan di atas WordPress dan membuka endpoint
  * JSON bawaannya tanpa autentikasi. Endpoint itu dipanggil HANYA lewat skrip
- * ini — build dan situs produksi selalu membaca berkas cache, sehingga keluaran
+ * ini - build dan situs produksi selalu membaca berkas cache, sehingga keluaran
  * tetap deterministik dan tidak ada pengambilan data saat runtime.
  *
  * Yang diambil hanya metadata faktual (judul, tanggal, tautan, ringkasan).
@@ -150,7 +150,7 @@ try {
 }
 
 if (!items.length) {
-  console.error("API mengembalikan daftar kosong — cache tidak diubah.");
+  console.error("API mengembalikan daftar kosong - cache tidak diubah.");
   process.exit(1);
 }
 
@@ -165,17 +165,17 @@ try {
   if (before >= 4 && items.length < Math.ceil(before / 2)) {
     console.error(
       `API hanya mengembalikan ${items.length} entri sedangkan cache berisi ${before}. ` +
-        "Cache dipertahankan; jalankan ulang setelah memastikan sumber sehat.",
+      "Cache dipertahankan; jalankan ulang setelah memastikan sumber sehat.",
     );
     process.exit(1);
   }
 } catch {
-  // Belum ada cache — tidak ada yang perlu dilindungi.
+  // Belum ada cache - tidak ada yang perlu dilindungi.
 }
 
 const payload = {
   _comment:
-    "Cache berita resmi Poliban dari WP REST API. JANGAN disunting manual — " +
+    "Cache berita resmi Poliban dari WP REST API. JANGAN disunting manual - " +
     "jalankan `npm run refresh:news`. Hanya metadata yang disimpan; isi artikel " +
     "tetap milik sumber dan selalu ditautkan kembali.",
   source: "https://poliban.ac.id/wp-json/wp/v2/posts",

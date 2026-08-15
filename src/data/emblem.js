@@ -37,12 +37,12 @@ export const emblem = {
     {
       title: "Burung enggang terbang mencengkeram rantai",
       meaning:
-        "Melambangkan kesiapsiagaan menghadapi tantangan untuk menangkap peluang, keberanian, dan keberhasilan — sesuai tujuan pendidikan politeknik, yaitu keterpaduan antara dunia pendidikan dan dunia industri.",
+        "Melambangkan kesiapsiagaan menghadapi tantangan untuk menangkap peluang, keberanian, dan keberhasilan - sesuai tujuan pendidikan politeknik, yaitu keterpaduan antara dunia pendidikan dan dunia industri.",
     },
     {
       title: "Jumlah bulu enggang",
       meaning:
-        "Bulu sayap 23 helai, bulu ekor 9 helai, dan bulu dada 87 helai — sesuai tanggal beroperasinya pendidikan politeknik ini, 23 September 1987, ketika masih bernama Politeknik Unlam.",
+        "Bulu sayap 23 helai, bulu ekor 9 helai, dan bulu dada 87 helai - sesuai tanggal beroperasinya pendidikan politeknik ini, 23 September 1987, ketika masih bernama Politeknik Unlam.",
     },
     {
       title: "Dua mata enggang berwarna merah",

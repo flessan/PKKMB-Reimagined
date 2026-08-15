@@ -2,7 +2,7 @@
   "name": "pkkmb-poliban-2026",
   "version": "2.0.0",
   "private": true,
-  "description": "Situs resmi PKKMB 2026 Politeknik Negeri Banjarmasin — static site generator sederhana tanpa framework.",
+  "description": "Situs resmi PKKMB 2026 Politeknik Negeri Banjarmasin - static site generator sederhana tanpa framework.",
   "type": "module",
   "scripts": {
     "clean": "node --experimental-default-type=module tools/clean.mjs",

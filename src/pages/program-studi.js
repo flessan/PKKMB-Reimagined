@@ -49,8 +49,8 @@ function explorer() {
           <select id="filter-jurusan" class="field" data-program-dept>
             <option value="">Semua jurusan</option>
             ${join(
-              departments.map((d) => `<option value="${d.id}">${esc(d.name)}</option>`),
-            )}
+    departments.map((d) => `<option value="${d.id}">${esc(d.name)}</option>`),
+  )}
           </select>
         </div>
 
@@ -78,9 +78,9 @@ function explorer() {
 
   <div class="mt-8 space-y-12" data-program-groups>
     ${join(
-      departments.map((dept) => {
-        const list = programs.filter((p) => p.dept === dept.id);
-        return `
+    departments.map((dept) => {
+      const list = programs.filter((p) => p.dept === dept.id);
+      return `
     <section data-dept-group="${dept.id}" aria-labelledby="jurusan-${dept.id}">
       <div class="flex flex-col gap-3 border-b border-ink-200 pb-4 sm:flex-row sm:items-end sm:justify-between">
         <div class="max-w-2xl">
@@ -93,15 +93,15 @@ function explorer() {
         ${join(list.map((p) => programRow(p)))}
       </ul>
     </section>`;
-      }),
-    )}
+    }),
+  )}
   </div>
 
   <div class="mt-8 hidden" data-program-empty>
     ${emptyState({
-      title: "Program studi tidak ditemukan",
-      body: "Coba kata kunci yang lebih umum, ubah pilihan jurusan, atau atur ulang filter.",
-    })}
+    title: "Program studi tidak ditemukan",
+    body: "Coba kata kunci yang lebih umum, ubah pilihan jurusan, atau atur ulang filter.",
+  })}
   </div>
 </section>`;
 }
@@ -128,7 +128,7 @@ export default function render() {
           <a href="${programsSource.url}" rel="noopener" class="font-medium text-brand-700 underline underline-offset-2">${esc(source(programsSource.sourceId).label)}</a>
           (diperiksa ${programsSource.fetchedAt}). ${programStats.withoutAccreditation} program studi belum mencantumkan peringkat akreditasi pada sumber resmi
           dan ditandai apa adanya. Laman resmi Poliban lain menyebut jumlah prodi yang berbeda (20 dan 21);
-          portal SPMB dipakai karena merinci setiap prodi beserta akreditasinya —
+          portal SPMB dipakai karena merinci setiap prodi beserta akreditasinya -
           <a href="sumber.html#catatan" class="font-medium text-brand-700 underline underline-offset-2">lihat catatan perbedaan</a>.
         </p>
         ${calloutPortal()}

@@ -12,11 +12,11 @@ di `src/`, tanpa framework runtime.
 
 Seluruh isi faktual ditelusuri ke sumber resmi Poliban dan PKKMB. Dokumen pendamping:
 
-- **[`RESEARCH.md`](RESEARCH.md)** — laporan riset: sumber resmi yang dikonsultasikan,
+- **[`RESEARCH.md`](RESEARCH.md)** - laporan riset: sumber resmi yang dikonsultasikan,
   fakta yang terverifikasi, aset beserta lisensinya, hal yang tidak dapat diverifikasi,
   dan informasi yang harus datang langsung dari tim PKKMB/Poliban.
-- **[`AUDIT.md`](AUDIT.md)** — kondisi repositori lama dan alasan setiap keputusan.
-- **`sumber.html`** — versi laporan riset yang tayang untuk pengunjung situs.
+- **[`AUDIT.md`](AUDIT.md)** - kondisi repositori lama dan alasan setiap keputusan.
+- **`sumber.html`** - versi laporan riset yang tayang untuk pengunjung situs.
 
 ---
 
@@ -54,13 +54,13 @@ sehingga cache yang disunting tangan menggagalkan build, bukan diam-diam terbit.
 
 Data faktual bersumber dari laman resmi Poliban dan tercatat lengkap di
 `src/data/sources.js`. Pengambilan data terjadi **saat pembaruan manual**, tidak saat
-build maupun runtime — yang dipakai selalu berkas di `src/data/cache/`. Bila jaringan
+build maupun runtime - yang dipakai selalu berkas di `src/data/cache/`. Bila jaringan
 gagal, cache lama dipertahankan dan build tetap berhasil.
 Untuk memverifikasi tautan eksternal (butuh jaringan): `node tools/check-links.mjs`.
 
 ### Penerapan
 
-Keluaran `dist/` sepenuhnya statis — dapat dilayani oleh Nginx, Apache, atau CDN mana pun
+Keluaran `dist/` sepenuhnya statis - dapat dilayani oleh Nginx, Apache, atau CDN mana pun
 tanpa konfigurasi khusus. Semua tautan internal bersifat relatif sehingga situs juga
 berjalan bila dipasang pada subdirektori.
 
@@ -79,7 +79,7 @@ arahkan document root ke:  dist/
 
 ```
 src/
-├── data/            Sumber kebenaran tunggal — tidak ada konten di dalam markup
+├── data/            Sumber kebenaran tunggal - tidak ada konten di dalam markup
 │   ├── site.js        Identitas, navigasi, kontak, endpoint autentikasi
 │   ├── schedule.js    Rangkaian kegiatan, alur peserta, FAQ
 │   ├── posts.js       Berita & pengumuman beserta lampiran PDF
@@ -95,7 +95,7 @@ src/
 
 build.mjs            Generator statis
 tools/               dev server, linter, dan pengujian
-storage/             Lampiran PDF asli — dipertahankan pada jalur yang sama
+storage/             Lampiran PDF asli - dipertahankan pada jalur yang sama
 ```
 
 Menambah berita, pengumuman, atau program studi cukup dilakukan dengan menyunting
@@ -124,19 +124,19 @@ Empat halaman profil yang masing-masing hanya berisi satu paragraf digabung menj
 
 ## Sistem desain
 
-**Tipografi** — Plus Jakarta Sans untuk judul, Inter untuk teks. Keduanya dilayani sendiri
+**Tipografi** - Plus Jakarta Sans untuk judul, Inter untuk teks. Keduanya dilayani sendiri
 sebagai variable font (76 KB total) sehingga tidak ada permintaan ke Google Fonts.
 
-**Warna** — Biru institusi (`brand`) sebagai warna utama, emas lambang Poliban (`accent`)
+**Warna** - Biru institusi (`brand`) sebagai warna utama, emas lambang Poliban (`accent`)
 sebagai aksen yang dipakai hemat, dan skala netral (`ink`). Seluruh pasangan warna teks
 telah diverifikasi memenuhi WCAG AA dan diuji otomatis pada `tools/a11y.test.mjs`.
 
-**Komponen** — `.btn`, `.card`, `.badge`, `.field`, `.chip`, `.shell`, `.eyebrow`,
+**Komponen** - `.btn`, `.card`, `.badge`, `.field`, `.chip`, `.shell`, `.eyebrow`,
 `.prose-editorial` didefinisikan sekali di lapisan komponen. Halaman dengan tujuan berbeda
-tetap bebas menyusun tata letaknya sendiri — beranda, artikel, penjelajah prodi, dan portal
+tetap bebas menyusun tata letaknya sendiri - beranda, artikel, penjelajah prodi, dan portal
 sengaja tidak dipaksa memakai pola kartu yang sama.
 
-**Gerak** — hanya transisi hover, animasi masuk sekali jalan, dan penghitung angka.
+**Gerak** - hanya transisi hover, animasi masuk sekali jalan, dan penghitung angka.
 Semuanya dinonaktifkan pada `prefers-reduced-motion: reduce`.
 
 ---
@@ -174,7 +174,7 @@ Yang ditambahkan hanya penyempurnaan sisi klien: tombol tampilkan kata sandi, va
 ringan sebelum kirim, dan penampilan pesan galat dari parameter `?error=`.
 
 > **Catatan penerapan:** nilai `_token` di `src/pages/login.js` berasal dari mirror dan
-> merupakan token statis — ia **tidak** memberi perlindungan CSRF. Saat halaman ini
+> merupakan token statis - ia **tidak** memberi perlindungan CSRF. Saat halaman ini
 > dilayani kembali oleh Laravel, ganti nilai tersebut dengan `{{ csrf_token() }}`.
 >
 > Kontrak yang tidak boleh berubah (juga tercatat sebagai komentar di dalam

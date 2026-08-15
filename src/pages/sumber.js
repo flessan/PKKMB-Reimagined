@@ -140,8 +140,8 @@ function sourceList() {
 
   <ul class="mt-9 divide-y divide-ink-200 border-y border-ink-200">
     ${join(
-      entries.map(
-        ([id, s]) => `
+    entries.map(
+      ([id, s]) => `
     <li class="grid gap-x-6 gap-y-2 py-5 md:grid-cols-12" id="sumber-${id}">
       <div class="md:col-span-2">
         <span class="badge ${STATUS[s.status].tone}">${STATUS[s.status].label}</span>
@@ -159,16 +159,15 @@ function sourceList() {
       </div>
 
       <dl class="text-xs text-ink-500 md:col-span-3 md:text-right">
-        ${
-          s.published
-            ? `<div class="md:mb-0.5"><dt class="inline md:sr-only">Terbit </dt><dd class="inline md:block">${formatDate(s.published)}</dd></div>`
-            : ""
+        ${s.published
+          ? `<div class="md:mb-0.5"><dt class="inline md:sr-only">Terbit </dt><dd class="inline md:block">${formatDate(s.published)}</dd></div>`
+          : ""
         }
         <div><dt class="inline md:sr-only">Diperiksa </dt><dd class="inline md:block">Diperiksa ${formatDate(s.checked)}</dd></div>
       </dl>
     </li>`,
-      ),
-    )}
+    ),
+  )}
   </ul>
 </section>`;
 }
@@ -178,16 +177,16 @@ function factList() {
 <section class="border-y border-ink-200 bg-ink-50 py-14 md:py-20" id="fakta">
   <div class="shell">
     ${sectionHeading({
-      eyebrow: "Verifikasi",
-      title: "Fakta kunci dan rujukannya",
-      lead: "Klaim yang paling sering dikutip beserta sumber tempat kami memverifikasinya.",
-    })}
+    eyebrow: "Verifikasi",
+    title: "Fakta kunci dan rujukannya",
+    lead: "Klaim yang paling sering dikutip beserta sumber tempat kami memverifikasinya.",
+  })}
 
     <div class="mt-9 overflow-hidden rounded-[1rem] border border-ink-200 bg-white">
       <ul class="divide-y divide-ink-200">
         ${join(
-          facts.map(
-            (f) => `
+    facts.map(
+      (f) => `
         <li class="grid gap-2 px-5 py-4 sm:grid-cols-12 sm:items-baseline">
           <span class="sm:col-span-7 text-sm text-ink-800">${esc(f.claim)}</span>
           <span class="sm:col-span-5 text-xs text-ink-500">
@@ -195,8 +194,8 @@ function factList() {
             ${f.also ? ` · <a href="#sumber-${f.also}" class="text-brand-700 underline underline-offset-2">${esc(sources[f.also].publisher)}</a>` : ""}
           </span>
         </li>`,
-          ),
-        )}
+    ),
+  )}
       </ul>
     </div>
   </div>
@@ -215,15 +214,15 @@ function assetList() {
 <section class="border-t border-ink-200 bg-ink-50 py-14 md:py-20" id="aset">
   <div class="shell">
     ${sectionHeading({
-      eyebrow: "Aset visual",
-      title: `${entries.length} gambar yang digunakan`,
-      lead: "Semua berkas disimpan lokal — tidak ada hotlink ke server pihak ketiga. Tidak ada citra hasil pembuatan AI pada situs ini.",
-    })}
+    eyebrow: "Aset visual",
+    title: `${entries.length} gambar yang digunakan`,
+    lead: "Semua berkas disimpan lokal - tidak ada hotlink ke server pihak ketiga. Tidak ada citra hasil pembuatan AI pada situs ini.",
+  })}
 
     <ul class="mt-9 divide-y divide-ink-200 border-y border-ink-200">
       ${join(
-        entries.map(
-          ([id, a]) => `
+    entries.map(
+      ([id, a]) => `
       <li class="grid gap-x-6 gap-y-3 py-5 sm:grid-cols-12">
         <div class="sm:col-span-3">
           <img src="${a.file}" alt=""
@@ -244,16 +243,14 @@ function assetList() {
               <dt class="shrink-0 text-ink-500">Ukuran</dt>
               <dd class="text-ink-800 tabular-nums">${a.width}&times;${a.height}</dd>
             </div>
-            ${
-              a.license
-                ? `<div class="flex gap-2"><dt class="shrink-0 text-ink-500">Lisensi</dt><dd class="text-ink-800">${esc(a.license)}</dd></div>`
-                : ""
-            }
-            ${
-              a.attribution
-                ? `<div class="flex gap-2"><dt class="shrink-0 text-ink-500">Atribusi</dt><dd class="text-ink-800">${esc(a.attribution)}</dd></div>`
-                : ""
-            }
+            ${a.license
+          ? `<div class="flex gap-2"><dt class="shrink-0 text-ink-500">Lisensi</dt><dd class="text-ink-800">${esc(a.license)}</dd></div>`
+          : ""
+        }
+            ${a.attribution
+          ? `<div class="flex gap-2"><dt class="shrink-0 text-ink-500">Atribusi</dt><dd class="text-ink-800">${esc(a.attribution)}</dd></div>`
+          : ""
+        }
             <div class="flex gap-2 sm:col-span-2">
               <dt class="shrink-0 text-ink-500">Asal</dt>
               <dd class="min-w-0"><a href="${a.origin}" rel="noopener" class="break-all text-brand-700 underline underline-offset-2">${esc(a.origin)}</a></dd>
@@ -261,8 +258,8 @@ function assetList() {
           </dl>
         </div>
       </li>`,
-        ),
-      )}
+    ),
+  )}
     </ul>
   </div>
 </section>`;
@@ -295,15 +292,15 @@ function pipeline() {
 <section class="border-t border-ink-200 bg-ink-50 py-14">
   <div class="shell-narrow">
     ${sectionHeading({
-      eyebrow: "Cara data disegarkan",
-      title: "Diambil sekali, disimpan, lalu dibangun",
-      lead: "Situs ini statis. Data resmi diambil melalui perintah eksplisit dan disimpan sebagai cache — tidak ada permintaan jaringan saat halaman dibuka.",
-    })}
+    eyebrow: "Cara data disegarkan",
+    title: "Diambil sekali, disimpan, lalu dibangun",
+    lead: "Situs ini statis. Data resmi diambil melalui perintah eksplisit dan disimpan sebagai cache - tidak ada permintaan jaringan saat halaman dibuka.",
+  })}
 
     <div class="mt-8 space-y-4">
       ${join(
-        feeds.map(
-          (f) => `
+    feeds.map(
+      (f) => `
       <div class="card p-5">
         <div class="flex flex-wrap items-baseline justify-between gap-2">
           <h3 class="font-display text-base font-bold text-ink-900">${esc(f.name)}</h3>
@@ -321,8 +318,8 @@ function pipeline() {
           </div>
         </dl>
       </div>`,
-        ),
-      )}
+    ),
+  )}
     </div>
 
     <p class="mt-5 flex gap-2.5 rounded-lg border border-ink-200 bg-white px-4 py-3 text-xs leading-relaxed text-ink-600">
@@ -338,15 +335,15 @@ function gaps() {
 <section class="border-t border-ink-200 bg-ink-50 py-14 md:py-20" id="catatan">
   <div class="shell">
     ${sectionHeading({
-      eyebrow: "Keterbukaan",
-      title: "Yang belum dapat kami verifikasi",
-      lead: "Informasi berikut sengaja tidak ditampilkan sebagai fakta. Kami memilih menghilangkannya daripada menampilkan angka yang tidak dapat dipertanggungjawabkan.",
-    })}
+    eyebrow: "Keterbukaan",
+    title: "Yang belum dapat kami verifikasi",
+    lead: "Informasi berikut sengaja tidak ditampilkan sebagai fakta. Kami memilih menghilangkannya daripada menampilkan angka yang tidak dapat dipertanggungjawabkan.",
+  })}
 
     <div class="mt-9 space-y-3">
       ${join(
-        unverified.map(
-          (u) => `
+    unverified.map(
+      (u) => `
       <div class="card flex-row items-start gap-4 p-5">
         ${icon("info", { class: "mt-0.5 h-5 w-5 shrink-0 text-accent-600" })}
         <div>
@@ -354,8 +351,8 @@ function gaps() {
           <p class="mt-1.5 text-sm leading-relaxed text-ink-600">${esc(u.reason)}</p>
         </div>
       </div>`,
-        ),
-      )}
+    ),
+  )}
     </div>
 
     <div class="mt-8 rounded-[1rem] border border-brand-200 bg-brand-50 p-6">

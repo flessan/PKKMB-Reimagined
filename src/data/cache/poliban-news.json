@@ -1,5 +1,5 @@
 {
-  "_comment": "Cache berita resmi Poliban dari WP REST API. JANGAN disunting manual — jalankan `npm run refresh:news`. Hanya metadata yang disimpan; isi artikel tetap milik sumber dan selalu ditautkan kembali.",
+  "_comment": "Cache berita resmi Poliban dari WP REST API. JANGAN disunting manual - jalankan `npm run refresh:news`. Hanya metadata yang disimpan; isi artikel tetap milik sumber dan selalu ditautkan kembali.",
   "source": "https://poliban.ac.id/wp-json/wp/v2/posts",
   "sourceId": "poliban-wp-api",
   "fetchedAt": "2026-08-14",

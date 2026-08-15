@@ -50,42 +50,41 @@ function contactChannels() {
   <div class="grid gap-10 lg:grid-cols-12">
     <div class="lg:col-span-5">
       ${sectionHeading({
-        eyebrow: "Kanal resmi",
-        title: "Hubungi panitia melalui kanal berikut",
-        lead: "Sebutkan nama lengkap, program studi, dan kendala Anda agar penanganan lebih cepat.",
-      })}
+    eyebrow: "Kanal resmi",
+    title: "Hubungi panitia melalui kanal berikut",
+    lead: "Sebutkan nama lengkap, program studi, dan kendala Anda agar penanganan lebih cepat.",
+  })}
 
       <div class="mt-8 space-y-3">
         ${join(
-          channels.map(
-            (c) => `
+    channels.map(
+      (c) => `
         <div class="card ${c.primary ? "border-brand-300 bg-brand-50/50" : ""} flex-row items-start gap-4 p-5">
           <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg ${c.primary ? "bg-brand-600 text-white" : "bg-ink-100 text-ink-600"}">
             ${icon(c.icon, { class: "h-5 w-5" })}
           </span>
           <div class="min-w-0">
             <h3 class="font-display text-sm font-bold text-ink-900">${esc(c.title)}</h3>
-            ${
-              c.href
-                ? `<a href="${c.href}"${c.href.startsWith("http") ? ' rel="noopener"' : ""} class="mt-1 block break-words font-medium text-brand-700 underline-offset-2 hover:underline">${esc(c.value)}</a>`
-                : `<p class="mt-1 break-words font-medium text-ink-800">${esc(c.value)}</p>`
-            }
+            ${c.href
+          ? `<a href="${c.href}"${c.href.startsWith("http") ? ' rel="noopener"' : ""} class="mt-1 block break-words font-medium text-brand-700 underline-offset-2 hover:underline">${esc(c.value)}</a>`
+          : `<p class="mt-1 break-words font-medium text-ink-800">${esc(c.value)}</p>`
+        }
             <p class="mt-1 text-xs text-ink-500">${esc(c.note)}</p>
           </div>
         </div>`,
-          ),
-        )}
+    ),
+  )}
       </div>
 
       <div class="mt-6">
         <h3 class="font-display text-sm font-bold uppercase tracking-[0.12em] text-ink-500">Media sosial</h3>
         <ul class="mt-3 flex flex-wrap gap-2">
           ${join(
-            site.social.map(
-              (s) =>
-                `<li><a href="${s.href}" rel="noopener" class="btn btn-secondary btn-sm">${icon(s.icon, { class: "h-4 w-4" })}<span>${esc(s.short)}</span></a></li>`,
-            ),
-          )}
+    site.social.map(
+      (s) =>
+        `<li><a href="${s.href}" rel="noopener" class="btn btn-secondary btn-sm">${icon(s.icon, { class: "h-4 w-4" })}<span>${esc(s.short)}</span></a></li>`,
+    ),
+  )}
         </ul>
       </div>
     </div>
@@ -99,7 +98,7 @@ function contactChannels() {
 
 /**
  * Form pesan. Situs ini statis, sehingga form disusun sebagai `mailto:`
- * yang dirakit di sisi klien — tanpa backend palsu, dan tetap berfungsi.
+ * yang dirakit di sisi klien - tanpa backend palsu, dan tetap berfungsi.
  */
 function messageForm() {
   const subjects = [
@@ -167,10 +166,10 @@ function mapSection() {
 <section class="border-t border-ink-200 bg-ink-50 py-16" id="peta">
   <div class="shell">
     ${sectionHeading({
-      eyebrow: "Lokasi",
-      title: "Kampus Politeknik Negeri Banjarmasin",
-      lead: esc(site.contact.address),
-    })}
+    eyebrow: "Lokasi",
+    title: "Kampus Politeknik Negeri Banjarmasin",
+    lead: esc(site.contact.address),
+  })}
     <div class="mt-8 overflow-hidden rounded-[1rem] border border-ink-200 bg-white">
       <iframe src="${site.contact.mapEmbed}" title="Peta lokasi Politeknik Negeri Banjarmasin"
               width="100%" height="440" style="border:0" loading="lazy"
@@ -190,14 +189,14 @@ function quickAnswers() {
   })}
   <div class="mt-8 grid gap-4 md:grid-cols-3">
     ${join(
-      faq.slice(2, 5).map(
-        (f) => `
+    faq.slice(2, 5).map(
+      (f) => `
     <article class="card p-5">
       <h3 class="font-display text-base font-bold leading-snug text-ink-900">${esc(f.q)}</h3>
       <p class="mt-2 text-sm leading-relaxed text-ink-600">${esc(f.a)}</p>
     </article>`,
-      ),
-    )}
+    ),
+  )}
   </div>
 </section>`;
 }

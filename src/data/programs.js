@@ -2,7 +2,7 @@
  * Program studi Politeknik Negeri Banjarmasin.
  *
  * Data faktual (nama, jenjang, akreditasi, situs prodi, jurusan) BERASAL dari
- * cache portal SPMB resmi — lihat `cache/pmb-programs.json` dan
+ * cache portal SPMB resmi - lihat `cache/pmb-programs.json` dan
  * `tools/fetch-programs.mjs`. Modul ini hanya menambahkan slug URL lama serta
  * teks naratif (fokus keilmuan, prospek karier) yang diringkas dari halaman
  * resmi masing-masing prodi.
@@ -59,7 +59,7 @@ export const departments = [
 
 /**
  * Teks naratif per prodi (ringkasan dari halaman resmi prodi & portal SPMB).
- * Fakta terukur TIDAK disimpan di sini — lihat cache/pmb-programs.json.
+ * Fakta terukur TIDAK disimpan di sini - lihat cache/pmb-programs.json.
  */
 const EDITORIAL = {
   "21513": {
@@ -447,7 +447,7 @@ const SLUGS = {
 /**
  * Gabungkan fakta resmi (cache) dengan teks naratif editorial.
  * Prodi yang ada di cache namun belum punya naskah tetap tampil dengan
- * informasi faktualnya saja — lebih baik ringkas daripada mengarang.
+ * informasi faktualnya saja - lebih baik ringkas daripada mengarang.
  */
 export const programs = cache.programs.map((p) => {
   const editorial = EDITORIAL[p.pmbId] ?? {};

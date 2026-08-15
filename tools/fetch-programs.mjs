@@ -110,9 +110,9 @@ async function main() {
     try {
       const detail = parseDetail(await get(url));
       programs.push({ pmbId: entry.pmbId, ...detail });
-      console.log(`${detail.level} ${detail.name} — ${detail.accreditation ?? "—"}`);
+      console.log(`${detail.level} ${detail.name} - ${detail.accreditation ?? "-"}`);
     } catch (err) {
-      console.log(`GAGAL (${err.message}) — memakai nilai cache`);
+      console.log(`GAGAL (${err.message}) - memakai nilai cache`);
       const old = previous.programs.find((p) => p.pmbId === entry.pmbId);
       if (old) programs.push(old);
     }
@@ -167,7 +167,7 @@ async function main() {
   console.log(`\n✓ Cache diperbarui: ${cacheFile}`);
   if (diffs.length) {
     console.log(
-      "  Periksa src/data/programs.js — teks naratif per prodi mungkin perlu disesuaikan.",
+      "  Periksa src/data/programs.js - teks naratif per prodi mungkin perlu disesuaikan.",
     );
   }
 }
@@ -182,7 +182,7 @@ main().catch((err) => {
    * Bedakan "data resmi berubah" dari "mesin ini tidak punya jaringan".
    *
    * `--check` dipakai di CI untuk mendeteksi pergeseran data. Bila kegagalannya
-   * ada di lapisan jaringan, itu masalah lingkungan, bukan data — sama seperti
+   * ada di lapisan jaringan, itu masalah lingkungan, bukan data - sama seperti
    * perilaku tools/fetch-news.mjs. Menggagalkan CI di sini hanya menghasilkan
    * alarm palsu, sementara build tetap sehat memakai cache.
    */

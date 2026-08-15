@@ -62,7 +62,7 @@ export const site = {
       icon: "facebook",
     },
   ],
-  /** Endpoint autentikasi asli aplikasi Laravel — jangan diubah. */
+  /** Endpoint autentikasi asli aplikasi Laravel - jangan diubah. */
   auth: {
     action: "https://pkkmb.poliban.ac.id/login",
     google:
@@ -70,7 +70,7 @@ export const site = {
   },
 };
 
-/** Navigasi utama — 4 kelompok, bukan 8 tautan lepas. */
+/** Navigasi utama - 4 kelompok, bukan 8 tautan lepas. */
 export const nav = [
   { label: "Beranda", href: "index.html" },
   {

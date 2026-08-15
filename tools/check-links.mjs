@@ -79,7 +79,7 @@ console.log(`\n${ok} berhasil, ${failures.length} gagal.`);
 
 /*
  * Bila SEMUA permintaan gagal dengan galat jaringan (bukan status HTTP),
- * yang bermasalah hampir pasti koneksi mesin ini — bukan tautannya. Laporkan
+ * yang bermasalah hampir pasti koneksi mesin ini - bukan tautannya. Laporkan
  * apa adanya dan keluar netral, supaya hasilnya tidak disalahartikan sebagai
  * 129 tautan rusak.
  */
@@ -90,8 +90,8 @@ const allNetworkErrors =
 if (allNetworkErrors) {
   console.log(
     "\nSeluruh permintaan gagal di lapisan jaringan, jadi tautan tidak dapat " +
-      "diverifikasi dari mesin ini.\nJalankan ulang dari jaringan yang memiliki " +
-      "akses keluar untuk mendapatkan hasil yang berarti.",
+    "diverifikasi dari mesin ini.\nJalankan ulang dari jaringan yang memiliki " +
+    "akses keluar untuk mendapatkan hasil yang berarti.",
   );
   process.exit(0);
 }

@@ -3,7 +3,7 @@
  *
  * Sumber: WP REST API situs resmi (poliban.ac.id/wp-json/wp/v2/posts), diambil
  * saat pembaruan manual dan disimpan di `cache/poliban-news.json`. Build hanya
- * membaca cache — tidak ada permintaan jaringan saat build maupun runtime.
+ * membaca cache - tidak ada permintaan jaringan saat build maupun runtime.
  *
  *   npm run refresh:news    perbarui cache
  *   npm run refresh:check   deteksi bila sumber resmi sudah berubah
@@ -73,5 +73,5 @@ export const studentNews = officialNews.filter((n) =>
 /** @param {number} n */
 export const latestNews = (n = 4) => studentNews.slice(0, n);
 
-/** Berita PKKMB 2026 — dipakai sebagai rujukan utama pada beranda. */
+/** Berita PKKMB 2026 - dipakai sebagai rujukan utama pada beranda. */
 export const pkkmbNews = officialNews.find((n) => n.slug.includes("pkkmb-2026-2027"));

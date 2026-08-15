@@ -50,7 +50,7 @@ export const assets = {
   },
 
   crest: {
-    file: "assets/img/logo-poliban-lambang.png",
+    file: "assets/img/logo-poliban-thio.png",
     width: 320,
     height: 313,
     alt: "Lambang Politeknik Negeri Banjarmasin",
@@ -107,7 +107,7 @@ export const assets = {
       "https://commons.wikimedia.org/wiki/File:Politeknik_Negeri_Banjarmasin.jpg",
     sourceId: "commons-poliban",
     owner: "Arief Rahman Saan (Ezagren)",
-    license: "Attribution — bebas dipakai untuk tujuan apa pun dengan atribusi",
+    license: "Attribution - bebas dipakai untuk tujuan apa pun dengan atribusi",
     captured: "2011-12-26",
     note:
       "Foto dokumenter kampus berlisensi bebas. Atribusi wajib ditampilkan pada halaman yang memuatnya.",

@@ -95,7 +95,7 @@ const server = createServer(async (req, res) => {
 
   if (!file) {
     res.writeHead(404, { "content-type": "text/html; charset=utf-8" });
-    res.end("<h1>404 — Halaman tidak ditemukan</h1>");
+    res.end("<h1>404 - Halaman tidak ditemukan</h1>");
     return;
   }
 

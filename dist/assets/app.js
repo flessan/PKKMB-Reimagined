@@ -463,7 +463,7 @@ function mailForm() {
       return;
     }
 
-    const subject = `[PKKMB 2026] ${data.subjek} — ${data.nama}`;
+    const subject = `[PKKMB 2026] ${data.subjek} - ${data.nama}`;
     const body = [
       `Nama          : ${data.nama}`,
       `Program studi : ${data.prodi || "-"}`,
